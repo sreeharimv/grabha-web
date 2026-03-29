@@ -891,7 +891,8 @@
       const info = await res.json();
       if (!info.error) {
         if (info.thumbnail) {
-          cardThumb.style.backgroundImage = `url('${info.thumbnail}')`;
+          const proxied = `${API_BASE}/api/proxy-thumb?url=${encodeURIComponent(info.thumbnail)}`;
+          cardThumb.style.backgroundImage = `url('${proxied}')`;
         }
         cardInfo.innerHTML = `
           <div class="dg-card-title">${info.title || ''}</div>
