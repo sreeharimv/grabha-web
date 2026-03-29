@@ -393,7 +393,7 @@
     .dg-status-dot.pulse { animation: pulse 1.4s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-    .dg-console-body { padding: 14px 16px 16px; }
+    .dg-console-body { padding: 14px 16px 16px; max-height: 420px; overflow-y: auto; }
 
     /* Thumbnail */
     .dg-thumb-row {
@@ -690,7 +690,7 @@
 
       <!-- Thumbnail -->
       <div class="dg-thumb-row" id="thumb-row" style="display:none">
-        <img class="dg-thumb-img" id="thumb-img" src="" alt="">
+        <img class="dg-thumb-img" id="thumb-img" src="" alt="" referrerpolicy="no-referrer">
         <div class="dg-thumb-meta" id="thumb-meta"></div>
       </div>
 
@@ -776,6 +776,7 @@
   const runBtn     = document.getElementById('run-btn');
   const consoleEl  = document.getElementById('console');
   const logEl      = document.getElementById('log');
+  const consoleBody = consoleEl.querySelector('.dg-console-body');
   const progEl     = document.getElementById('prog');
   const progFill   = document.getElementById('prog-fill');
   const progPct    = document.getElementById('prog-pct');
@@ -858,7 +859,7 @@
     line.className = `cl ${cls}`;
     line.textContent = text;
     logEl.appendChild(line);
-    logEl.scrollTop = logEl.scrollHeight;
+    consoleBody.scrollTop = consoleBody.scrollHeight;
   }
 
   function clearConsole() {
