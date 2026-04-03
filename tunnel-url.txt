@@ -1,1 +1,1 @@
-https://console.serveo.net/ssh/keys?add=SHA256%3ADTKe9D%2BTZX5%2Fs%2FktR5%2FwRha33c5E1zhPJwpuJH0y7E0
+https://console.serveo.net
