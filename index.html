@@ -720,8 +720,11 @@
 </footer>
 
 <script>
-  // ── CONFIG — change this to your Render backend URL ──────────────
-  const API_BASE = 'https://hindu-increase-raises-lincoln.trycloudflare.com';
+  // ── CONFIG — backend URL loaded dynamically from tunnel-url.txt ──
+  let API_BASE = '';
+  fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=' + Date.now())
+    .then(r => r.text()).then(t => { API_BASE = t.trim(); })
+    .catch(() => {});
   // ─────────────────────────────────────────────────────────────────
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -871,6 +874,12 @@
       statusCard.classList.add('visible');
       resetCard();
       setPhase('missing URL', 'err');
+      return;
+    }
+    if (!API_BASE) {
+      statusCard.classList.add('visible');
+      resetCard();
+      setPhase('backend not ready — please wait a moment and try again', 'err');
       return;
     }
 
