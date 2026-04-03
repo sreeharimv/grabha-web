@@ -722,7 +722,7 @@
 <script>
   // ── CONFIG — backend URL loaded dynamically from tunnel-url.txt ──
   let API_BASE = '';
-  fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=' + Date.now())
+  fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt', {cache: 'no-store'})
     .then(r => r.text()).then(t => { API_BASE = t.trim(); })
     .catch(() => {});
   // ─────────────────────────────────────────────────────────────────
