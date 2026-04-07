@@ -160,13 +160,18 @@
 
   let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
 
-  // Load API base URL from tunnel-url.txt
+  // Load API base URL, then restore session if logged in
   fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt', { cache: 'no-store' })
-    .then(r => r.text()).then(t => { API_BASE = t.trim(); });
-
-  // Restore session
-  const saved = localStorage.getItem('grabha_admin_token');
-  if (saved) { token = saved; showDashboard(); loadData(); }
+    .then(r => r.text())
+    .then(t => {
+      API_BASE = t.trim();
+      const saved = localStorage.getItem('grabha_admin_token');
+      if (saved) { token = saved; showDashboard(); loadData(); }
+    })
+    .catch(() => {
+      const saved = localStorage.getItem('grabha_admin_token');
+      if (saved) { token = saved; showDashboard(); }
+    });
 
   // Login
   document.getElementById('login-btn').addEventListener('click', login);
