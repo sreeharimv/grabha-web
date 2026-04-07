@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grabha — Admin</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+  :root {
+    --bg: #111; --surface: #1a1a1a; --border: #2a2a2a;
+    --text: #ccc; --muted: #555; --green: #52b788;
+    --red: #e63946; --amber: #e07b00;
+  }
+  body { background: var(--bg); color: var(--text); font-family: "JetBrains Mono", monospace, sans-serif; font-size: 13px; min-height: 100vh }
+
+  /* ── Login ── */
+  #login-screen {
+    display: flex; align-items: center; justify-content: center; min-height: 100vh;
+  }
+  .login-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 40px 36px; width: 320px; text-align: center;
+  }
+  .login-box h1 { font-size: 22px; color: #fff; margin-bottom: 6px }
+  .login-box p  { color: var(--muted); margin-bottom: 28px; font-size: 12px }
+  .login-box input {
+    width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; outline: none;
+  }
+  .login-box input:focus { border-color: #444 }
+  .login-box button {
+    width: 100%; background: #222; border: 1px solid #444; color: #ccc;
+    padding: 10px; border-radius: 8px; font-size: 14px; cursor: pointer; letter-spacing: 0.5px;
+  }
+  .login-box button:hover { background: #2a2a2a }
+  #login-error { color: var(--red); font-size: 12px; margin-top: 10px; min-height: 16px }
+
+  /* ── Dashboard ── */
+  #dashboard { display: none; padding: 28px 32px }
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px }
+  .topbar h1 { font-size: 18px; color: #fff }
+  .topbar button { background: none; border: 1px solid var(--border); color: var(--muted); padding: 5px 14px; border-radius: 6px; cursor: pointer; font-size: 12px }
+  .topbar button:hover { color: var(--red); border-color: var(--red) }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center }
+  .stat-card .val { font-size: 28px; font-weight: 700 }
+  .stat-card .lbl { color: var(--muted); font-size: 11px; margin-top: 4px; text-transform: uppercase }
+
+  .side-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px }
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px }
+  .box h3 { color: var(--muted); font-size: 11px; text-transform: uppercase; margin-bottom: 12px }
+  .mini-table { width: 100%; border-collapse: collapse }
+  .mini-table td { padding: 5px 4px; border-bottom: 1px solid var(--border) }
+  .mini-table tr:last-child td { border-bottom: none }
+  .mini-table td:last-child { color: var(--green); text-align: right }
+
+  .toolbar { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap }
+  .toolbar input, .toolbar select {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 7px 12px; border-radius: 6px; font-size: 13px; outline: none;
+  }
+  .toolbar input { flex: 1; min-width: 180px }
+  .toolbar input:focus, .toolbar select:focus { border-color: #444 }
+  .toolbar button {
+    background: #222; border: 1px solid #444; color: var(--text);
+    padding: 7px 16px; border-radius: 6px; cursor: pointer; font-size: 13px;
+  }
+  .toolbar button:hover { background: #2a2a2a }
+  .toolbar a {
+    padding: 7px 14px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--muted); text-decoration: none; font-size: 13px;
+  }
+
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow-x: auto }
+  table { width: 100%; border-collapse: collapse; white-space: nowrap }
+  thead th {
+    color: var(--muted); font-size: 11px; text-transform: uppercase;
+    text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border);
+  }
+  tbody td { padding: 8px 12px; border-bottom: 1px solid #1e1e1e; vertical-align: middle }
+  tbody tr:last-child td { border-bottom: none }
+  tbody tr:hover td { background: #1d1d1d }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; color: #fff }
+  .ellipsis { max-width: 200px; overflow: hidden; text-overflow: ellipsis; display: inline-block; vertical-align: middle }
+
+  .pager { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px; color: var(--muted) }
+  .pager button { background: #1e1e1e; border: 1px solid var(--border); color: var(--text); padding: 5px 14px; border-radius: 6px; cursor: pointer; font-size: 12px }
+  .pager button:disabled { opacity: 0.3; cursor: default }
+
+  @media (max-width: 700px) {
+    #dashboard { padding: 16px }
+    .stat-grid { grid-template-columns: repeat(2, 1fr) }
+    .side-grid  { grid-template-columns: 1fr }
+  }
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>⌗ Grabha</h1>
+    <p>Admin access only</p>
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
+    <button id="login-btn">Sign in</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+  <div class="topbar">
+    <h1>⌗ Grabha — Activity Logs</h1>
+    <button id="logout-btn">Sign out</button>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="val" id="s-total"  style="color:#ccc">—</div><div class="lbl">Total</div></div>
+    <div class="stat-card"><div class="val" id="s-success" style="color:#52b788">—</div><div class="lbl">Success</div></div>
+    <div class="stat-card"><div class="val" id="s-errors"  style="color:#e63946">—</div><div class="lbl">Errors</div></div>
+    <div class="stat-card"><div class="val" id="s-pending" style="color:#888">—</div><div class="lbl">Pending</div></div>
+  </div>
+
+  <div class="side-grid">
+    <div class="box"><h3>Top Countries</h3><table class="mini-table" id="tbl-countries"></table></div>
+    <div class="box"><h3>Top Platforms</h3><table class="mini-table" id="tbl-platforms"></table></div>
+  </div>
+
+  <div class="toolbar">
+    <input id="search-input" placeholder="Search IP, country, city, title…">
+    <select id="status-select">
+      <option value="">All statuses</option>
+      <option value="success">Success</option>
+      <option value="error">Error</option>
+      <option value="pending">Pending</option>
+    </select>
+    <button id="filter-btn">Filter</button>
+    <a href="#" id="reset-btn">Reset</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>#</th><th>Timestamp</th><th>IP</th><th>Country</th><th>City</th>
+        <th>Platform</th><th>Format</th><th>Quality</th><th>Device</th><th>Status</th><th>Title</th><th>Error</th>
+      </tr></thead>
+      <tbody id="log-body"></tbody>
+    </table>
+    <div class="pager">
+      <button id="prev-btn">← Prev</button>
+      <span id="page-info">—</span>
+      <button id="next-btn">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STATUS_COLORS = { success: '#2d6a4f', error: '#9b2226', pending: '#444' };
+
+  let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
+
+  // Load API base URL from tunnel-url.txt
+  fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt', { cache: 'no-store' })
+    .then(r => r.text()).then(t => { API_BASE = t.trim(); });
+
+  // Restore session
+  const saved = localStorage.getItem('grabha_admin_token');
+  if (saved) { token = saved; showDashboard(); loadData(); }
+
+  // Login
+  document.getElementById('login-btn').addEventListener('click', login);
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+  async function login() {
+    const pw  = document.getElementById('pw-input').value;
+    const err = document.getElementById('login-error');
+    err.textContent = '';
+    try {
+      const res = await fetch(`${API_BASE}/admin/login`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw })
+      });
+      const data = await res.json();
+      if (!res.ok) { err.textContent = data.error || 'Login failed'; return; }
+      token = data.token;
+      localStorage.setItem('grabha_admin_token', token);
+      showDashboard();
+      loadData();
+    } catch { err.textContent = 'Could not reach server'; }
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    localStorage.removeItem('grabha_admin_token');
+    token = ''; currentPage = 1;
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('pw-input').value = '';
+  });
+
+  function showDashboard() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+  }
+
+  // Filter controls
+  document.getElementById('filter-btn').addEventListener('click', () => { currentPage = 1; loadData(); });
+  document.getElementById('reset-btn').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('search-input').value = '';
+    document.getElementById('status-select').value = '';
+    currentPage = 1; loadData();
+  });
+  document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter') { currentPage = 1; loadData(); } });
+  document.getElementById('prev-btn').addEventListener('click', () => { if (currentPage > 1) { currentPage--; loadData(); } });
+  document.getElementById('next-btn').addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; loadData(); } });
+
+  async function loadData() {
+    const q      = document.getElementById('search-input').value.trim();
+    const status = document.getElementById('status-select').value;
+    const params = new URLSearchParams({ page: currentPage });
+    if (q)      params.set('q', q);
+    if (status) params.set('status', status);
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/data?${params}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.status === 401) {
+        localStorage.removeItem('grabha_admin_token');
+        token = '';
+        document.getElementById('dashboard').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+        return;
+      }
+      const d = await res.json();
+      renderStats(d.stats);
+      renderMini('tbl-countries', d.top_countries, 'country');
+      renderMini('tbl-platforms', d.top_platforms, 'platform');
+      renderRows(d.rows);
+      totalPages = d.pages;
+      document.getElementById('page-info').textContent = `Page ${d.page} of ${d.pages}  (${d.total} records)`;
+      document.getElementById('prev-btn').disabled = d.page <= 1;
+      document.getElementById('next-btn').disabled = d.page >= d.pages;
+    } catch (e) { console.error(e); }
+  }
+
+  function renderStats(s) {
+    document.getElementById('s-total').textContent   = s.total   ?? '—';
+    document.getElementById('s-success').textContent = s.success ?? '—';
+    document.getElementById('s-errors').textContent  = s.errors  ?? '—';
+    document.getElementById('s-pending').textContent = s.pending ?? '—';
+  }
+
+  function renderMini(id, rows, key) {
+    document.getElementById(id).innerHTML = rows.map(r =>
+      `<tr><td>${r[key] || '—'}</td><td>${r.n}</td></tr>`
+    ).join('') || '<tr><td colspan="2" style="color:#555">No data</td></tr>';
+  }
+
+  function renderRows(rows) {
+    const esc = s => String(s ?? '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    document.getElementById('log-body').innerHTML = rows.map(r => {
+      const color = STATUS_COLORS[r.status] || '#333';
+      return `<tr>
+        <td>${r.id}</td>
+        <td>${esc(r.timestamp)}</td>
+        <td>${esc(r.ip_address)}</td>
+        <td>${esc(r.country)}</td>
+        <td>${esc(r.city)}</td>
+        <td>${esc(r.platform)}</td>
+        <td>${esc(r.format)}</td>
+        <td>${esc(r.quality)}</td>
+        <td>${esc(r.device)}</td>
+        <td><span class="badge" style="background:${color}">${esc(r.status)}</span></td>
+        <td><span class="ellipsis" title="${esc(r.title)}">${esc(r.title)}</span></td>
+        <td><span class="ellipsis" style="color:#e07b00" title="${esc(r.error_msg)}">${esc(r.error_msg)}</span></td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="12" style="color:#555;text-align:center;padding:20px">No records found</td></tr>';
+  }
+</script>
+</body>
+</html>
