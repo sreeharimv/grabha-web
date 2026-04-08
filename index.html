@@ -350,6 +350,41 @@
     #run-btn:disabled { opacity: 0.35; cursor: not-allowed; }
     #run-btn:disabled:hover { background: transparent; color: var(--amber); border-color: var(--border-mid); }
 
+    #cancel-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid #663333;
+      color: #cc5555;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 28px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    #cancel-btn:hover { border-color: #cc5555; color: #ee7777; background: #1a0a0a; }
+    #cancel-btn.visible { display: inline-block; }
+
+    #clear-link {
+      display: none;
+      font-size: 9px;
+      color: var(--amber-dim);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: color 0.12s;
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      padding: 0;
+    }
+    #clear-link:hover { color: var(--amber-low); }
+    #clear-link.visible { display: inline-block; }
+
     /* ── Status Card ── */
     .dg-card {
       display: none;
@@ -658,6 +693,7 @@
   <!-- Run -->
   <div class="dg-run-row">
     <button id="run-btn">&#9654;&nbsp;&nbsp;execute</button>
+    <button id="cancel-btn">&#10005;&nbsp;&nbsp;cancel</button>
   </div>
 
   <!-- Status Card -->
@@ -687,6 +723,7 @@
     On iOS: tap the button, then tap <strong>Share &rarr; Save to Files</strong><br>
     or long-press the link and choose <strong>Download Linked File</strong>.
   </div>
+  <button id="clear-link">&#10005; clear &middot; new download</button>
 
   <!-- Supported sites -->
   <div class="dg-sites">
@@ -748,6 +785,7 @@
   let clipEnabled = false;
   let pollTimer = null;
   let lastLogLen = 0;
+  let currentJobId = null;
 
   const urlInput    = document.getElementById('url-input');
   const runBtn      = document.getElementById('run-btn');
@@ -763,6 +801,8 @@
   const progEta     = document.getElementById('prog-eta');
   const dlBtn       = document.getElementById('dl-btn');
   const iosHint     = document.getElementById('ios-hint');
+  const cancelBtn   = document.getElementById('cancel-btn');
+  const clearLink   = document.getElementById('clear-link');
   const qualityOpt  = document.getElementById('quality-opt');
   const clipToggle  = document.getElementById('clip-toggle');
   const clipPill    = document.getElementById('clip-pill');
@@ -834,6 +874,8 @@
     dlBtn.classList.remove('visible');
     dlBtn.href = '#';
     iosHint.classList.remove('visible');
+    cancelBtn.classList.remove('visible');
+    clearLink.classList.remove('visible');
   }
 
   function setProgress(pctStr, speed, eta) {
@@ -873,11 +915,19 @@
       dlBtn.download = data.filename || 'download';
       dlBtn.classList.add('visible');
       if (isIOS) iosHint.classList.add('visible');
+      cancelBtn.classList.remove('visible');
+      clearLink.classList.add('visible');
       runBtn.disabled = false;
       runBtn.textContent = '\u25b6\u00a0\u00a0execute';
-    } else if (data.status === 'error') {
+    } else if (data.status === 'error' || data.status === 'cancelled') {
       clearInterval(pollTimer);
-      setPhase('error — ' + (data.error || 'something went wrong'), 'err');
+      if (data.status === 'cancelled') {
+        setPhase('cancelled', 'err');
+      } else {
+        setPhase('error — ' + (data.error || 'something went wrong'), 'err');
+      }
+      cancelBtn.classList.remove('visible');
+      clearLink.classList.add('visible');
       runBtn.disabled = false;
       runBtn.textContent = '\u25b6\u00a0\u00a0execute';
     }
@@ -961,12 +1011,37 @@
       });
       const job = await res.json();
       if (job.error) throw new Error(job.error);
+      currentJobId = job.job_id;
+      cancelBtn.classList.add('visible');
       pollTimer = setInterval(() => poll(job.job_id), 1500);
     } catch(e) {
       setPhase('failed to start: ' + e.message, 'err');
       runBtn.disabled = false;
       runBtn.textContent = '\u25b6\u00a0\u00a0execute';
     }
+  });
+
+  // Cancel — abort running download
+  cancelBtn.addEventListener('click', async () => {
+    if (currentJobId && API_BASE) {
+      try { await fetch(`${API_BASE}/api/cancel/${currentJobId}`, { method: 'POST' }); } catch(e) {}
+    }
+    clearInterval(pollTimer);
+    cancelBtn.classList.remove('visible');
+    setPhase('cancelled', 'err');
+    clearLink.classList.add('visible');
+    runBtn.disabled = false;
+    runBtn.textContent = '\u25b6\u00a0\u00a0execute';
+  });
+
+  // Clear — reset everything for a new download
+  clearLink.addEventListener('click', () => {
+    clearInterval(pollTimer);
+    resetCard();
+    statusCard.classList.remove('visible');
+    urlInput.value = '';
+    currentJobId = null;
+    urlInput.focus();
   });
 </script>
 </body>
