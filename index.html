@@ -774,9 +774,24 @@
 <script>
   // ── CONFIG — backend URL loaded dynamically from tunnel-url.txt ──
   let API_BASE = '';
-  fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt', {cache: 'no-store'})
-    .then(r => r.text()).then(t => { API_BASE = t.trim(); })
-    .catch(() => {});
+  (async () => {
+    // Cache-bust with timestamp so GitHub CDN doesn't serve stale tunnel URLs
+    const ghUrl = `https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=${Date.now()}`;
+    let candidate = '';
+    try {
+      const r = await fetch(ghUrl, { cache: 'no-store' });
+      candidate = (await r.text()).trim();
+    } catch (e) { return; }
+    if (!candidate) return;
+    // Verify the candidate URL is actually alive before trusting it
+    try {
+      const probe = await fetch(`${candidate}/health`, { cache: 'no-store' });
+      const data = await probe.json();
+      if (data.status === 'ok') API_BASE = candidate;
+    } catch (e) {
+      // Tunnel URL is stale — leave API_BASE empty so the user gets a clear error
+    }
+  })();
   // ─────────────────────────────────────────────────────────────────
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -944,7 +959,7 @@
     if (!API_BASE) {
       statusCard.classList.add('visible');
       resetCard();
-      setPhase('backend not ready — please wait a moment and try again', 'err');
+      setPhase('backend unreachable — tunnel may be restarting, please try again in a moment', 'err');
       return;
     }
 
