@@ -190,7 +190,7 @@
     try {
       const res = await fetch(`${API_BASE}/admin/login`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pw })
+        body: JSON.stringify({ username: document.getElementById("un-input").value, password: pw })
       });
       const data = await res.json();
       if (!res.ok) { err.textContent = data.error || 'Login failed'; return; }
