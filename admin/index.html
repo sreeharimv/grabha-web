@@ -159,19 +159,25 @@
   const STATUS_COLORS = { success: '#2d6a4f', error: '#9b2226', pending: '#444' };
 
   let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
+  let apiReady = false;
 
-  // Load API base URL, then restore session if logged in
-  fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt', { cache: 'no-store' })
-    .then(r => r.text())
-    .then(t => {
-      API_BASE = t.trim();
-      const saved = localStorage.getItem('grabha_admin_token');
-      if (saved) { token = saved; showDashboard(); loadData(); }
-    })
-    .catch(() => {
-      const saved = localStorage.getItem('grabha_admin_token');
-      if (saved) { token = saved; showDashboard(); }
-    });
+  // Load API base URL, verify it's alive, then restore session if logged in
+  (async () => {
+    try {
+      const r = await fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=' + Date.now(), { cache: 'no-store' });
+      const candidate = (await r.text()).trim();
+      if (candidate) {
+        const probe = await fetch(`${candidate}/health`, { cache: 'no-store' });
+        const data = await probe.json();
+        if (data.status === 'ok') { API_BASE = candidate; apiReady = true; }
+      }
+    } catch {}
+    if (!apiReady) {
+      document.getElementById('login-error').textContent = 'Cannot reach server — tunnel may be restarting.';
+    }
+    const saved = localStorage.getItem('grabha_admin_token');
+    if (saved && apiReady) { token = saved; showDashboard(); loadData(); }
+  })();
 
   // Login
   document.getElementById('login-btn').addEventListener('click', login);
