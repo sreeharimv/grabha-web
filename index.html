@@ -618,6 +618,7 @@
       .dg-socials { gap: 10px; }
     }
   </style>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -690,9 +691,18 @@
     <span class="dg-clip-err" id="clip-err">invalid time &mdash; use hh:mm:ss (e.g. 0:35:00)</span>
   </div>
 
+  <!-- Turnstile -->
+  <div class="dg-run-row" style="justify-content:center;margin-bottom:8px">
+    <div class="cf-turnstile"
+         data-sitekey="0x4AAAAAAC9Z0CjNDQJj4FOF"
+         data-theme="dark"
+         data-callback="onTurnstileSuccess"
+         data-expired-callback="onTurnstileExpired"></div>
+  </div>
+
   <!-- Run -->
   <div class="dg-run-row">
-    <button id="run-btn">&#9654;&nbsp;&nbsp;execute</button>
+    <button id="run-btn" disabled>&#9654;&nbsp;&nbsp;execute</button>
     <button id="cancel-btn">&#10005;&nbsp;&nbsp;cancel</button>
   </div>
 
@@ -772,6 +782,18 @@
 </footer>
 
 <script>
+  // ── Turnstile ──────────────────────────────────────────────────────────────
+  let turnstileToken = '';
+  function onTurnstileSuccess(token) {
+    turnstileToken = token;
+    document.getElementById('run-btn').disabled = false;
+  }
+  function onTurnstileExpired() {
+    turnstileToken = '';
+    document.getElementById('run-btn').disabled = true;
+  }
+  // ──────────────────────────────────────────────────────────────────────────
+
   // ── CONFIG — backend URL loaded dynamically from tunnel-url.txt ──
   let API_BASE = '';
   (async () => {
@@ -962,6 +984,12 @@
       setPhase('backend unreachable — tunnel may be restarting, please try again in a moment', 'err');
       return;
     }
+    if (!turnstileToken) {
+      statusCard.classList.add('visible');
+      resetCard();
+      setPhase('complete the captcha first', 'err');
+      return;
+    }
 
     clearInterval(pollTimer);
     resetCard();
@@ -976,7 +1004,7 @@
       const res = await fetch(`${API_BASE}/api/info`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, turnstile_token: turnstileToken }),
       });
       const info = await res.json();
       if (!info.error) {
@@ -1022,7 +1050,7 @@
       const res = await fetch(`${API_BASE}/api/download`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, format: selectedFormat, quality, clip_start: clipStartVal, clip_end: clipEndVal }),
+        body: JSON.stringify({ url, format: selectedFormat, quality, clip_start: clipStartVal, clip_end: clipEndVal, turnstile_token: turnstileToken }),
       });
       const job = await res.json();
       if (job.error) throw new Error(job.error);
