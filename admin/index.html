@@ -187,6 +187,7 @@
     const pw  = document.getElementById('pw-input').value;
     const err = document.getElementById('login-error');
     err.textContent = '';
+    if (!apiReady) { err.textContent = 'Connecting to server… please try again in a moment'; return; }
     try {
       const res = await fetch(`${API_BASE}/admin/login`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
