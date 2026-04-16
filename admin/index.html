@@ -199,7 +199,7 @@
       localStorage.setItem('grabha_admin_token', token);
       showDashboard();
       loadData();
-    } catch { err.textContent = 'Could not reach server'; }
+    } catch (e) { err.textContent = 'Could not reach server: ' + e.message; }
   }
 
   document.getElementById('logout-btn').addEventListener('click', () => {
