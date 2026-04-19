@@ -1,1 +1,1 @@
-https://strikes-patrol-physical-thy.trycloudflare.com
+https://api.trycloudflare.com
