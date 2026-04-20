@@ -617,6 +617,193 @@
       .dg-title { font-size: 26px; }
       .dg-socials { gap: 10px; }
     }
+
+    /* ── Time Scroll Picker ── */
+    .dg-pickers-wrap {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .dg-time-picker {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .dg-picker-label {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--amber-low);
+      text-transform: uppercase;
+    }
+    .dg-picker-spinners {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .dg-spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .dg-spin-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--amber-low);
+      font-size: 11px;
+      width: 38px;
+      min-height: 44px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+      font-family: var(--font-mono);
+    }
+    .dg-spin-btn:hover, .dg-spin-btn:active {
+      color: var(--amber-hi);
+      border-color: var(--border-hi);
+      background: #0f0e0a;
+    }
+    .dg-spin-val {
+      font-size: 20px;
+      color: var(--amber-hi);
+      font-family: var(--font-mono);
+      font-weight: 500;
+      width: 38px;
+      text-align: center;
+      padding: 5px 0;
+      letter-spacing: 0.04em;
+    }
+    .dg-spin-sep {
+      font-size: 18px;
+      color: var(--border-hi);
+      padding: 0 1px;
+      align-self: center;
+      margin-top: 2px;
+      line-height: 1;
+    }
+
+    /* ── Recent Downloads ── */
+    .dg-recent { margin-bottom: 16px; }
+    .dg-recent-hdr {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--amber-dim);
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .dg-recent-hdr:hover { color: var(--amber-low); }
+    .dg-recent-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin-top: 4px;
+      cursor: pointer;
+      background: var(--surface);
+      transition: border-color 0.12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .dg-recent-item:hover { border-color: var(--border-mid); }
+    .dg-recent-emoji { font-size: 14px; flex-shrink: 0; }
+    .dg-recent-info { flex: 1; min-width: 0; }
+    .dg-recent-title {
+      font-size: 11px;
+      color: var(--amber-mid);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .dg-recent-meta {
+      font-size: 9px;
+      color: var(--amber-dim);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+    .dg-recent-remove {
+      background: none;
+      border: none;
+      color: var(--amber-dim);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 0 4px;
+      flex-shrink: 0;
+      min-height: 44px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      font-family: var(--font-mono);
+    }
+    .dg-recent-remove:hover { color: #cc5555; }
+    .dg-recent-more {
+      font-size: 9px;
+      color: var(--amber-dim);
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      padding: 6px 10px;
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      display: block;
+      margin-top: 4px;
+    }
+    .dg-recent-more:hover { color: var(--amber-low); }
+
+    /* ── Chapters ── */
+    .dg-chapters {
+      padding: 10px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .dg-chapters-lbl {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--amber-dim);
+      text-transform: none;
+      margin-bottom: 6px;
+    }
+    .dg-chapter-item {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 5px 6px;
+      border-radius: 2px;
+      cursor: pointer;
+      min-height: 32px;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.1s;
+    }
+    .dg-chapter-item:hover { background: #121008; }
+    .dg-chapter-time {
+      font-size: 10px;
+      color: var(--amber-low);
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .dg-chapter-title {
+      font-size: 11px;
+      color: var(--amber-dim);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .dg-chapter-item:hover .dg-chapter-title { color: var(--amber-mid); }
+    .dg-chapter-item:hover .dg-chapter-time  { color: var(--amber); }
   </style>
 </head>
 <body>
@@ -648,6 +835,14 @@
            inputmode="url">
   </div>
 
+  <!-- Recent downloads -->
+  <div class="dg-recent" id="recent-section" style="display:none">
+    <div class="dg-recent-hdr" id="recent-hdr" role="button" tabindex="0">
+      — recent — <span id="recent-chevron">▸</span>
+    </div>
+    <div id="recent-list" style="display:none"></div>
+  </div>
+
   <!-- Options -->
   <div class="dg-options">
     <div class="dg-opt">
@@ -677,17 +872,55 @@
 
   <!-- Clip inputs (hidden by default) -->
   <div class="dg-clip-row" id="clip-row">
-    <div class="dg-clip-field">
-      <label for="clip-start">from</label>
-      <input class="dg-time-input" type="text" id="clip-start" placeholder="0:35:00" maxlength="8" inputmode="numeric">
+    <div class="dg-pickers-wrap">
+      <!-- FROM picker -->
+      <div class="dg-time-picker">
+        <div class="dg-picker-label">from</div>
+        <div class="dg-picker-spinners">
+          <div class="dg-spinner">
+            <button class="dg-spin-btn" data-which="from" data-unit="h" data-delta="1">▲</button>
+            <div class="dg-spin-val" id="from-h-val">00</div>
+            <button class="dg-spin-btn" data-which="from" data-unit="h" data-delta="-1">▼</button>
+          </div>
+          <span class="dg-spin-sep">:</span>
+          <div class="dg-spinner">
+            <button class="dg-spin-btn" data-which="from" data-unit="m" data-delta="1">▲</button>
+            <div class="dg-spin-val" id="from-m-val">00</div>
+            <button class="dg-spin-btn" data-which="from" data-unit="m" data-delta="-1">▼</button>
+          </div>
+          <span class="dg-spin-sep">:</span>
+          <div class="dg-spinner">
+            <button class="dg-spin-btn" data-which="from" data-unit="s" data-delta="1">▲</button>
+            <div class="dg-spin-val" id="from-s-val">00</div>
+            <button class="dg-spin-btn" data-which="from" data-unit="s" data-delta="-1">▼</button>
+          </div>
+        </div>
+      </div>
+      <!-- TO picker -->
+      <div class="dg-time-picker">
+        <div class="dg-picker-label">to</div>
+        <div class="dg-picker-spinners">
+          <div class="dg-spinner">
+            <button class="dg-spin-btn" data-which="to" data-unit="h" data-delta="1">▲</button>
+            <div class="dg-spin-val" id="to-h-val">00</div>
+            <button class="dg-spin-btn" data-which="to" data-unit="h" data-delta="-1">▼</button>
+          </div>
+          <span class="dg-spin-sep">:</span>
+          <div class="dg-spinner">
+            <button class="dg-spin-btn" data-which="to" data-unit="m" data-delta="1">▲</button>
+            <div class="dg-spin-val" id="to-m-val">00</div>
+            <button class="dg-spin-btn" data-which="to" data-unit="m" data-delta="-1">▼</button>
+          </div>
+          <span class="dg-spin-sep">:</span>
+          <div class="dg-spinner">
+            <button class="dg-spin-btn" data-which="to" data-unit="s" data-delta="1">▲</button>
+            <div class="dg-spin-val" id="to-s-val">00</div>
+            <button class="dg-spin-btn" data-which="to" data-unit="s" data-delta="-1">▼</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <span class="dg-clip-arrow">&rarr;</span>
-    <div class="dg-clip-field">
-      <label for="clip-end">to</label>
-      <input class="dg-time-input" type="text" id="clip-end" placeholder="0:45:00" maxlength="8" inputmode="numeric">
-    </div>
-    <span class="dg-clip-hint">format: hh:mm:ss &middot; leave blank to download from start / to end</span>
-    <span class="dg-clip-err" id="clip-err">invalid time &mdash; use hh:mm:ss (e.g. 0:35:00)</span>
+    <span class="dg-clip-hint">tap ▲▼ to set clip interval &middot; click a chapter to auto-fill</span>
   </div>
 
   <!-- Run -->
@@ -702,6 +935,14 @@
       <div class="dg-card-thumb" id="card-thumb"></div>
       <div class="dg-card-info" id="card-info"></div>
     </div>
+    <!-- Chapters -->
+    <div id="chapters-section" style="display:none">
+      <div class="dg-chapters">
+        <div class="dg-chapters-lbl">— chapters —</div>
+        <div id="chapters-list"></div>
+      </div>
+    </div>
+
     <div class="dg-card-body">
       <div class="dg-card-phase running" id="card-phase">fetching info…</div>
       <div id="prog" style="display:none">
@@ -775,7 +1016,6 @@
   // ── CONFIG — backend URL loaded dynamically from tunnel-url.txt ──
   let API_BASE = '';
   (async () => {
-    // Cache-bust with timestamp so GitHub CDN doesn't serve stale tunnel URLs
     const ghUrl = `https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=${Date.now()}`;
     let candidate = '';
     try {
@@ -783,109 +1023,254 @@
       candidate = (await r.text()).trim();
     } catch (e) { return; }
     if (!candidate) return;
-    // Verify the candidate URL is actually alive before trusting it
     try {
       const probe = await fetch(`${candidate}/health`, { cache: 'no-store' });
       const data = await probe.json();
       if (data.status === 'ok') API_BASE = candidate;
-    } catch (e) {
-      // Tunnel URL is stale — leave API_BASE empty so the user gets a clear error
-    }
+    } catch (e) {}
   })();
-  // ─────────────────────────────────────────────────────────────────
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   let selectedFormat = 'mp4';
-  let clipEnabled = false;
-  let pollTimer = null;
-  let lastLogLen = 0;
-  let currentJobId = null;
+  let clipEnabled    = false;
+  let pollTimer      = null;
+  let lastLogLen     = 0;
+  let currentJobId   = null;
+  let currentUrl     = '';
+  let currentInfo    = null;
 
-  const urlInput    = document.getElementById('url-input');
-  const runBtn      = document.getElementById('run-btn');
-  const statusCard  = document.getElementById('status-card');
-  const cardMedia   = document.getElementById('card-media');
-  const cardThumb   = document.getElementById('card-thumb');
-  const cardInfo    = document.getElementById('card-info');
-  const cardPhase   = document.getElementById('card-phase');
-  const progEl      = document.getElementById('prog');
-  const progFill    = document.getElementById('prog-fill');
-  const progPct     = document.getElementById('prog-pct');
-  const progSpeed   = document.getElementById('prog-speed');
-  const progEta     = document.getElementById('prog-eta');
-  const dlBtn       = document.getElementById('dl-btn');
-  const iosHint     = document.getElementById('ios-hint');
-  const cancelBtn   = document.getElementById('cancel-btn');
-  const clearLink   = document.getElementById('clear-link');
-  const qualityOpt  = document.getElementById('quality-opt');
-  const clipToggle  = document.getElementById('clip-toggle');
-  const clipPill    = document.getElementById('clip-pill');
-  const clipRow     = document.getElementById('clip-row');
-  const clipStart   = document.getElementById('clip-start');
-  const clipEnd     = document.getElementById('clip-end');
-  const clipErr     = document.getElementById('clip-err');
+  const urlInput   = document.getElementById('url-input');
+  const runBtn     = document.getElementById('run-btn');
+  const statusCard = document.getElementById('status-card');
+  const cardMedia  = document.getElementById('card-media');
+  const cardThumb  = document.getElementById('card-thumb');
+  const cardInfo   = document.getElementById('card-info');
+  const cardPhase  = document.getElementById('card-phase');
+  const progEl     = document.getElementById('prog');
+  const progFill   = document.getElementById('prog-fill');
+  const progPct    = document.getElementById('prog-pct');
+  const progSpeed  = document.getElementById('prog-speed');
+  const progEta    = document.getElementById('prog-eta');
+  const dlBtn      = document.getElementById('dl-btn');
+  const iosHint    = document.getElementById('ios-hint');
+  const cancelBtn  = document.getElementById('cancel-btn');
+  const clearLink  = document.getElementById('clear-link');
+  const qualityOpt = document.getElementById('quality-opt');
+  const clipToggle = document.getElementById('clip-toggle');
+  const clipPill   = document.getElementById('clip-pill');
+  const clipRow    = document.getElementById('clip-row');
 
-  // Format toggle
+  // ── Format toggle ──
   document.querySelectorAll('#fmt-toggle button').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#fmt-toggle button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       selectedFormat = btn.dataset.fmt;
-      qualityOpt.style.opacity = selectedFormat === 'mp3' ? '0.3' : '1';
+      qualityOpt.style.opacity      = selectedFormat === 'mp3' ? '0.3' : '1';
       qualityOpt.style.pointerEvents = selectedFormat === 'mp3' ? 'none' : '';
     });
   });
 
-  // Clip toggle
+  // ── Time Scroll Picker ──
+  const pickerState = { from: {h:0,m:0,s:0}, to: {h:0,m:0,s:0} };
+  const pickerMax   = { h:23, m:59, s:59 };
+
+  function secondsToPicker(secs) {
+    secs = Math.max(0, Math.floor(secs));
+    return { h: Math.floor(secs / 3600), m: Math.floor((secs % 3600) / 60), s: secs % 60 };
+  }
+
+  function updatePickerDisplay(which) {
+    ['h','m','s'].forEach(u => {
+      const el = document.getElementById(`${which}-${u}-val`);
+      if (el) el.textContent = String(pickerState[which][u]).padStart(2, '0');
+    });
+  }
+
+  function adjustPicker(which, unit, delta) {
+    const max = pickerMax[unit];
+    pickerState[which][unit] = (pickerState[which][unit] + delta + max + 1) % (max + 1);
+    updatePickerDisplay(which);
+  }
+
+  function setPickerFromSecs(which, secs) {
+    pickerState[which] = secondsToPicker(secs);
+    updatePickerDisplay(which);
+  }
+
+  function pickerToTimeStr(which) {
+    const p = pickerState[which];
+    return `${p.h}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')}`;
+  }
+
+  document.querySelectorAll('.dg-spin-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      adjustPicker(btn.dataset.which, btn.dataset.unit, parseInt(btn.dataset.delta));
+    });
+  });
+
+  // ── Clip toggle ──
   function toggleClip() {
     clipEnabled = !clipEnabled;
     clipPill.classList.toggle('on', clipEnabled);
     clipRow.classList.toggle('visible', clipEnabled);
-    if (clipEnabled) clipStart.focus();
   }
   clipToggle.addEventListener('click', toggleClip);
   clipToggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') toggleClip(); });
 
-  // Auto-format time input: insert colons as user types
-  function formatTimeInput(e) {
-    const inp = e.target;
-    let v = inp.value.replace(/[^0-9]/g, '');
-    if (v.length > 6) v = v.slice(0, 6);
-    if (v.length >= 5) v = v.slice(0,1) + ':' + v.slice(1,3) + ':' + v.slice(3);
-    else if (v.length >= 3) v = v.slice(0,1) + ':' + v.slice(1);
-    inp.value = v;
-    inp.classList.remove('err');
-    clipErr.classList.remove('visible');
-  }
-  clipStart.addEventListener('input', formatTimeInput);
-  clipEnd.addEventListener('input', formatTimeInput);
-
-  // Validate hh:mm:ss format
-  function parseTime(str) {
-    if (!str.trim()) return null;
-    const m = str.match(/^(\d+):(\d{2}):(\d{2})$/);
-    if (!m) return false;
-    return `${m[1]}:${m[2]}:${m[3]}`;
+  // ── Helpers ──
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // Enter key
+  // ── Recent Downloads ──
+  const RECENT_KEY = 'grabha_recent_downloads';
+
+  function loadRecent() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch(e) { return []; }
+  }
+
+  function saveRecentList(items) {
+    localStorage.setItem(RECENT_KEY, JSON.stringify(items));
+  }
+
+  function saveRecentDownload(url, info) {
+    if (!info || !url) return;
+    let items = loadRecent().filter(i => i.url !== url);
+    items.unshift({
+      url,
+      title:     info.title    || 'Unknown',
+      platform:  info.platform || 'Unknown',
+      format:    selectedFormat,
+      timestamp: new Date().toISOString(),
+      thumbnail: info.thumbnail || '',
+    });
+    saveRecentList(items.slice(0, 10));
+    renderRecent();
+  }
+
+  function platformEmoji(platform, format) {
+    if (format === 'mp3') return '🎵';
+    const p = (platform || '').toLowerCase();
+    if (p.includes('youtube'))   return '🎬';
+    if (p.includes('instagram')) return '📸';
+    if (p.includes('twitter') || p.includes('x.com')) return '🐦';
+    return '🎬';
+  }
+
+  function relativeTime(iso) {
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1)  return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24)  return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return days === 1 ? 'yesterday' : `${days}d ago`;
+  }
+
+  let recentExpanded = false;
+  let recentShowAll  = false;
+
+  function renderRecent() {
+    const items   = loadRecent();
+    const section = document.getElementById('recent-section');
+    const list    = document.getElementById('recent-list');
+    if (!items.length) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+
+    const visible = recentShowAll ? items : items.slice(0, 5);
+    list.innerHTML = visible.map((item, idx) => `
+      <div class="dg-recent-item" data-url="${escHtml(item.url)}">
+        <span class="dg-recent-emoji">${platformEmoji(item.platform, item.format)}</span>
+        <div class="dg-recent-info">
+          <div class="dg-recent-title">${escHtml(item.title)}</div>
+          <div class="dg-recent-meta">${escHtml(item.platform)} &middot; ${escHtml(item.format)} &middot; ${relativeTime(item.timestamp)}</div>
+        </div>
+        <button class="dg-recent-remove" data-idx="${idx}" title="Remove">&#10005;</button>
+      </div>
+    `).join('') + (!recentShowAll && items.length > 5
+      ? `<button class="dg-recent-more" id="recent-show-all">+ ${items.length - 5} more</button>`
+      : '');
+
+    list.querySelectorAll('.dg-recent-item').forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target.closest('.dg-recent-remove')) return;
+        urlInput.value = el.dataset.url;
+        urlInput.focus();
+      });
+    });
+    list.querySelectorAll('.dg-recent-remove').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const all = loadRecent();
+        all.splice(parseInt(btn.dataset.idx), 1);
+        saveRecentList(all);
+        renderRecent();
+      });
+    });
+    const sab = document.getElementById('recent-show-all');
+    if (sab) sab.addEventListener('click', () => { recentShowAll = true; renderRecent(); });
+  }
+
+  document.getElementById('recent-hdr').addEventListener('click', () => {
+    recentExpanded = !recentExpanded;
+    document.getElementById('recent-list').style.display    = recentExpanded ? 'block' : 'none';
+    document.getElementById('recent-chevron').textContent   = recentExpanded ? '▾' : '▸';
+  });
+
+  // ── Chapters ──
+  function formatChapterTime(secs) {
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = Math.floor(secs % 60);
+    if (h > 0) return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+
+  function renderChapters(chapters, duration) {
+    const section = document.getElementById('chapters-section');
+    const list    = document.getElementById('chapters-list');
+    if (!chapters || !chapters.length) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    list.innerHTML = chapters.map((ch, i) => {
+      const end = ch.end_time != null
+        ? ch.end_time
+        : (chapters[i + 1] ? chapters[i + 1].start_time : (duration || 0));
+      return `<div class="dg-chapter-item" data-start="${ch.start_time}" data-end="${end}">
+        <span class="dg-chapter-time">${formatChapterTime(ch.start_time)}</span>
+        <span class="dg-chapter-title">${escHtml(ch.title || '')}</span>
+      </div>`;
+    }).join('');
+    list.querySelectorAll('.dg-chapter-item').forEach(el => {
+      el.addEventListener('click', () => {
+        setPickerFromSecs('from', parseFloat(el.dataset.start));
+        setPickerFromSecs('to',   parseFloat(el.dataset.end));
+        if (!clipEnabled) toggleClip();
+      });
+    });
+  }
+
+  // ── Enter key ──
   urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') runBtn.click(); });
 
   function setPhase(text, state) {
     cardPhase.textContent = text;
-    cardPhase.className = 'dg-card-phase ' + (state || 'running');
+    cardPhase.className   = 'dg-card-phase ' + (state || 'running');
   }
 
   function resetCard() {
     cardMedia.style.display = 'none';
     cardThumb.style.backgroundImage = '';
     cardInfo.innerHTML = '';
+    document.getElementById('chapters-section').style.display = 'none';
+    document.getElementById('chapters-list').innerHTML = '';
     progEl.style.display = 'none';
     progFill.style.width = '0%';
-    progPct.textContent = '0%';
+    progPct.textContent  = '0%';
     progSpeed.textContent = '—';
-    progEta.textContent = '—';
+    progEta.textContent   = '—';
     dlBtn.classList.remove('visible');
     dlBtn.href = '#';
     iosHint.classList.remove('visible');
@@ -895,10 +1280,10 @@
 
   function setProgress(pctStr, speed, eta) {
     const num = parseFloat(pctStr) || 0;
-    progFill.style.width = Math.min(num, 100) + '%';
-    progPct.textContent = pctStr || '0%';
+    progFill.style.width  = Math.min(num, 100) + '%';
+    progPct.textContent   = pctStr || '0%';
     if (speed) progSpeed.textContent = speed;
-    if (eta)   progEta.textContent = 'ETA ' + eta;
+    if (eta)   progEta.textContent   = 'ETA ' + eta;
   }
 
   function fmtDuration(s) {
@@ -924,26 +1309,25 @@
     if (data.status === 'done') {
       clearInterval(pollTimer);
       progFill.style.width = '100%';
-      progPct.textContent = '100%';
+      progPct.textContent  = '100%';
       setPhase('done — file ready', 'done');
-      dlBtn.href = `${API_BASE}/api/download/${jobId}`;
+      dlBtn.href     = `${API_BASE}/api/download/${jobId}`;
       dlBtn.download = data.filename || 'download';
       dlBtn.classList.add('visible');
       if (isIOS) iosHint.classList.add('visible');
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
-      runBtn.disabled = false;
+      runBtn.disabled    = false;
       runBtn.textContent = '\u25b6\u00a0\u00a0execute';
+      saveRecentDownload(currentUrl, currentInfo);
     } else if (data.status === 'error' || data.status === 'cancelled') {
       clearInterval(pollTimer);
-      if (data.status === 'cancelled') {
-        setPhase('cancelled', 'err');
-      } else {
-        setPhase('error — ' + (data.error || 'something went wrong'), 'err');
-      }
+      setPhase(data.status === 'cancelled'
+        ? 'cancelled'
+        : 'error — ' + (data.error || 'something went wrong'), 'err');
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
-      runBtn.disabled = false;
+      runBtn.disabled    = false;
       runBtn.textContent = '\u25b6\u00a0\u00a0execute';
     }
   }
@@ -965,32 +1349,36 @@
 
     clearInterval(pollTimer);
     resetCard();
-    lastLogLen = 0;
+    lastLogLen  = 0;
+    currentUrl  = url;
+    currentInfo = null;
     statusCard.classList.add('visible');
-    runBtn.disabled = true;
+    runBtn.disabled    = true;
     runBtn.textContent = '● running…';
     setPhase('fetching info…', 'running');
 
     // Fetch metadata
     try {
-      const res = await fetch(`${API_BASE}/api/info`, {
-        method: 'POST',
+      const res  = await fetch(`${API_BASE}/api/info`, {
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body:    JSON.stringify({ url }),
       });
       const info = await res.json();
       if (!info.error) {
+        currentInfo = info;
         if (info.thumbnail) {
           const proxied = `${API_BASE}/api/proxy-thumb?url=${encodeURIComponent(info.thumbnail)}`;
           cardThumb.style.backgroundImage = `url('${proxied}')`;
         }
         cardInfo.innerHTML = `
-          <div class="dg-card-title">${info.title || ''}</div>
+          <div class="dg-card-title">${escHtml(info.title || '')}</div>
           <div class="dg-card-sub">
-            <span>${info.uploader || ''}</span> &middot; ${info.platform || ''}${info.duration ? ' &middot; ' + fmtDuration(info.duration) : ''}
+            <span>${escHtml(info.uploader || '')}</span> &middot; ${escHtml(info.platform || '')}${info.duration ? ' &middot; ' + fmtDuration(info.duration) : ''}
           </div>
         `;
         cardMedia.style.display = 'flex';
+        renderChapters(info.chapters || [], info.duration || 0);
       }
     } catch(e) {
       // continue without preview
@@ -1003,26 +1391,16 @@
     try {
       let clipStartVal = null, clipEndVal = null;
       if (clipEnabled) {
-        const ps = parseTime(clipStart.value);
-        const pe = parseTime(clipEnd.value);
-        if (ps === false || pe === false) {
-          clipErr.classList.add('visible');
-          clipStart.classList.toggle('err', ps === false && clipStart.value.trim());
-          clipEnd.classList.toggle('err', pe === false && clipEnd.value.trim());
-          setPhase('invalid clip time — use hh:mm:ss', 'err');
-          runBtn.disabled = false;
-          runBtn.textContent = '\u25b6\u00a0\u00a0execute';
-          return;
-        }
-        clipStartVal = ps;
-        clipEndVal   = pe;
+        clipStartVal = pickerToTimeStr('from');
+        const toStr  = pickerToTimeStr('to');
+        clipEndVal   = toStr !== '0:00:00' ? toStr : null;
       }
 
       const quality = document.getElementById('quality-select').value;
       const res = await fetch(`${API_BASE}/api/download`, {
-        method: 'POST',
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, format: selectedFormat, quality, clip_start: clipStartVal, clip_end: clipEndVal }),
+        body:    JSON.stringify({ url, format: selectedFormat, quality, clip_start: clipStartVal, clip_end: clipEndVal }),
       });
       const job = await res.json();
       if (job.error) throw new Error(job.error);
@@ -1031,12 +1409,12 @@
       pollTimer = setInterval(() => poll(job.job_id), 1500);
     } catch(e) {
       setPhase('failed to start: ' + e.message, 'err');
-      runBtn.disabled = false;
+      runBtn.disabled    = false;
       runBtn.textContent = '\u25b6\u00a0\u00a0execute';
     }
   });
 
-  // Cancel — abort running download
+  // Cancel
   cancelBtn.addEventListener('click', async () => {
     if (currentJobId && API_BASE) {
       try { await fetch(`${API_BASE}/api/cancel/${currentJobId}`, { method: 'POST' }); } catch(e) {}
@@ -1045,19 +1423,24 @@
     cancelBtn.classList.remove('visible');
     setPhase('cancelled', 'err');
     clearLink.classList.add('visible');
-    runBtn.disabled = false;
+    runBtn.disabled    = false;
     runBtn.textContent = '\u25b6\u00a0\u00a0execute';
   });
 
-  // Clear — reset everything for a new download
+  // Clear
   clearLink.addEventListener('click', () => {
     clearInterval(pollTimer);
     resetCard();
     statusCard.classList.remove('visible');
     urlInput.value = '';
-    currentJobId = null;
+    currentJobId   = null;
+    currentUrl     = '';
+    currentInfo    = null;
     urlInput.focus();
   });
+
+  // Init
+  renderRecent();
 </script>
 </body>
 </html>
