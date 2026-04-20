@@ -684,8 +684,15 @@
       color: var(--border-hi);
       padding: 0 1px;
       align-self: center;
-      margin-top: 2px;
+      margin-bottom: 16px; /* offset for unit label below spinners */
       line-height: 1;
+    }
+    .dg-spin-unit {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--amber-dim);
+      text-transform: uppercase;
+      margin-top: 2px;
     }
 
     /* ── Recent Downloads ── */
@@ -882,18 +889,21 @@
             <button class="dg-spin-btn" data-which="from" data-unit="h" data-delta="1">▲</button>
             <div class="dg-spin-val" id="from-h-val">00</div>
             <button class="dg-spin-btn" data-which="from" data-unit="h" data-delta="-1">▼</button>
+            <span class="dg-spin-unit">h</span>
           </div>
           <span class="dg-spin-sep">:</span>
           <div class="dg-spinner">
             <button class="dg-spin-btn" data-which="from" data-unit="m" data-delta="1">▲</button>
             <div class="dg-spin-val" id="from-m-val">00</div>
             <button class="dg-spin-btn" data-which="from" data-unit="m" data-delta="-1">▼</button>
+            <span class="dg-spin-unit">m</span>
           </div>
           <span class="dg-spin-sep">:</span>
           <div class="dg-spinner">
             <button class="dg-spin-btn" data-which="from" data-unit="s" data-delta="1">▲</button>
             <div class="dg-spin-val" id="from-s-val">00</div>
             <button class="dg-spin-btn" data-which="from" data-unit="s" data-delta="-1">▼</button>
+            <span class="dg-spin-unit">s</span>
           </div>
         </div>
       </div>
@@ -905,18 +915,21 @@
             <button class="dg-spin-btn" data-which="to" data-unit="h" data-delta="1">▲</button>
             <div class="dg-spin-val" id="to-h-val">00</div>
             <button class="dg-spin-btn" data-which="to" data-unit="h" data-delta="-1">▼</button>
+            <span class="dg-spin-unit">h</span>
           </div>
           <span class="dg-spin-sep">:</span>
           <div class="dg-spinner">
             <button class="dg-spin-btn" data-which="to" data-unit="m" data-delta="1">▲</button>
             <div class="dg-spin-val" id="to-m-val">00</div>
             <button class="dg-spin-btn" data-which="to" data-unit="m" data-delta="-1">▼</button>
+            <span class="dg-spin-unit">m</span>
           </div>
           <span class="dg-spin-sep">:</span>
           <div class="dg-spinner">
             <button class="dg-spin-btn" data-which="to" data-unit="s" data-delta="1">▲</button>
             <div class="dg-spin-val" id="to-s-val">00</div>
             <button class="dg-spin-btn" data-which="to" data-unit="s" data-delta="-1">▼</button>
+            <span class="dg-spin-unit">s</span>
           </div>
         </div>
       </div>
