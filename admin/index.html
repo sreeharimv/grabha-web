@@ -102,6 +102,7 @@
   <div class="login-box">
     <h1><img src="/grabha-web/icons/icon-192.png" style="height:22px;vertical-align:middle;margin-right:8px;border-radius:4px"> Grabha</h1>
     <p>Admin access only</p>
+    <input type="text" id="un-input" placeholder="Username" autocomplete="username" style="margin-bottom:12px">
     <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
     <button id="login-btn">Sign in</button>
     <div id="login-error"></div>
@@ -187,10 +188,11 @@
     const pw  = document.getElementById('pw-input').value;
     const err = document.getElementById('login-error');
     err.textContent = '';
+    if (!apiReady) { err.textContent = 'Connecting to server… please try again in a moment'; return; }
     try {
       const res = await fetch(`${API_BASE}/admin/login`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pw })
+        body: JSON.stringify({ username: document.getElementById("un-input").value, password: pw })
       });
       const data = await res.json();
       if (!res.ok) { err.textContent = data.error || 'Login failed'; return; }
@@ -198,7 +200,7 @@
       localStorage.setItem('grabha_admin_token', token);
       showDashboard();
       loadData();
-    } catch { err.textContent = 'Could not reach server'; }
+    } catch (e) { err.textContent = 'Could not reach server: ' + e.message; }
   }
 
   document.getElementById('logout-btn').addEventListener('click', () => {
