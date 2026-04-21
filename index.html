@@ -19,27 +19,47 @@
 
   <title>Grabha</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+Devanagari:wght@300&display=swap" rel="stylesheet">
 
   <style>
     /* ── Variables ── */
     :root {
-      --bg:         #0c0c0c;
-      --surface:    #0a0906;
-      --border:     #2a2720;
-      --border-mid: #3d3528;
-      --border-hi:  #5a4a30;
-      --amber-dim:  #4a3f2a;
-      --amber-low:  #7a6840;
-      --amber-mid:  #a08050;
-      --amber:      #c8a060;
-      --amber-hi:   #e8c878;
-      --amber-bright: #f5d988;
-      --amber-glow: #f0c060;
-      --text:       #c8a96e;
-      --font-mono:  'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+      /* backgrounds */
+      --bg:         #0B0B0F;
+      --surface:    #111116;
+      --surface-hi: #17171e;
+
+      /* borders — neutral, never gold */
+      --border:     #1e1e26;
+      --border-mid: #23232A;
+      --border-hi:  #2e2e3a;
+
+      /* gold — reserved for actions + highlights only */
+      --gold:       #E6C068;
+      --gold-hi:    #FFD580;
+      --gold-glow:  rgba(230,192,104,0.15);
+      --gold-dim:   #7a6030;
+
+      /* text hierarchy */
+      --text-primary:   #EDEDED;
+      --text-secondary: #9CA3AF;
+      --text-muted:     #6B7280;
+      --text-faint:     #3d3d4d;
+
+      /* legacy aliases kept for JS/HTML refs that still use them */
+      --amber-dim:    #3a3a4a;
+      --amber-low:    var(--text-muted);
+      --amber-mid:    var(--text-secondary);
+      --amber:        var(--gold);
+      --amber-hi:     var(--gold-hi);
+      --amber-bright: var(--gold-hi);
+      --amber-glow:   var(--gold);
+      --text:         var(--text-primary);
+
+      --font-sans:    ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif;
+      --font-mono:    'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
       --font-display: 'Yatra One', serif;
     }
 
@@ -50,47 +70,51 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 13px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.6;
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* ── Layout ── */
     .dg-wrap {
       flex: 1;
       width: 100%;
-      max-width: 760px;
+      max-width: 720px;
       margin: 0 auto;
-      padding: 44px 24px 36px;
+      padding: 32px 20px 36px;
     }
 
     /* ── Header ── */
     .dg-header {
-      margin-bottom: 36px;
+      margin-bottom: 16px;
       padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #23232A;
     }
 
     .dg-title {
       font-family: var(--font-display);
-      font-size: clamp(28px, 7vw, 44px);
-      color: var(--amber-glow);
-      letter-spacing: 0.02em;
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: -0.2px;
       line-height: 1.1;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
     .dg-subtitle {
       font-family: 'Noto Serif Devanagari', serif;
       font-size: 14px;
-      font-weight: 300;
-      color: var(--amber-mid);
-      letter-spacing: 0.12em;
-      margin-bottom: 10px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
     }
 
     .dg-meta {
@@ -102,9 +126,10 @@
     }
 
     .dg-tagline {
-      font-size: 11px;
-      color: var(--amber);
-      letter-spacing: 0.08em;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
     }
 
     .dg-sep {
@@ -116,59 +141,67 @@
     }
 
     .dg-powered {
-      font-size: 10px;
-      color: var(--amber-low);
-      letter-spacing: 0.1em;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
     }
-    .dg-powered span { color: var(--amber-mid); }
+    .dg-powered span { color: var(--text-secondary); }
 
     /* ── Section label ── */
     .dg-label {
-      font-size: 9px;
-      letter-spacing: 0.22em;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--amber-low);
-      margin-bottom: 8px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
     }
 
     /* ── URL Input ── */
     .dg-input-wrap {
       display: flex;
-      align-items: stretch;
-      border: 1px solid var(--border);
-      border-radius: 2px;
+      align-items: center;
+      border: 1px solid var(--border-mid);
+      border-radius: 10px;
       background: var(--surface);
-      margin-bottom: 16px;
-      transition: border-color 0.15s;
+      min-height: 48px;
+      margin-bottom: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .dg-input-wrap:focus-within { border-color: var(--border-hi); }
+    .dg-input-wrap:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px var(--gold-glow);
+    }
 
     .dg-prompt {
       display: flex;
       align-items: center;
-      padding: 0 14px;
-      border-right: 1px solid var(--border);
-      color: var(--amber-mid);
+      padding: 0 10px 0 12px;
+      border-right: 1px solid var(--border-mid);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
       font-size: 12px;
       white-space: nowrap;
       user-select: none;
       flex-shrink: 0;
     }
-    .dg-prompt span { color: var(--amber-hi); }
+    .dg-prompt span { color: var(--text-secondary); }
 
     #url-input {
       flex: 1;
       background: transparent;
       border: none;
       outline: none;
-      color: var(--amber-bright);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      padding: 13px 14px;
-      caret-color: var(--amber-hi);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 400;
+      padding: 0 16px 0 8px;
+      caret-color: var(--gold);
       min-width: 0;
     }
-    #url-input::placeholder { color: var(--border-mid); }
+    #url-input::placeholder { color: var(--text-faint); }
 
     /* ── Options ── */
     .dg-options {
@@ -179,29 +212,28 @@
       margin-bottom: 18px;
     }
 
-    .dg-opt {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     .dg-flag {
-      font-size: 10px;
-      color: var(--border-hi);
-      letter-spacing: 0.06em;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6B7280;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      min-width: 72px;
     }
 
     /* Toggle */
     .dg-toggle { display: flex; }
     .dg-toggle button {
       background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--amber-dim);
-      font-family: var(--font-mono);
-      font-size: 10px;
+      border: 1px solid var(--border-mid);
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
       padding: 6px 14px;
       cursor: pointer;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       transition: all 0.12s;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
@@ -209,9 +241,9 @@
     .dg-toggle button:first-child { border-radius: 2px 0 0 2px; }
     .dg-toggle button:last-child  { border-radius: 0 2px 2px 0; border-left: none; }
     .dg-toggle button.active {
-      background: #1a1508;
-      color: var(--amber-hi);
-      border-color: var(--border-hi);
+      background: rgba(230,192,104,0.1);
+      color: var(--gold);
+      border-color: var(--gold);
     }
 
     /* Select */
@@ -219,8 +251,9 @@
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--amber-low);
-      font-family: var(--font-mono);
-      font-size: 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
       padding: 6px 10px;
       border-radius: 2px;
       outline: none;
@@ -239,14 +272,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 14px;
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
     .dg-clip-pill {
       width: 28px; height: 16px;
-      background: var(--surface);
+      background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 8px;
       position: relative;
@@ -262,93 +294,129 @@
       top: 2px; left: 2px;
       transition: all 0.2s;
     }
-    .dg-clip-pill.on { background: #1a1508; border-color: var(--border-hi); }
-    .dg-clip-pill.on::after { background: var(--amber-mid); left: 14px; }
+    .dg-clip-pill.on { background: rgba(230,192,104,0.12); border-color: var(--gold); }
+    .dg-clip-pill.on::after { background: var(--gold); left: 14px; }
 
     .dg-clip-lbl {
-      font-size: 10px;
-      color: var(--border-hi);
-      letter-spacing: 0.1em;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    .dg-clip-lbl em { color: var(--amber-mid); font-style: normal; }
+    .dg-clip-lbl em { color: var(--text-secondary); font-style: normal; font-family: var(--font-mono); font-size: 10px; }
 
-    .dg-clip-row {
+    /* clip time row — HH:MM:SS split inputs */
+    .dg-clip-times {
       display: none;
       align-items: center;
-      gap: 8px;
+      gap: 20px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 2px;
+      margin-top: 12px;
+    }
+    .dg-clip-times.visible { display: flex; }
+    .dg-clip-time-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dg-clip-time-field label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .dg-hms-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dg-hms-sep {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1;
+    }
+    .dg-hms-input {
       background: var(--surface);
-    }
-    .dg-clip-row.visible { display: flex; }
-
-    .dg-clip-field { display: flex; align-items: center; gap: 6px; }
-    .dg-clip-field label {
-      font-size: 10px;
-      color: var(--amber-low);
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-    }
-    .dg-time-input {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      color: var(--amber-hi);
-      font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 5px 8px;
-      width: 88px;
-      outline: none;
-      letter-spacing: 0.08em;
-      transition: border-color 0.15s;
-    }
-    .dg-time-input::placeholder { color: var(--amber-dim); }
-    .dg-time-input:focus { border-color: var(--border-hi); }
-    .dg-time-input.err { border-color: #663333; }
-
-    .dg-clip-arrow { color: var(--border-hi); font-size: 11px; }
-    .dg-clip-hint {
-      font-size: 9px;
-      color: var(--amber-dim);
-      letter-spacing: 0.06em;
-      width: 100%;
-      margin-top: 2px;
-    }
-    .dg-clip-err {
-      display: none;
-      font-size: 9px;
-      color: #884444;
-      letter-spacing: 0.06em;
-      width: 100%;
-    }
-    .dg-clip-err.visible { display: block; }
-
-    /* ── Run button ── */
-    .dg-run-row { margin-bottom: 28px; }
-
-    #run-btn {
-      background: transparent;
       border: 1px solid var(--border-mid);
-      color: var(--amber);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.2em;
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      width: 48px;
+      height: 38px;
+      outline: none;
+      text-align: center;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -moz-appearance: textfield;
+    }
+    .dg-hms-input::-webkit-inner-spin-button,
+    .dg-hms-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .dg-hms-input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-glow); }
+    .dg-clip-arrow { color: var(--text-muted); font-size: 12px; }
+    .dg-clip-hint {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* ── Button row ── */
+    .dg-run-row { margin-bottom: 24px; margin-top: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+    .dg-btn {
+      background: transparent;
+      border: 1px solid var(--border-hi);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       padding: 10px 28px;
-      border-radius: 2px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.15s;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       min-width: 120px;
     }
-    #run-btn:hover,
-    #run-btn:active { border-color: var(--amber-mid); color: var(--amber-hi); background: #0f0e0a; }
-    #run-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-    #run-btn:disabled:hover { background: transparent; color: var(--amber); border-color: var(--border-mid); }
+    .dg-btn:hover,
+    .dg-btn:active { border-color: var(--gold); color: var(--gold); background: rgba(230,192,104,0.06); }
+    .dg-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .dg-btn:disabled:hover { background: transparent; color: var(--text-secondary); border-color: var(--border-hi); }
+
+    #download-btn {
+      background: linear-gradient(135deg, #E6C068, #D4A94F);
+      border: none;
+      color: #0B0B0F;
+      width: 100%;
+      padding: 0 20px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border-radius: 12px;
+      height: 52px;
+      transition: all 0.15s;
+    }
+    #download-btn:hover {
+      background: linear-gradient(135deg, #FFD580, #E6C068);
+      box-shadow: 0 0 20px rgba(230,192,104,0.35);
+      color: #0B0B0F;
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+    #download-btn:active {
+      transform: scale(0.98);
+      filter: none;
+      box-shadow: none;
+    }
+    #download-btn:disabled { background: linear-gradient(135deg, #E6C068, #D4A94F); opacity: 0.35; box-shadow: none; transform: none; }
 
     #cancel-btn {
       display: none;
@@ -371,42 +439,44 @@
 
     #clear-link {
       display: none;
-      font-size: 9px;
-      color: var(--amber-dim);
-      letter-spacing: 0.1em;
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
       cursor: pointer;
-      margin-top: 10px;
-      transition: color 0.12s;
+      margin-top: 12px;
+      opacity: 0.6;
+      transition: color 0.12s, opacity 0.12s;
       background: none;
       border: none;
-      font-family: var(--font-mono);
+      font-family: var(--font-sans);
       padding: 0;
     }
-    #clear-link:hover { color: var(--amber-low); }
+    #clear-link:hover { color: var(--text-secondary); opacity: 1; }
     #clear-link.visible { display: inline-block; }
 
     /* ── Status Card ── */
     .dg-card {
       display: none;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      margin-bottom: 16px;
+      background: #15151B;
+      border: 1px solid var(--border-mid);
+      border-radius: 14px;
+      margin-bottom: 24px;
       overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     }
     .dg-card.visible { display: block; }
 
     .dg-card-media {
       display: flex;
-      gap: 14px;
+      gap: 16px;
       align-items: center;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
+      padding: 20px;
+      border-bottom: 1px solid var(--border-mid);
     }
     .dg-card-thumb {
       width: 96px;
-      height: 60px;
-      border-radius: 2px;
+      height: 64px;
+      border-radius: 6px;
       flex-shrink: 0;
       background: var(--border);
       background-size: cover;
@@ -414,46 +484,50 @@
     }
     .dg-card-info { min-width: 0; }
     .dg-card-title {
-      font-size: 12px;
-      color: var(--amber-hi);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
       line-height: 1.45;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
     .dg-card-sub {
-      font-size: 10px;
-      color: var(--amber-low);
-      line-height: 1.8;
-      letter-spacing: 0.03em;
+      font-size: 13px;
+      color: #A1A1AA;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
     }
-    .dg-card-sub span { color: var(--amber-mid); }
+    .dg-card-sub span { color: var(--text-secondary); }
 
-    .dg-card-body { padding: 14px 16px 16px; }
+    .dg-card-body { padding: 18px 20px 22px; }
 
     .dg-card-phase {
-      font-size: 11px;
-      letter-spacing: 0.06em;
+      font-size: 13px;
+      letter-spacing: 0.01em;
       margin-bottom: 12px;
+      margin-top: 12px;
       display: flex;
       align-items: center;
       gap: 8px;
-      color: var(--amber-mid);
+      color: #6B7280;
     }
     .dg-card-phase::before {
       content: '';
       display: inline-block;
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
       background: currentColor;
+      opacity: 0.6;
       flex-shrink: 0;
     }
     .dg-card-phase.running { animation: phase-pulse 1.4s ease-in-out infinite; }
     .dg-card-phase.done    { color: var(--amber-hi); animation: none; }
     .dg-card-phase.err     { color: #cc5555; animation: none; }
+    .dg-card-phase.idle    { color: #6B7280; animation: none; }
     @keyframes phase-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
     .dg-prog-track {
@@ -479,7 +553,7 @@
     }
     .dg-prog-info span { color: var(--amber-low); }
 
-    /* ── Download button ── */
+    /* ── Download file button ── */
     #dl-btn {
       display: none;
       background: #1a1508;
@@ -542,8 +616,8 @@
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 18px 24px;
-      max-width: 760px;
+      padding: 18px 20px;
+      max-width: 720px;
       margin: 0 auto;
       width: 100%;
       display: flex;
@@ -604,95 +678,53 @@
 
     /* ── Responsive ── */
     @media (max-width: 480px) {
-      .dg-wrap { padding: 28px 16px 24px; }
+      .dg-wrap { padding: 24px 16px 24px; }
       .dg-options { gap: 10px 16px; }
       footer { padding: 16px; }
-      .dg-prompt { padding: 0 10px; font-size: 11px; }
-      #url-input { font-size: 11px; padding: 12px 10px; }
-      .dg-card-body { padding: 12px 14px 14px; }
-      .dg-card-thumb { width: 76px; height: 48px; }
+      .dg-prompt { padding: 0 8px; font-size: 11px; }
+      #url-input { font-size: 13px; }
+      .dg-card-body { padding: 14px 16px 16px; }
+      .dg-card-thumb { width: 80px; height: 54px; }
+      .dg-card-title { font-size: 13px; }
+      .dg-card-sub { font-size: 12px; }
     }
 
     @media (max-width: 360px) {
-      .dg-title { font-size: 26px; }
+      .dg-title { font-size: 22px; }
       .dg-socials { gap: 10px; }
     }
 
-    /* ── Time Scroll Picker ── */
-    .dg-pickers-wrap {
+    /* ── Download options panel card ── */
+    .dg-dl-panel {
+      background: #15151B;
+      border: 1px solid var(--border-mid);
+      border-radius: 14px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .dg-dl-row {
       display: flex;
+      align-items: center;
       gap: 24px;
       flex-wrap: wrap;
-      align-items: flex-start;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-mid);
     }
-    .dg-time-picker {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .dg-picker-label {
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      color: var(--amber-low);
-      text-transform: uppercase;
-    }
-    .dg-picker-spinners {
-      display: flex;
+    .dg-opt {
+      display: grid;
+      grid-template-columns: 80px auto;
       align-items: center;
-      gap: 2px;
+      gap: 12px;
     }
-    .dg-spinner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .dg-dl-row:last-child { border-bottom: none; }
+    .dg-dl-section {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border-mid);
     }
-    .dg-spin-btn {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--amber-low);
-      font-size: 11px;
-      width: 38px;
-      min-height: 44px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 2px;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      transition: color 0.12s, border-color 0.12s, background 0.12s;
-      font-family: var(--font-mono);
-    }
-    .dg-spin-btn:hover, .dg-spin-btn:active {
-      color: var(--amber-hi);
-      border-color: var(--border-hi);
-      background: #0f0e0a;
-    }
-    .dg-spin-val {
-      font-size: 20px;
-      color: var(--amber-hi);
-      font-family: var(--font-mono);
-      font-weight: 500;
-      width: 38px;
-      text-align: center;
-      padding: 5px 0;
-      letter-spacing: 0.04em;
-    }
-    .dg-spin-sep {
-      font-size: 18px;
-      color: var(--border-hi);
-      padding: 0 1px;
-      align-self: center;
-      margin-bottom: 16px; /* offset for unit label below spinners */
-      line-height: 1;
-    }
-    .dg-spin-unit {
-      font-size: 8px;
-      letter-spacing: 0.15em;
-      color: var(--amber-dim);
-      text-transform: uppercase;
-      margin-top: 2px;
+    .dg-dl-section:last-child { border-bottom: none; }
+    .dg-dl-footer {
+      padding: 20px 20px;
     }
 
     /* ── Recent Downloads ── */
@@ -780,8 +812,14 @@
       font-size: 9px;
       letter-spacing: 0.2em;
       color: var(--amber-dim);
-      text-transform: none;
       margin-bottom: 6px;
+    }
+    .dg-chapters-hint {
+      font-size: 9px;
+      color: var(--amber-dim);
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+      font-style: italic;
     }
     .dg-chapter-item {
       display: flex;
@@ -791,26 +829,37 @@
       border-radius: 2px;
       cursor: pointer;
       min-height: 32px;
+      border: 1px solid transparent;
       -webkit-tap-highlight-color: transparent;
-      transition: background 0.1s;
+      transition: background 0.1s, border-color 0.1s;
     }
-    .dg-chapter-item:hover { background: #121008; }
+    .dg-chapter-item:hover { background: var(--surface-hi); }
+    .dg-chapter-item.selected {
+      background: rgba(230,192,104,0.08);
+      border-color: var(--gold);
+    }
     .dg-chapter-time {
       font-size: 10px;
-      color: var(--amber-low);
+      color: var(--text-muted);
       letter-spacing: 0.06em;
       flex-shrink: 0;
       font-variant-numeric: tabular-nums;
     }
     .dg-chapter-title {
-      font-size: 11px;
-      color: var(--amber-dim);
+      font-size: 12px;
+      color: var(--text-secondary);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .dg-chapter-item:hover .dg-chapter-title { color: var(--amber-mid); }
-    .dg-chapter-item:hover .dg-chapter-time  { color: var(--amber); }
+    .dg-chapter-item:hover .dg-chapter-title,
+    .dg-chapter-item.selected .dg-chapter-title { color: var(--text-primary); }
+    .dg-chapter-item:hover .dg-chapter-time,
+    .dg-chapter-item.selected .dg-chapter-time  { color: var(--gold); }
+
+    /* ── Download options panel (hidden until inspect) ── */
+    #download-panel { display: none; }
+    #download-panel.visible { display: block; }
   </style>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
@@ -851,108 +900,12 @@
     <div id="recent-list" style="display:none"></div>
   </div>
 
-  <!-- Options -->
-  <div class="dg-options">
-    <div class="dg-opt">
-      <span class="dg-flag">--format</span>
-      <div class="dg-toggle" id="fmt-toggle">
-        <button class="active" data-fmt="mp4">mp4</button>
-        <button data-fmt="mp3">mp3</button>
-      </div>
-    </div>
-    <div class="dg-opt" id="quality-opt">
-      <span class="dg-flag">--quality</span>
-      <select class="dg-select" id="quality-select">
-        <option value="best">best</option>
-        <option value="1080">1080p</option>
-        <option value="720">720p</option>
-        <option value="480">480p</option>
-        <option value="360">360p</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- Clip toggle -->
-  <div class="dg-clip-toggle" id="clip-toggle" role="button" tabindex="0">
-    <div class="dg-clip-pill" id="clip-pill"></div>
-    <span class="dg-clip-lbl"><em>--download-sections</em> &nbsp;clip interval</span>
-  </div>
-
-  <!-- Clip inputs (hidden by default) -->
-  <div class="dg-clip-row" id="clip-row">
-    <div class="dg-pickers-wrap">
-      <!-- FROM picker -->
-      <div class="dg-time-picker">
-        <div class="dg-picker-label">from</div>
-        <div class="dg-picker-spinners">
-          <div class="dg-spinner">
-            <button class="dg-spin-btn" data-which="from" data-unit="h" data-delta="1">▲</button>
-            <div class="dg-spin-val" id="from-h-val">00</div>
-            <button class="dg-spin-btn" data-which="from" data-unit="h" data-delta="-1">▼</button>
-            <span class="dg-spin-unit">h</span>
-          </div>
-          <span class="dg-spin-sep">:</span>
-          <div class="dg-spinner">
-            <button class="dg-spin-btn" data-which="from" data-unit="m" data-delta="1">▲</button>
-            <div class="dg-spin-val" id="from-m-val">00</div>
-            <button class="dg-spin-btn" data-which="from" data-unit="m" data-delta="-1">▼</button>
-            <span class="dg-spin-unit">m</span>
-          </div>
-          <span class="dg-spin-sep">:</span>
-          <div class="dg-spinner">
-            <button class="dg-spin-btn" data-which="from" data-unit="s" data-delta="1">▲</button>
-            <div class="dg-spin-val" id="from-s-val">00</div>
-            <button class="dg-spin-btn" data-which="from" data-unit="s" data-delta="-1">▼</button>
-            <span class="dg-spin-unit">s</span>
-          </div>
-        </div>
-      </div>
-      <!-- TO picker -->
-      <div class="dg-time-picker">
-        <div class="dg-picker-label">to</div>
-        <div class="dg-picker-spinners">
-          <div class="dg-spinner">
-            <button class="dg-spin-btn" data-which="to" data-unit="h" data-delta="1">▲</button>
-            <div class="dg-spin-val" id="to-h-val">00</div>
-            <button class="dg-spin-btn" data-which="to" data-unit="h" data-delta="-1">▼</button>
-            <span class="dg-spin-unit">h</span>
-          </div>
-          <span class="dg-spin-sep">:</span>
-          <div class="dg-spinner">
-            <button class="dg-spin-btn" data-which="to" data-unit="m" data-delta="1">▲</button>
-            <div class="dg-spin-val" id="to-m-val">00</div>
-            <button class="dg-spin-btn" data-which="to" data-unit="m" data-delta="-1">▼</button>
-            <span class="dg-spin-unit">m</span>
-          </div>
-          <span class="dg-spin-sep">:</span>
-          <div class="dg-spinner">
-            <button class="dg-spin-btn" data-which="to" data-unit="s" data-delta="1">▲</button>
-            <div class="dg-spin-val" id="to-s-val">00</div>
-            <button class="dg-spin-btn" data-which="to" data-unit="s" data-delta="-1">▼</button>
-            <span class="dg-spin-unit">s</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <span class="dg-clip-hint">tap ▲▼ to set clip interval &middot; click a chapter to auto-fill</span>
-  </div>
-
-  <!-- Turnstile -->
-  <div class="dg-run-row" style="justify-content:center;margin-bottom:8px">
-    <div class="cf-turnstile"
-         data-sitekey="0x4AAAAAAC9Z0CjNDQJj4FOF"
-         data-theme="dark"
-         data-callback="onTurnstileSuccess"
-         data-expired-callback="onTurnstileExpired"></div>
-  </div>
-
-  <!-- Run -->
+  <!-- Go / Clear button (always visible) -->
   <div class="dg-run-row">
-    <button id="run-btn" disabled>&#9654;&nbsp;&nbsp;execute</button>
-    <button id="cancel-btn">&#10005;&nbsp;&nbsp;cancel</button>
+    <button id="inspect-btn" class="dg-btn">&#9654;&nbsp;&nbsp;GO</button>
   </div>
 
-  <!-- Status Card -->
+  <!-- Status Card (shows after inspect) -->
   <div class="dg-card" id="status-card">
     <div class="dg-card-media" id="card-media" style="display:none">
       <div class="dg-card-thumb" id="card-thumb"></div>
@@ -962,11 +915,12 @@
     <div id="chapters-section" style="display:none">
       <div class="dg-chapters">
         <div class="dg-chapters-lbl">— chapters —</div>
+        <div class="dg-chapters-hint">click a chapter to download only that section, or leave unselected to download the full video</div>
         <div id="chapters-list"></div>
       </div>
     </div>
 
-    <div class="dg-card-body">
+    <div class="dg-card-body" id="card-body-status" style="display:none">
       <div class="dg-card-phase running" id="card-phase">fetching info…</div>
       <div id="prog" style="display:none">
         <div class="dg-prog-track">
@@ -981,7 +935,82 @@
     </div>
   </div>
 
-  <!-- Download -->
+  <!-- Download options + button (revealed after inspect) -->
+  <div id="download-panel">
+    <div class="dg-dl-panel">
+
+      <!-- Format + Quality row -->
+      <div class="dg-dl-row">
+        <div class="dg-opt">
+          <span class="dg-flag">--format</span>
+          <div class="dg-toggle" id="fmt-toggle">
+            <button class="active" data-fmt="mp4">mp4</button>
+            <button data-fmt="mp3">mp3</button>
+          </div>
+        </div>
+        <div class="dg-opt" id="quality-opt">
+          <span class="dg-flag">--quality</span>
+          <select class="dg-select" id="quality-select">
+            <option value="best">best</option>
+            <option value="1080">1080p</option>
+            <option value="720">720p</option>
+            <option value="480">480p</option>
+            <option value="360">360p</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Clip section -->
+      <div class="dg-dl-section">
+        <div class="dg-clip-toggle" id="clip-toggle" role="button" tabindex="0">
+          <div class="dg-clip-pill" id="clip-pill"></div>
+          <span class="dg-clip-lbl"><em>--download-sections</em> &nbsp;clip interval</span>
+        </div>
+        <div class="dg-clip-times" id="clip-times">
+          <div class="dg-clip-time-field">
+            <label>from</label>
+            <div class="dg-hms-group">
+              <input class="dg-hms-input" id="from-h" inputmode="numeric" maxlength="2" placeholder="0">
+              <span class="dg-hms-sep">:</span>
+              <input class="dg-hms-input" id="from-m" inputmode="numeric" maxlength="2" placeholder="00">
+              <span class="dg-hms-sep">:</span>
+              <input class="dg-hms-input" id="from-s" inputmode="numeric" maxlength="2" placeholder="00">
+            </div>
+          </div>
+          <span class="dg-clip-arrow">→</span>
+          <div class="dg-clip-time-field">
+            <label>to</label>
+            <div class="dg-hms-group">
+              <input class="dg-hms-input" id="to-h" inputmode="numeric" maxlength="2" placeholder="0">
+              <span class="dg-hms-sep">:</span>
+              <input class="dg-hms-input" id="to-m" inputmode="numeric" maxlength="2" placeholder="00">
+              <span class="dg-hms-sep">:</span>
+              <input class="dg-hms-input" id="to-s" inputmode="numeric" maxlength="2" placeholder="00">
+            </div>
+          </div>
+          <span class="dg-clip-hint">click a chapter above to auto-fill, or enter manually</span>
+        </div>
+      </div>
+
+      <!-- Turnstile + Download button -->
+      <div class="dg-dl-footer">
+        <div style="display:flex;justify-content:center;margin:8px 0 16px;opacity:0.9;border-radius:10px;overflow:hidden">
+          <div class="cf-turnstile"
+               data-sitekey="0x4AAAAAAC9Z0CjNDQJj4FOF"
+               data-theme="dark"
+               data-callback="onTurnstileSuccess"
+               data-expired-callback="onTurnstileExpired"></div>
+        </div>
+        <div class="dg-run-row">
+          <button id="download-btn" class="dg-btn" disabled>&#11015;&nbsp;&nbsp;download</button>
+          <button id="cancel-btn">&#10005;&nbsp;&nbsp;cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- File ready -->
   <a id="dl-btn" href="#">&#11015;&nbsp;&nbsp;download file</a>
   <div class="dg-ios-hint" id="ios-hint">
     On iOS: tap the button, then tap <strong>Share &rarr; Save to Files</strong><br>
@@ -1040,15 +1069,14 @@
   let turnstileToken = '';
   function onTurnstileSuccess(token) {
     turnstileToken = token;
-    document.getElementById('run-btn').disabled = false;
+    document.getElementById('download-btn').disabled = false;
   }
   function onTurnstileExpired() {
     turnstileToken = '';
-    document.getElementById('run-btn').disabled = true;
+    document.getElementById('download-btn').disabled = true;
   }
-  // ──────────────────────────────────────────────────────────────────────────
 
-  // ── CONFIG — backend URL loaded dynamically from tunnel-url.txt ──
+  // ── CONFIG ──
   let API_BASE = '';
   (async () => {
     const ghUrl = `https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=${Date.now()}`;
@@ -1067,34 +1095,43 @@
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-  let selectedFormat = 'mp4';
-  let clipEnabled    = false;
-  let pollTimer      = null;
-  let lastLogLen     = 0;
-  let currentJobId   = null;
-  let currentUrl     = '';
-  let currentInfo    = null;
+  let selectedFormat  = 'mp4';
+  let clipEnabled     = false;
+  let pollTimer       = null;
+  let currentJobId    = null;
+  let currentUrl      = '';
+  let currentInfo     = null;
+  let inspectDone     = false;
 
-  const urlInput   = document.getElementById('url-input');
-  const runBtn     = document.getElementById('run-btn');
-  const statusCard = document.getElementById('status-card');
-  const cardMedia  = document.getElementById('card-media');
-  const cardThumb  = document.getElementById('card-thumb');
-  const cardInfo   = document.getElementById('card-info');
-  const cardPhase  = document.getElementById('card-phase');
-  const progEl     = document.getElementById('prog');
-  const progFill   = document.getElementById('prog-fill');
-  const progPct    = document.getElementById('prog-pct');
-  const progSpeed  = document.getElementById('prog-speed');
-  const progEta    = document.getElementById('prog-eta');
-  const dlBtn      = document.getElementById('dl-btn');
-  const iosHint    = document.getElementById('ios-hint');
-  const cancelBtn  = document.getElementById('cancel-btn');
-  const clearLink  = document.getElementById('clear-link');
-  const qualityOpt = document.getElementById('quality-opt');
-  const clipToggle = document.getElementById('clip-toggle');
-  const clipPill   = document.getElementById('clip-pill');
-  const clipRow    = document.getElementById('clip-row');
+  const urlInput      = document.getElementById('url-input');
+  const inspectBtn    = document.getElementById('inspect-btn');
+  const downloadBtn   = document.getElementById('download-btn');
+  const statusCard    = document.getElementById('status-card');
+  const cardMedia     = document.getElementById('card-media');
+  const cardThumb     = document.getElementById('card-thumb');
+  const cardInfo      = document.getElementById('card-info');
+  const cardPhase     = document.getElementById('card-phase');
+  const cardBodyStatus = document.getElementById('card-body-status');
+  const progEl        = document.getElementById('prog');
+  const progFill      = document.getElementById('prog-fill');
+  const progPct       = document.getElementById('prog-pct');
+  const progSpeed     = document.getElementById('prog-speed');
+  const progEta       = document.getElementById('prog-eta');
+  const dlBtn         = document.getElementById('dl-btn');
+  const iosHint       = document.getElementById('ios-hint');
+  const cancelBtn     = document.getElementById('cancel-btn');
+  const clearLink     = document.getElementById('clear-link');
+  const qualityOpt    = document.getElementById('quality-opt');
+  const clipToggle    = document.getElementById('clip-toggle');
+  const clipPill      = document.getElementById('clip-pill');
+  const clipTimes     = document.getElementById('clip-times');
+  const fromH = document.getElementById('from-h');
+  const fromM = document.getElementById('from-m');
+  const fromS = document.getElementById('from-s');
+  const toH   = document.getElementById('to-h');
+  const toM   = document.getElementById('to-m');
+  const toS   = document.getElementById('to-s');
+  const downloadPanel = document.getElementById('download-panel');
 
   // ── Format toggle ──
   document.querySelectorAll('#fmt-toggle button').forEach(btn => {
@@ -1102,56 +1139,47 @@
       document.querySelectorAll('#fmt-toggle button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       selectedFormat = btn.dataset.fmt;
-      qualityOpt.style.opacity      = selectedFormat === 'mp3' ? '0.3' : '1';
+      qualityOpt.style.opacity       = selectedFormat === 'mp3' ? '0.3' : '1';
       qualityOpt.style.pointerEvents = selectedFormat === 'mp3' ? 'none' : '';
     });
   });
 
-  // ── Time Scroll Picker ──
-  const pickerState = { from: {h:0,m:0,s:0}, to: {h:0,m:0,s:0} };
-  const pickerMax   = { h:23, m:59, s:59 };
-
-  function secondsToPicker(secs) {
+  // ── Time input helpers ──
+  function secsToTimeStr(secs) {
     secs = Math.max(0, Math.floor(secs));
-    return { h: Math.floor(secs / 3600), m: Math.floor((secs % 3600) / 60), s: secs % 60 };
-  }
-
-  function updatePickerDisplay(which) {
-    ['h','m','s'].forEach(u => {
-      const el = document.getElementById(`${which}-${u}-val`);
-      if (el) el.textContent = String(pickerState[which][u]).padStart(2, '0');
-    });
-  }
-
-  function adjustPicker(which, unit, delta) {
-    const max = pickerMax[unit];
-    pickerState[which][unit] = (pickerState[which][unit] + delta + max + 1) % (max + 1);
-    updatePickerDisplay(which);
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }
 
   function setPickerFromSecs(which, secs) {
-    pickerState[which] = secondsToPicker(secs);
-    updatePickerDisplay(which);
+    secs = Math.max(0, Math.floor(secs));
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    if (which === 'from') {
+      fromH.value = h; fromM.value = String(m).padStart(2,'0'); fromS.value = String(s).padStart(2,'0');
+    } else {
+      toH.value = h; toM.value = String(m).padStart(2,'0'); toS.value = String(s).padStart(2,'0');
+    }
   }
 
   function pickerToTimeStr(which) {
-    const p = pickerState[which];
-    return `${p.h}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')}`;
+    const h = parseInt(which === 'from' ? fromH.value : toH.value) || 0;
+    const m = parseInt(which === 'from' ? fromM.value : toM.value) || 0;
+    const s = parseInt(which === 'from' ? fromS.value : toS.value) || 0;
+    return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }
-
-  document.querySelectorAll('.dg-spin-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      adjustPicker(btn.dataset.which, btn.dataset.unit, parseInt(btn.dataset.delta));
-    });
-  });
 
   // ── Clip toggle ──
-  function toggleClip() {
-    clipEnabled = !clipEnabled;
+  function toggleClip(forceOn) {
+    if (forceOn !== undefined) clipEnabled = forceOn;
+    else clipEnabled = !clipEnabled;
     clipPill.classList.toggle('on', clipEnabled);
-    clipRow.classList.toggle('visible', clipEnabled);
+    clipTimes.classList.toggle('visible', clipEnabled);
   }
-  clipToggle.addEventListener('click', toggleClip);
+  clipToggle.addEventListener('click', () => toggleClip());
   clipToggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') toggleClip(); });
 
   // ── Helpers ──
@@ -1251,8 +1279,8 @@
 
   document.getElementById('recent-hdr').addEventListener('click', () => {
     recentExpanded = !recentExpanded;
-    document.getElementById('recent-list').style.display    = recentExpanded ? 'block' : 'none';
-    document.getElementById('recent-chevron').textContent   = recentExpanded ? '▾' : '▸';
+    document.getElementById('recent-list').style.display  = recentExpanded ? 'block' : 'none';
+    document.getElementById('recent-chevron').textContent = recentExpanded ? '▾' : '▸';
   });
 
   // ── Chapters ──
@@ -1278,47 +1306,25 @@
         <span class="dg-chapter-title">${escHtml(ch.title || '')}</span>
       </div>`;
     }).join('');
+
     list.querySelectorAll('.dg-chapter-item').forEach(el => {
       el.addEventListener('click', () => {
+        // Deselect all, select clicked
+        list.querySelectorAll('.dg-chapter-item').forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
         setPickerFromSecs('from', parseFloat(el.dataset.start));
         setPickerFromSecs('to',   parseFloat(el.dataset.end));
-        if (!clipEnabled) toggleClip();
+        toggleClip(true);
       });
     });
   }
 
-  // ── Enter key ──
-  urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') runBtn.click(); });
+  // ── Enter key on URL input triggers inspect ──
+  urlInput.addEventListener('keydown', e => { if (e.key === 'Enter') inspectBtn.click(); });
 
   function setPhase(text, state) {
     cardPhase.textContent = text;
     cardPhase.className   = 'dg-card-phase ' + (state || 'running');
-  }
-
-  function resetCard() {
-    cardMedia.style.display = 'none';
-    cardThumb.style.backgroundImage = '';
-    cardInfo.innerHTML = '';
-    document.getElementById('chapters-section').style.display = 'none';
-    document.getElementById('chapters-list').innerHTML = '';
-    progEl.style.display = 'none';
-    progFill.style.width = '0%';
-    progPct.textContent  = '0%';
-    progSpeed.textContent = '—';
-    progEta.textContent   = '—';
-    dlBtn.classList.remove('visible');
-    dlBtn.href = '#';
-    iosHint.classList.remove('visible');
-    cancelBtn.classList.remove('visible');
-    clearLink.classList.remove('visible');
-  }
-
-  function setProgress(pctStr, speed, eta) {
-    const num = parseFloat(pctStr) || 0;
-    progFill.style.width  = Math.min(num, 100) + '%';
-    progPct.textContent   = pctStr || '0%';
-    if (speed) progSpeed.textContent = speed;
-    if (eta)   progEta.textContent   = 'ETA ' + eta;
   }
 
   function fmtDuration(s) {
@@ -1327,14 +1333,62 @@
     return `${m}m ${sec}s`;
   }
 
+  function resetAll() {
+    clearInterval(pollTimer);
+    inspectDone = false;
+    currentJobId = null;
+    currentUrl   = '';
+    currentInfo  = null;
+
+    // Hide status card
+    statusCard.classList.remove('visible');
+    cardMedia.style.display = 'none';
+    cardBodyStatus.style.display = 'none';
+    cardThumb.style.backgroundImage = '';
+    cardInfo.innerHTML = '';
+    document.getElementById('chapters-section').style.display = 'none';
+    document.getElementById('chapters-list').innerHTML = '';
+
+    // Hide download panel
+    downloadPanel.classList.remove('visible');
+
+    // Reset progress
+    progEl.style.display = 'none';
+    progFill.style.width = '0%';
+    progPct.textContent  = '0%';
+    progSpeed.textContent = '—';
+    progEta.textContent   = '—';
+
+    // Reset buttons
+    dlBtn.classList.remove('visible');
+    dlBtn.href = '#';
+    iosHint.classList.remove('visible');
+    cancelBtn.classList.remove('visible');
+    clearLink.classList.remove('visible');
+    inspectBtn.disabled    = false;
+    inspectBtn.textContent = '▶  inspect';
+    downloadBtn.disabled   = true;
+
+    // Reset clip
+    toggleClip(false);
+    if (fromInput) fromInput.value = '';
+    if (toInput)   toInput.value   = '';
+  }
+
+  function setProgress(pctStr, speed, eta) {
+    const num = parseFloat(pctStr) || 0;
+    progFill.style.width = Math.min(num, 100) + '%';
+    progPct.textContent  = pctStr || '0%';
+    if (speed) progSpeed.textContent = speed;
+    if (eta)   progEta.textContent   = 'ETA ' + eta;
+  }
+
   async function poll(jobId) {
     let data;
     try {
       const res = await fetch(`${API_BASE}/api/status/${jobId}`);
       data = await res.json();
     } catch(e) { return; }
-
-    lastLogLen = (data.log || []).length;
 
     if (data.progress) {
       const parts = data.progress_detail || {};
@@ -1352,8 +1406,8 @@
       if (isIOS) iosHint.classList.add('visible');
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
-      runBtn.disabled    = false;
-      runBtn.textContent = '\u25b6\u00a0\u00a0execute';
+      downloadBtn.disabled    = false;
+      downloadBtn.textContent = '⬇  download';
       saveRecentDownload(currentUrl, currentInfo);
     } else if (data.status === 'error' || data.status === 'cancelled') {
       clearInterval(pollTimer);
@@ -1362,86 +1416,143 @@
         : 'error — ' + (data.error || 'something went wrong'), 'err');
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
-      runBtn.disabled    = false;
-      runBtn.textContent = '\u25b6\u00a0\u00a0execute';
+      downloadBtn.disabled    = false;
+      downloadBtn.textContent = '⬇  download';
     }
   }
 
-  runBtn.addEventListener('click', async () => {
+  // ── Reset everything back to initial state ──
+  function resetAll() {
+    inspectDone = false;
+    currentUrl  = '';
+    urlInput.value = '';
+    downloadPanel.classList.remove('visible');
+    statusCard.classList.remove('visible');
+    cardMedia.style.display = 'none';
+    cardBodyStatus.style.display = 'none';
+    document.getElementById('chapters-section').style.display = 'none';
+    clipEnabled = false;
+    clipPill.classList.remove('on');
+    clipTimes.classList.remove('visible');
+    [fromH, fromM, fromS, toH, toM, toS].forEach(el => { if (el) el.value = ''; });
+    inspectBtn.innerHTML = '&#9654;&nbsp;&nbsp;GO';
+  }
+
+  // ── Button 1: Inspect / Clear ──
+  inspectBtn.addEventListener('click', async () => {
+    if (inspectDone) { resetAll(); return; }
     const url = urlInput.value.trim();
     if (!url) {
       statusCard.classList.add('visible');
-      resetCard();
+      cardBodyStatus.style.display = 'block';
       setPhase('missing URL', 'err');
       return;
     }
     if (!API_BASE) {
       statusCard.classList.add('visible');
-      resetCard();
+      cardBodyStatus.style.display = 'block';
       setPhase('backend unreachable — tunnel may be restarting, please try again in a moment', 'err');
       return;
     }
-    if (!turnstileToken) {
-      statusCard.classList.add('visible');
-      resetCard();
-      setPhase('complete the captcha first', 'err');
-      return;
-    }
 
+    // Reset any previous state
     clearInterval(pollTimer);
-    resetCard();
-    lastLogLen  = 0;
     currentUrl  = url;
     currentInfo = null;
+    inspectDone = false;
+    cardMedia.style.display = 'none';
+    cardBodyStatus.style.display = 'none';
+    document.getElementById('chapters-section').style.display = 'none';
+    document.getElementById('chapters-list').innerHTML = '';
+    downloadPanel.classList.remove('visible');
+    dlBtn.classList.remove('visible');
+    iosHint.classList.remove('visible');
+    clearLink.classList.remove('visible');
+
     statusCard.classList.add('visible');
-    runBtn.disabled    = true;
-    runBtn.textContent = '● running…';
+    cardBodyStatus.style.display = 'block';
+    inspectBtn.disabled    = true;
+    inspectBtn.textContent = '● loading…';
     setPhase('fetching info…', 'running');
 
-    // Fetch metadata
     try {
+      // No Turnstile needed for info fetch — it's read-only metadata
       const res  = await fetch(`${API_BASE}/api/info`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ url, turnstile_token: turnstileToken }),
+        body:    JSON.stringify({ url, turnstile_token: 'inspect' }),
       });
       const info = await res.json();
-      if (!info.error) {
-        currentInfo = info;
-        if (info.thumbnail) {
-          const proxied = `${API_BASE}/api/proxy-thumb?url=${encodeURIComponent(info.thumbnail)}`;
-          cardThumb.style.backgroundImage = `url('${proxied}')`;
-        }
-        cardInfo.innerHTML = `
-          <div class="dg-card-title">${escHtml(info.title || '')}</div>
-          <div class="dg-card-sub">
-            <span>${escHtml(info.uploader || '')}</span> &middot; ${escHtml(info.platform || '')}${info.duration ? ' &middot; ' + fmtDuration(info.duration) : ''}
-          </div>
-        `;
-        cardMedia.style.display = 'flex';
-        renderChapters(info.chapters || [], info.duration || 0);
+      if (info.error) throw new Error(info.error);
+
+      currentInfo = info;
+      if (info.thumbnail) {
+        const proxied = `${API_BASE}/api/proxy-thumb?url=${encodeURIComponent(info.thumbnail)}`;
+        cardThumb.style.backgroundImage = `url('${proxied}')`;
       }
+      cardInfo.innerHTML = `
+        <div class="dg-card-title">${escHtml(info.title || '')}</div>
+        <div class="dg-card-sub">
+          <span>${escHtml(info.uploader || '')}</span> &middot; ${escHtml(info.platform || '')}${info.duration ? ' &middot; ' + fmtDuration(info.duration) : ''}
+        </div>
+      `;
+      cardMedia.style.display = 'flex';
+      renderChapters(info.chapters || [], info.duration || 0);
+
+      setPhase('ready — choose format and download', 'idle');
+      inspectDone = true;
+      downloadPanel.classList.add('visible');
+      inspectBtn.innerHTML = '&#10005;&nbsp;&nbsp;CLEAR';
     } catch(e) {
-      // continue without preview
+      setPhase('failed to fetch info: ' + e.message, 'err');
+    } finally {
+      inspectBtn.disabled = false;
+    }
+  });
+
+  // ── Button 2: Download ──
+  downloadBtn.addEventListener('click', async () => {
+    if (!inspectDone || !currentUrl) return;
+    if (!turnstileToken) {
+      setPhase('complete the captcha first', 'err');
+      cardBodyStatus.style.display = 'block';
+      return;
     }
 
     setPhase('downloading…', 'running');
+    cardBodyStatus.style.display = 'block';
     progEl.style.display = 'block';
+    progFill.style.width = '0%';
+    progPct.textContent  = '0%';
+    progSpeed.textContent = '—';
+    progEta.textContent   = '—';
+    dlBtn.classList.remove('visible');
+    iosHint.classList.remove('visible');
+    clearLink.classList.remove('visible');
+    downloadBtn.disabled    = true;
+    downloadBtn.textContent = '● downloading…';
 
-    // Start job
     try {
       let clipStartVal = null, clipEndVal = null;
       if (clipEnabled) {
-        clipStartVal = pickerToTimeStr('from');
-        const toStr  = pickerToTimeStr('to');
-        clipEndVal   = toStr !== '0:00:00' ? toStr : null;
+        const fromStr = pickerToTimeStr('from');
+        const toStr   = pickerToTimeStr('to');
+        clipStartVal  = fromStr || null;
+        clipEndVal    = toStr   || null;
       }
 
       const quality = document.getElementById('quality-select').value;
       const res = await fetch(`${API_BASE}/api/download`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ url, format: selectedFormat, quality, clip_start: clipStartVal, clip_end: clipEndVal, turnstile_token: turnstileToken }),
+        body:    JSON.stringify({
+          url:             currentUrl,
+          format:          selectedFormat,
+          quality,
+          clip_start:      clipStartVal,
+          clip_end:        clipEndVal,
+          turnstile_token: turnstileToken,
+        }),
       });
       const job = await res.json();
       if (job.error) throw new Error(job.error);
@@ -1450,12 +1561,12 @@
       pollTimer = setInterval(() => poll(job.job_id), 1500);
     } catch(e) {
       setPhase('failed to start: ' + e.message, 'err');
-      runBtn.disabled    = false;
-      runBtn.textContent = '\u25b6\u00a0\u00a0execute';
+      downloadBtn.disabled    = false;
+      downloadBtn.textContent = '⬇  download';
     }
   });
 
-  // Cancel
+  // ── Cancel ──
   cancelBtn.addEventListener('click', async () => {
     if (currentJobId && API_BASE) {
       try { await fetch(`${API_BASE}/api/cancel/${currentJobId}`, { method: 'POST' }); } catch(e) {}
@@ -1464,20 +1575,15 @@
     cancelBtn.classList.remove('visible');
     setPhase('cancelled', 'err');
     clearLink.classList.add('visible');
-    runBtn.disabled    = false;
-    runBtn.textContent = '\u25b6\u00a0\u00a0execute';
+    downloadBtn.disabled    = false;
+    downloadBtn.textContent = '⬇  download';
   });
 
-  // Clear
+  // ── Clear ──
   clearLink.addEventListener('click', () => {
-    clearInterval(pollTimer);
-    resetCard();
-    statusCard.classList.remove('visible');
     urlInput.value = '';
-    currentJobId   = null;
-    currentUrl     = '';
-    currentInfo    = null;
     urlInput.focus();
+    resetAll();
   });
 
   // Init
