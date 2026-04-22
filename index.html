@@ -21,7 +21,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+Devanagari:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=JetBrains+Mono:wght@300;400;500&family=Noto+Serif+Devanagari:wght@300&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
     /* ── Variables ── */
@@ -58,9 +58,9 @@
       --amber-glow:   var(--gold);
       --text:         var(--text-primary);
 
-      --font-sans:    ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif;
-      --font-mono:    'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
-      --font-display: 'Yatra One', serif;
+      --font-sans:    'Libre Baskerville', serif;
+      --font-mono:    'Libre Baskerville', serif;
+      --font-display: 'Libre Baskerville', serif;
     }
 
     /* ── Reset ── */
@@ -108,14 +108,7 @@
       margin-bottom: 6px;
     }
 
-    .dg-subtitle {
-      font-family: 'Noto Serif Devanagari', serif;
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-      margin-bottom: 20px;
-    }
+    .dg-subtitle { display: none; }
 
     .dg-meta {
       display: flex;
@@ -126,6 +119,7 @@
     }
 
     .dg-tagline {
+      font-family: 'Libre Baskerville', serif;
       font-size: 13px;
       font-weight: 400;
       color: var(--text-secondary);
@@ -306,19 +300,28 @@
     }
     .dg-clip-lbl em { color: var(--text-secondary); font-style: normal; font-family: var(--font-mono); font-size: 10px; }
 
-    /* clip time row — HH:MM:SS split inputs */
+    /* clip time row */
     .dg-clip-times {
       display: none;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 12px;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
     }
     .dg-clip-times.visible { display: flex; }
+
+    /* FROM / TO sit side by side */
+    .dg-clip-fields-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
     .dg-clip-time-field {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
     }
     .dg-clip-time-field label {
       font-size: 10px;
@@ -326,45 +329,118 @@
       letter-spacing: 0.08em;
       color: var(--text-muted);
       text-transform: uppercase;
+      text-align: center;
     }
+    .dg-clip-arrow {
+      color: var(--text-muted);
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 30px; /* visually center arrow with spinner row */
+    }
+    .dg-clip-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.01em;
+      text-align: center;
+    }
+
+    /* ── Shared HMS group layout (wheel + manual identical height) ── */
     .dg-hms-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 0;
     }
     .dg-hms-sep {
       color: var(--text-muted);
       font-family: var(--font-mono);
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1;
+      padding: 0 2px;
+      flex-shrink: 0;
     }
-    .dg-hms-input {
+
+    /* Spinner drum — same outer size as manual input */
+    .dg-spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 40px;
+    }
+    .dg-spinner-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 9px;
+      line-height: 1;
+      padding: 2px 0;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: color 0.1s;
+    }
+    .dg-spinner-btn:hover { color: var(--gold); }
+    .dg-spinner-val {
       background: var(--surface);
       border: 1px solid var(--border-mid);
-      border-radius: 8px;
+      border-radius: 7px;
       color: var(--text-primary);
-      font-family: var(--font-sans);
+      font-family: var(--font-mono);
       font-size: 13px;
       font-weight: 500;
-      width: 48px;
-      height: 38px;
+      width: 40px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      cursor: ns-resize;
+      touch-action: none;
+      transition: border-color 0.15s;
+    }
+    .dg-spinner-val.dragging { border-color: var(--gold); }
+
+    /* Manual entry mode — same sizing */
+    .dg-hms-manual {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .dg-hms-text {
+      background: var(--surface);
+      border: 1px solid var(--border-mid);
+      border-radius: 7px;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      width: 40px;
+      height: 34px;
       outline: none;
       text-align: center;
-      transition: border-color 0.15s, box-shadow 0.15s;
       -moz-appearance: textfield;
     }
-    .dg-hms-input::-webkit-inner-spin-button,
-    .dg-hms-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-    .dg-hms-input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-glow); }
-    .dg-clip-arrow { color: var(--text-muted); font-size: 12px; }
-    .dg-clip-hint {
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--text-muted);
-      letter-spacing: 0.01em;
-      width: 100%;
-      margin-top: 6px;
+    .dg-hms-text::-webkit-inner-spin-button,
+    .dg-hms-text::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .dg-hms-text:focus { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-glow); }
+
+    .dg-mode-toggle {
+      font-size: 9px;
+      color: var(--gold-dim);
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      padding: 2px 6px;
+      margin-left: 6px;
+      transition: color 0.12s, border-color 0.12s;
+      text-transform: uppercase;
+      vertical-align: middle;
     }
+    .dg-mode-toggle:hover { color: var(--gold); border-color: var(--gold-dim); }
 
     /* ── Button row ── */
     .dg-run-row { margin-bottom: 24px; margin-top: 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
@@ -607,6 +683,7 @@
       margin-top: 20px;
       padding: 10px 0;
       border-top: 1px solid var(--border);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif;
       font-size: 9px;
       color: var(--amber-dim);
       letter-spacing: 0.12em;
@@ -615,6 +692,7 @@
 
     /* ── Footer ── */
     footer {
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, sans-serif;
       border-top: 1px solid var(--border);
       padding: 18px 20px;
       max-width: 720px;
@@ -635,14 +713,14 @@
     }
     .dg-by-line {
       font-size: 10px;
-      color: var(--amber-dim);
+      color: #7a7a9a;
       letter-spacing: 0.1em;
     }
-    .dg-by-line strong { color: var(--amber-mid); font-weight: 400; }
+    .dg-by-line strong { color: #a0a0c0; font-weight: 400; }
 
     .dg-blog {
       font-size: 9px;
-      color: var(--border-mid);
+      color: #5a5a7a;
       letter-spacing: 0.08em;
       text-decoration: none;
       transition: color 0.12s;
@@ -879,9 +957,9 @@
   </header>
 
   <!-- URL Input -->
-  <div class="dg-label">— paste url —</div>
+  <div class="dg-label">paste url</div>
   <div class="dg-input-wrap">
-    <div class="dg-prompt"><span>$</span>&nbsp;yt-dlp</div>
+    <div class="dg-prompt"><span style="font-family:'Noto Serif Devanagari',serif;font-size:13px;letter-spacing:0.04em">ग्रह · capture</span></div>
     <input type="url"
            id="url-input"
            placeholder="https://instagram.com/p/..."
@@ -942,14 +1020,14 @@
       <!-- Format + Quality row -->
       <div class="dg-dl-row">
         <div class="dg-opt">
-          <span class="dg-flag">--format</span>
+          <span class="dg-flag">format</span>
           <div class="dg-toggle" id="fmt-toggle">
             <button class="active" data-fmt="mp4">mp4</button>
             <button data-fmt="mp3">mp3</button>
           </div>
         </div>
         <div class="dg-opt" id="quality-opt">
-          <span class="dg-flag">--quality</span>
+          <span class="dg-flag">quality</span>
           <select class="dg-select" id="quality-select">
             <option value="best">best</option>
             <option value="1080">1080p</option>
@@ -964,42 +1042,37 @@
       <div class="dg-dl-section">
         <div class="dg-clip-toggle" id="clip-toggle" role="button" tabindex="0">
           <div class="dg-clip-pill" id="clip-pill"></div>
-          <span class="dg-clip-lbl"><em>--download-sections</em> &nbsp;clip interval</span>
+          <span class="dg-clip-lbl"><em>download sections</em></span>
         </div>
         <div class="dg-clip-times" id="clip-times">
-          <div class="dg-clip-time-field">
-            <label>from</label>
-            <div class="dg-hms-group">
-              <input class="dg-hms-input" id="from-h" inputmode="numeric" maxlength="2" placeholder="0">
-              <span class="dg-hms-sep">:</span>
-              <input class="dg-hms-input" id="from-m" inputmode="numeric" maxlength="2" placeholder="00">
-              <span class="dg-hms-sep">:</span>
-              <input class="dg-hms-input" id="from-s" inputmode="numeric" maxlength="2" placeholder="00">
+          <div class="dg-clip-fields-row">
+            <div class="dg-clip-time-field">
+              <label>from</label>
+              <div id="from-picker" class="dg-hms-group"></div>
+            </div>
+            <span class="dg-clip-arrow">→</span>
+            <div class="dg-clip-time-field">
+              <label>to</label>
+              <div id="to-picker" class="dg-hms-group"></div>
             </div>
           </div>
-          <span class="dg-clip-arrow">→</span>
-          <div class="dg-clip-time-field">
-            <label>to</label>
-            <div class="dg-hms-group">
-              <input class="dg-hms-input" id="to-h" inputmode="numeric" maxlength="2" placeholder="0">
-              <span class="dg-hms-sep">:</span>
-              <input class="dg-hms-input" id="to-m" inputmode="numeric" maxlength="2" placeholder="00">
-              <span class="dg-hms-sep">:</span>
-              <input class="dg-hms-input" id="to-s" inputmode="numeric" maxlength="2" placeholder="00">
-            </div>
-          </div>
-          <span class="dg-clip-hint">click a chapter above to auto-fill, or enter manually</span>
+          <div class="dg-clip-hint" id="clip-hint">scroll to set time · <button class="dg-mode-toggle" id="mode-toggle">manual</button></div>
         </div>
       </div>
 
       <!-- Turnstile + Download button -->
       <div class="dg-dl-footer">
-        <div style="display:flex;justify-content:center;margin:8px 0 16px;opacity:0.9;border-radius:10px;overflow:hidden">
-          <div class="cf-turnstile"
-               data-sitekey="0x4AAAAAAC9Z0CjNDQJj4FOF"
-               data-theme="dark"
-               data-callback="onTurnstileSuccess"
-               data-expired-callback="onTurnstileExpired"></div>
+        <div style="display:flex;justify-content:center;margin:8px 0 14px">
+          <div style="width:130px;height:52px;overflow:hidden;position:relative">
+            <div style="position:absolute;top:0;left:0;transform:scale(0.43);transform-origin:top left">
+              <div class="cf-turnstile"
+                   data-sitekey="0x4AAAAAAC9Z0CjNDQJj4FOF"
+                   data-theme="dark"
+                   data-size="normal"
+                   data-callback="onTurnstileSuccess"
+                   data-expired-callback="onTurnstileExpired"></div>
+            </div>
+          </div>
         </div>
         <div class="dg-run-row">
           <button id="download-btn" class="dg-btn" disabled>&#11015;&nbsp;&nbsp;download</button>
@@ -1125,12 +1198,6 @@
   const clipToggle    = document.getElementById('clip-toggle');
   const clipPill      = document.getElementById('clip-pill');
   const clipTimes     = document.getElementById('clip-times');
-  const fromH = document.getElementById('from-h');
-  const fromM = document.getElementById('from-m');
-  const fromS = document.getElementById('from-s');
-  const toH   = document.getElementById('to-h');
-  const toM   = document.getElementById('to-m');
-  const toS   = document.getElementById('to-s');
   const downloadPanel = document.getElementById('download-panel');
 
   // ── Format toggle ──
@@ -1144,31 +1211,159 @@
     });
   });
 
-  // ── Time input helpers ──
-  function secsToTimeStr(secs) {
-    secs = Math.max(0, Math.floor(secs));
-    const h = Math.floor(secs / 3600);
-    const m = Math.floor((secs % 3600) / 60);
-    const s = secs % 60;
-    return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  // ── Time picker (spinner + manual, identical layout) ──
+  let manualMode = false;
+  const pickerState = { from: {h:0, m:0, s:0}, to: {h:0, m:0, s:0} };
+
+  function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+  function makeSpinner(unit, maxVal, which) {
+    const wrap = document.createElement('div');
+    wrap.className = 'dg-spinner';
+
+    const btnUp = document.createElement('button');
+    btnUp.className = 'dg-spinner-btn';
+    btnUp.type = 'button';
+    btnUp.textContent = '▲';
+
+    const val = document.createElement('div');
+    val.className = 'dg-spinner-val';
+
+    const btnDn = document.createElement('button');
+    btnDn.className = 'dg-spinner-btn';
+    btnDn.type = 'button';
+    btnDn.textContent = '▼';
+
+    function render() {
+      const v = pickerState[which][unit];
+      val.textContent = unit === 'h' ? String(v) : String(v).padStart(2, '0');
+    }
+    function step(d) {
+      pickerState[which][unit] = clamp(pickerState[which][unit] + d, 0, maxVal);
+      render();
+    }
+
+    // Buttons
+    btnUp.addEventListener('click', () => step(1));
+    btnDn.addEventListener('click', () => step(-1));
+
+    // Mouse wheel on value cell
+    val.addEventListener('wheel', e => { e.preventDefault(); step(e.deltaY < 0 ? 1 : -1); }, { passive: false });
+
+    // Drag up/down on value cell
+    let dragStartY = 0, dragStartV = 0, dragging = false;
+    val.addEventListener('mousedown', e => {
+      dragStartY = e.clientY; dragStartV = pickerState[which][unit]; dragging = true;
+      val.classList.add('dragging'); e.preventDefault();
+    });
+    window.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const delta = Math.round((dragStartY - e.clientY) / 12);
+      pickerState[which][unit] = clamp(dragStartV + delta, 0, maxVal);
+      render();
+    });
+    window.addEventListener('mouseup', () => { dragging = false; val.classList.remove('dragging'); });
+
+    val.addEventListener('touchstart', e => {
+      dragStartY = e.touches[0].clientY; dragStartV = pickerState[which][unit]; dragging = true;
+    }, { passive: true });
+    val.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      const delta = Math.round((dragStartY - e.touches[0].clientY) / 12);
+      pickerState[which][unit] = clamp(dragStartV + delta, 0, maxVal);
+      render(); e.preventDefault();
+    }, { passive: false });
+    val.addEventListener('touchend', () => { dragging = false; });
+
+    render();
+    wrap.appendChild(btnUp);
+    wrap.appendChild(val);
+    wrap.appendChild(btnDn);
+    wrap._setValue = v => { pickerState[which][unit] = clamp(v, 0, maxVal); render(); };
+    return wrap;
   }
+
+  function buildSpinnerGroup(containerId, which) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    const hSpin = makeSpinner('h', 23, which);
+    const mSpin = makeSpinner('m', 59, which);
+    const sSpin = makeSpinner('s', 59, which);
+    const sep1 = document.createElement('span'); sep1.className = 'dg-hms-sep'; sep1.textContent = ':';
+    const sep2 = document.createElement('span'); sep2.className = 'dg-hms-sep'; sep2.textContent = ':';
+    container.appendChild(hSpin); container.appendChild(sep1);
+    container.appendChild(mSpin); container.appendChild(sep2);
+    container.appendChild(sSpin);
+    container._spinners = { h: hSpin, m: mSpin, s: sSpin };
+  }
+
+  function buildManualGroup(containerId, which) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    const wrap = document.createElement('div');
+    wrap.className = 'dg-hms-manual';
+
+    function inp(unit, ph, maxVal) {
+      const el = document.createElement('input');
+      el.type = 'number'; el.className = 'dg-hms-text';
+      el.min = 0; el.max = maxVal; el.placeholder = ph;
+      el.setAttribute('inputmode', 'numeric');
+      el.value = unit === 'h' ? pickerState[which][unit] : String(pickerState[which][unit]).padStart(2,'0');
+      el.addEventListener('input', () => {
+        pickerState[which][unit] = clamp(parseInt(el.value) || 0, 0, maxVal);
+      });
+      return el;
+    }
+    const hEl = inp('h', '0',  23);
+    const mEl = inp('m', '00', 59);
+    const sEl = inp('s', '00', 59);
+    const sep1 = document.createElement('span'); sep1.className = 'dg-hms-sep'; sep1.textContent = ':';
+    const sep2 = document.createElement('span'); sep2.className = 'dg-hms-sep'; sep2.textContent = ':';
+    wrap.appendChild(hEl); wrap.appendChild(sep1);
+    wrap.appendChild(mEl); wrap.appendChild(sep2);
+    wrap.appendChild(sEl);
+    container.appendChild(wrap);
+    container._manual = { h: hEl, m: mEl, s: sEl };
+  }
+
+  function rebuildPickers() {
+    if (manualMode) {
+      buildManualGroup('from-picker', 'from');
+      buildManualGroup('to-picker', 'to');
+      document.getElementById('clip-hint').innerHTML =
+        'enter time manually · <button class="dg-mode-toggle" id="mode-toggle">wheel</button>';
+    } else {
+      buildSpinnerGroup('from-picker', 'from');
+      buildSpinnerGroup('to-picker', 'to');
+      document.getElementById('clip-hint').innerHTML =
+        'scroll or drag to set · <button class="dg-mode-toggle" id="mode-toggle">manual</button>';
+    }
+    document.getElementById('mode-toggle').addEventListener('click', () => {
+      manualMode = !manualMode; rebuildPickers();
+    });
+  }
+
+  rebuildPickers();
 
   function setPickerFromSecs(which, secs) {
     secs = Math.max(0, Math.floor(secs));
-    const h = Math.floor(secs / 3600);
-    const m = Math.floor((secs % 3600) / 60);
-    const s = secs % 60;
-    if (which === 'from') {
-      fromH.value = h; fromM.value = String(m).padStart(2,'0'); fromS.value = String(s).padStart(2,'0');
-    } else {
-      toH.value = h; toM.value = String(m).padStart(2,'0'); toS.value = String(s).padStart(2,'0');
+    pickerState[which].h = Math.floor(secs / 3600);
+    pickerState[which].m = Math.floor((secs % 3600) / 60);
+    pickerState[which].s = secs % 60;
+    const c = document.getElementById(`${which}-picker`);
+    if (c._spinners) {
+      c._spinners.h._setValue(pickerState[which].h);
+      c._spinners.m._setValue(pickerState[which].m);
+      c._spinners.s._setValue(pickerState[which].s);
+    } else if (c._manual) {
+      c._manual.h.value = pickerState[which].h;
+      c._manual.m.value = String(pickerState[which].m).padStart(2,'0');
+      c._manual.s.value = String(pickerState[which].s).padStart(2,'0');
     }
   }
 
   function pickerToTimeStr(which) {
-    const h = parseInt(which === 'from' ? fromH.value : toH.value) || 0;
-    const m = parseInt(which === 'from' ? fromM.value : toM.value) || 0;
-    const s = parseInt(which === 'from' ? fromS.value : toS.value) || 0;
+    const {h, m, s} = pickerState[which];
     return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }
 
@@ -1371,8 +1566,8 @@
 
     // Reset clip
     toggleClip(false);
-    if (fromInput) fromInput.value = '';
-    if (toInput)   toInput.value   = '';
+    pickerState.from = {h:0, m:0, s:0};
+    pickerState.to   = {h:0, m:0, s:0};
   }
 
   function setProgress(pctStr, speed, eta) {
@@ -1434,7 +1629,8 @@
     clipEnabled = false;
     clipPill.classList.remove('on');
     clipTimes.classList.remove('visible');
-    [fromH, fromM, fromS, toH, toM, toS].forEach(el => { if (el) el.value = ''; });
+    pickerState.from = {h:0, m:0, s:0};
+    pickerState.to   = {h:0, m:0, s:0};
     inspectBtn.innerHTML = '&#9654;&nbsp;&nbsp;GO';
   }
 
