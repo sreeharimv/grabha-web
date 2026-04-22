@@ -526,7 +526,6 @@
       border: none;
       font-family: var(--font-sans);
       padding: 0;
-      width: 100%;
       text-align: center;
     }
     #clear-link:hover { color: var(--text-secondary); opacity: 1; }
@@ -642,13 +641,13 @@
       font-weight: 500;
       letter-spacing: 0.3px;
       text-transform: uppercase;
-      width: 100%;
       height: 52px;
       border-radius: 12px;
       cursor: pointer;
       text-decoration: none;
       text-align: center;
       line-height: 52px;
+      padding: 0 28px;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
       transition: all 0.15s;
@@ -1070,21 +1069,17 @@
         </div>
         <div class="dg-run-row">
           <button id="download-btn" class="dg-btn" disabled>&#11015;&nbsp;&nbsp;download</button>
+          <a id="dl-btn" href="#">&#11015;&nbsp;&nbsp;download file</a>
           <button id="cancel-btn">&#10005;&nbsp;&nbsp;cancel</button>
         </div>
+        <div class="dg-ios-hint" id="ios-hint">
+          On iOS: tap the button, then tap <strong>Share &rarr; Save to Files</strong><br>
+          or long-press the link and choose <strong>Download Linked File</strong>.
+        </div>
+        <button id="clear-link">&#10005; clear · new download</button>
       </div>
 
     </div>
-  </div>
-
-  <!-- File ready -->
-  <div class="dg-dl-footer">
-    <a id="dl-btn" href="#">&#11015;&nbsp;&nbsp;download file</a>
-    <div class="dg-ios-hint" id="ios-hint">
-      On iOS: tap the button, then tap <strong>Share &rarr; Save to Files</strong><br>
-      or long-press the link and choose <strong>Download Linked File</strong>.
-    </div>
-    <button id="clear-link">&#10005; clear · new download</button>
   </div>
 
   <!-- Supported sites -->
@@ -1547,6 +1542,7 @@
     inspectBtn.disabled    = false;
     inspectBtn.textContent = '▶  inspect';
     downloadBtn.disabled   = true;
+    downloadBtn.style.display = '';
 
     // Reset clip
     toggleClip(false);
@@ -1582,6 +1578,7 @@
       dlBtn.href     = `${API_BASE}/api/download/${jobId}`;
       dlBtn.download = data.filename || 'download';
       dlBtn.classList.add('visible');
+      downloadBtn.style.display = 'none';
       if (isIOS) iosHint.classList.add('visible');
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
