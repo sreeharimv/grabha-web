@@ -515,20 +515,22 @@
 
     #clear-link {
       display: none;
-      font-size: 13px;
+      font-size: 11px;
       color: var(--text-muted);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
       cursor: pointer;
-      margin-top: 12px;
-      opacity: 0.6;
+      margin-top: 10px;
+      opacity: 0.5;
       transition: color 0.12s, opacity 0.12s;
       background: none;
       border: none;
       font-family: var(--font-sans);
       padding: 0;
+      width: 100%;
+      text-align: center;
     }
     #clear-link:hover { color: var(--text-secondary); opacity: 1; }
-    #clear-link.visible { display: inline-block; }
+    #clear-link.visible { display: block; }
 
     /* ── Status Card ── */
     .dg-card {
@@ -632,22 +634,31 @@
     /* ── Download file button ── */
     #dl-btn {
       display: none;
-      background: #1a1508;
-      border: 1px solid var(--border-hi);
-      color: var(--amber-hi);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.18em;
+      background: linear-gradient(135deg, #E6C068, #D4A94F);
+      border: none;
+      color: #0B0B0F;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
       text-transform: uppercase;
-      padding: 10px 22px;
-      border-radius: 2px;
+      width: 100%;
+      height: 52px;
+      border-radius: 12px;
       cursor: pointer;
       text-decoration: none;
-      margin-bottom: 8px;
+      text-align: center;
+      line-height: 52px;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      transition: all 0.15s;
     }
-    #dl-btn.visible { display: inline-block; }
+    #dl-btn:hover {
+      background: linear-gradient(135deg, #FFD580, #E6C068);
+      box-shadow: 0 0 20px rgba(230,192,104,0.35);
+      filter: brightness(1.05);
+    }
+    #dl-btn.visible { display: block; }
 
     /* iOS hint */
     .dg-ios-hint {
@@ -1067,12 +1078,14 @@
   </div>
 
   <!-- File ready -->
-  <a id="dl-btn" href="#">&#11015;&nbsp;&nbsp;download file</a>
-  <div class="dg-ios-hint" id="ios-hint">
-    On iOS: tap the button, then tap <strong>Share &rarr; Save to Files</strong><br>
-    or long-press the link and choose <strong>Download Linked File</strong>.
+  <div class="dg-dl-footer">
+    <a id="dl-btn" href="#">&#11015;&nbsp;&nbsp;download file</a>
+    <div class="dg-ios-hint" id="ios-hint">
+      On iOS: tap the button, then tap <strong>Share &rarr; Save to Files</strong><br>
+      or long-press the link and choose <strong>Download Linked File</strong>.
+    </div>
+    <button id="clear-link">&#10005; clear · new download</button>
   </div>
-  <button id="clear-link">&#10005; clear &middot; new download</button>
 
   <!-- Supported sites -->
 <div class="dg-privacy">
