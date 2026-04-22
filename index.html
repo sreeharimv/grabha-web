@@ -447,8 +447,8 @@
 
     .dg-btn {
       background: transparent;
-      border: 1px solid var(--border-hi);
-      color: var(--text-secondary);
+      border: 1px solid var(--gold);
+      color: var(--gold);
       font-family: var(--font-sans);
       font-size: 12px;
       font-weight: 500;
@@ -463,7 +463,7 @@
       min-width: 120px;
     }
     .dg-btn:hover,
-    .dg-btn:active { border-color: var(--gold); color: var(--gold); background: rgba(230,192,104,0.06); }
+    .dg-btn:active { background: rgba(230,192,104,0.06); }
     .dg-btn:disabled { opacity: 0.35; cursor: not-allowed; }
     .dg-btn:disabled:hover { background: transparent; color: var(--text-secondary); border-color: var(--border-hi); }
 
@@ -661,23 +661,6 @@
     .dg-ios-hint.visible { display: block; }
 
     /* ── Supported sites ── */
-    .dg-sites {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-    .dg-site {
-      font-size: 9px;
-      color: var(--amber-dim);
-      letter-spacing: 0.1em;
-      border: 1px solid var(--border);
-      padding: 3px 9px;
-      border-radius: 2px;
-    }
-
     /* ── Privacy notice ── */
     .dg-privacy {
       margin-top: 20px;
@@ -1092,19 +1075,7 @@
   <button id="clear-link">&#10005; clear &middot; new download</button>
 
   <!-- Supported sites -->
-  <div class="dg-sites">
-    <span class="dg-site">YouTube</span>
-    <span class="dg-site">Instagram</span>
-    <span class="dg-site">Twitter / X</span>
-    <span class="dg-site">TikTok</span>
-    <span class="dg-site">Facebook</span>
-    <span class="dg-site">Reddit</span>
-    <span class="dg-site">Vimeo</span>
-    <span class="dg-site">SoundCloud</span>
-    <span class="dg-site">+ 1000 more</span>
-  </div>
-
-  <div class="dg-privacy">
+<div class="dg-privacy">
     <span><img src="/grabha-web/icons/icon-192.png" style="height:14px;vertical-align:middle;margin-right:5px;border-radius:2px"> Downloads are logged for analytics — ip, country &amp; city</span>
   </div>
 
@@ -1113,7 +1084,7 @@
 <!-- Footer -->
 <footer>
   <div class="dg-by">
-    <span class="dg-by-line">conceived &amp; built by&nbsp;<strong>Sreehari V</strong></span>
+    <span class="dg-by-line">Conceived &amp; Built by&nbsp;<strong>Sreehari V</strong></span>
     <a class="dg-blog" href="https://sreeh007.wordpress.com/" target="_blank" rel="noopener">sreeh007.wordpress.com</a>
   </div>
 
