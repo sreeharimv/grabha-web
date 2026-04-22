@@ -973,7 +973,7 @@
 
   <!-- Go / Clear button (always visible) -->
   <div class="dg-run-row">
-    <button id="inspect-btn" class="dg-btn">&#9654;&nbsp;&nbsp;GO</button>
+    <button id="inspect-btn" class="dg-btn">&#8594;&nbsp;&nbsp;GO</button>
   </div>
 
   <!-- Status Card (shows after inspect) -->
@@ -1068,8 +1068,8 @@
           </div>
         </div>
         <div class="dg-run-row">
-          <button id="download-btn" class="dg-btn" disabled>&#11015;&nbsp;&nbsp;download</button>
-          <a id="dl-btn" href="#">&#11015;&nbsp;&nbsp;download file</a>
+          <button id="download-btn" class="dg-btn" disabled>&#8595;&nbsp;&nbsp;download</button>
+          <a id="dl-btn" href="#">&#8595;&nbsp;&nbsp;download file</a>
           <button id="cancel-btn">&#10005;&nbsp;&nbsp;cancel</button>
         </div>
         <div class="dg-ios-hint" id="ios-hint">
@@ -1540,7 +1540,7 @@
     cancelBtn.classList.remove('visible');
     clearLink.classList.remove('visible');
     inspectBtn.disabled    = false;
-    inspectBtn.textContent = '▶  inspect';
+    inspectBtn.textContent = '→  inspect';
     downloadBtn.disabled   = true;
     downloadBtn.style.display = '';
 
@@ -1583,7 +1583,7 @@
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
       downloadBtn.disabled    = false;
-      downloadBtn.textContent = '⬇  download';
+      downloadBtn.textContent = '↓  download';
       saveRecentDownload(currentUrl, currentInfo);
     } else if (data.status === 'error' || data.status === 'cancelled') {
       clearInterval(pollTimer);
@@ -1593,7 +1593,7 @@
       cancelBtn.classList.remove('visible');
       clearLink.classList.add('visible');
       downloadBtn.disabled    = false;
-      downloadBtn.textContent = '⬇  download';
+      downloadBtn.textContent = '↓  download';
     }
   }
 
@@ -1612,7 +1612,7 @@
     clipTimes.classList.remove('visible');
     pickerState.from = {h:0, m:0, s:0};
     pickerState.to   = {h:0, m:0, s:0};
-    inspectBtn.innerHTML = '&#9654;&nbsp;&nbsp;GO';
+    inspectBtn.innerHTML = '&#8594;&nbsp;&nbsp;GO';
   }
 
   // ── Button 1: Inspect / Clear ──
@@ -1739,7 +1739,7 @@
     } catch(e) {
       setPhase('failed to start: ' + e.message, 'err');
       downloadBtn.disabled    = false;
-      downloadBtn.textContent = '⬇  download';
+      downloadBtn.textContent = '↓  download';
     }
   });
 
@@ -1753,7 +1753,7 @@
     setPhase('cancelled', 'err');
     clearLink.classList.add('visible');
     downloadBtn.disabled    = false;
-    downloadBtn.textContent = '⬇  download';
+    downloadBtn.textContent = '↓  download';
   });
 
   // ── Clear ──
