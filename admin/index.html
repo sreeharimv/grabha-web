@@ -330,7 +330,7 @@ tbody tr:last-child td { border-bottom: none }
 table { table-layout: fixed }
 .c-id    { width: 40px;  color: var(--text-3); font-size: 12px; font-variant-numeric: tabular-nums }
 .c-ts    { width: 118px; color: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums }
-.c-ip    { width: 106px; color: var(--text-2); font-size: 12px; font-family: ui-monospace, "SF Mono", monospace }
+.c-ip    { width: 106px; color: var(--text-2); font-size: 12px; font-family: ui-monospace, "SF Mono", monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .c-loc   { width: 110px; color: var(--text); font-size: 13px }
 .c-plat  { width: 96px;  color: var(--text); font-weight: 500 }
 .c-fmt   { width: 80px;  color: var(--text-2); font-size: 12px }
@@ -981,7 +981,7 @@ function renderRows(rows) {
       <td class="c-loc">${esc(loc)}</td>
       <td class="c-fmt">${esc(r.format)}${r.quality ? ' · '+esc(r.quality) : ''}</td>
       <td class="c-dev">${esc(r.device)}</td>
-      <td class="c-ip">${esc(r.ip_address)}</td>
+      <td class="c-ip" title="${esc(r.ip_address)}">${esc(r.ip_address)}</td>
       <td class="c-title"><span title="${esc(r.title)}">${esc(r.title) || '<span style="color:var(--text-3)">—</span>'}</span></td>
     </tr>`;
   }).join('') || `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-3)">No records found</td></tr>`;
