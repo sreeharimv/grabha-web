@@ -534,11 +534,42 @@ table { table-layout: fixed }
   .chart-row   { grid-template-columns: 1fr }
 }
 @media (max-width: 600px) {
-  .page        { padding: 20px 14px 48px }
+  .nav         { padding: 0 14px }
+  .nav-divider,
+  .nav-page    { display: none }
+  .btn-sm      { padding: 5px 9px }
+
+  .page        { padding: 16px 12px 48px }
   .kpi-grid    { gap: 1px }
-  .kpi-value   { font-size: 24px }
+  .kpi-value   { font-size: 20px }
+  .kpi-card    { padding: 14px 14px 12px }
+
+  .filter-row  { flex-direction: column; align-items: stretch; gap: 8px }
+  .search-wrap { min-width: 0 }
+  .seg         { width: 100%; justify-content: stretch }
+  .seg-btn     { flex: 1; text-align: center; padding: 8px 4px }
+
   #drawer      { width: 100% }
-  .filter-row  { gap: 8px }
+
+  /* Hide low-priority columns on mobile */
+  .c-ip, .c-fmt, .c-dev, .c-loc { display: none }
+  /* Tighten remaining columns */
+  .c-id        { width: 32px }
+  .c-ts        { width: 80px; font-size: 11px }
+  .c-status    { width: 72px }
+  .c-plat      { width: 78px; font-size: 12px }
+  tbody td     { padding: 10px 10px; font-size: 12px }
+  thead th     { padding: 9px 10px }
+
+  .table-wrap  { border-radius: 10px }
+  .panel       { padding: 14px 14px }
+}
+
+@media (max-width: 380px) {
+  .kpi-grid    { grid-template-columns: 1fr 1fr }
+  .kpi-value   { font-size: 18px }
+  .c-ts        { display: none }
+  .c-id        { display: none }
 }
 </style>
 </head>
