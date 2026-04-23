@@ -9,31 +9,36 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
 
 :root {
-  --bg: #0B0B0F;
-  --card: #15151B;
-  --border: rgba(255,255,255,0.06);
-  --text: #EDEDED;
-  --muted: #A1A1AA;
+  --bg:      #0B0B0F;
+  --surface: #111116;
+  --card:    #16161D;
+  --card-hov:#1C1C25;
+  --border:  rgba(255,255,255,0.07);
+  --border-s:rgba(255,255,255,0.04);
+  --text:    #E8E8ED;
+  --text-2:  #8B8B99;
+  --text-3:  #555562;
   --success: #22C55E;
-  --error: #EF4444;
-  --warning: #F59E0B;
-  --success-bg: rgba(34,197,94,0.12);
-  --error-bg: rgba(239,68,68,0.12);
-  --warning-bg: rgba(245,158,11,0.12);
-  --pending-bg: rgba(161,161,170,0.12);
+  --error:   #EF4444;
+  --pending: #A1A1AA;
+  --success-bg: rgba(34,197,94,0.10);
+  --error-bg:   rgba(239,68,68,0.10);
+  --pending-bg: rgba(161,161,170,0.10);
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --r: 10px;
 }
 
+html { font-size: 14px }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
-  font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.55;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ── Login ── */
+/* ─── Login ─── */
 #login-screen {
   display: flex;
   align-items: center;
@@ -43,548 +48,560 @@ body {
 .login-box {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 44px 40px;
-  width: 340px;
-  text-align: center;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  border-radius: 14px;
+  padding: 40px 36px 36px;
+  width: 320px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
 }
-.login-logo {
+.login-mark {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  gap: 9px;
+  margin-bottom: 6px;
 }
-.login-logo img { height: 28px; border-radius: 6px }
-.login-logo span { font-size: 20px; font-weight: 600; color: #fff }
-.login-box p { color: var(--muted); margin-bottom: 28px; font-size: 13px }
+.login-mark img { height: 24px; border-radius: 5px }
+.login-mark span { font-size: 15px; font-weight: 600; color: var(--text) }
+.login-box p { color: var(--text-2); font-size: 13px; margin-bottom: 24px }
 .login-box input {
+  display: block;
   width: 100%;
   background: var(--bg);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: var(--font);
-  margin-bottom: 10px;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font: 13px/1.5 var(--font);
+  margin-bottom: 8px;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.15s;
 }
-.login-box input:focus { border-color: rgba(255,255,255,0.2) }
+.login-box input:focus { border-color: rgba(255,255,255,0.22) }
+.login-box input::placeholder { color: var(--text-3) }
 .login-box button {
+  display: block;
   width: 100%;
   background: #fff;
   border: none;
-  color: #000;
-  padding: 11px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: var(--font);
-  font-weight: 500;
+  color: #0a0a0a;
+  padding: 10px;
+  border-radius: 7px;
+  font: 500 13px/1 var(--font);
   cursor: pointer;
-  transition: opacity 0.15s ease;
   margin-top: 4px;
+  transition: opacity 0.15s;
 }
-.login-box button:hover { opacity: 0.88 }
-#login-error { color: var(--error); font-size: 12px; margin-top: 12px; min-height: 16px }
+.login-box button:hover { opacity: 0.85 }
+#login-error { color: var(--error); font-size: 12px; margin-top: 10px; min-height: 15px }
 
-/* ── Dashboard ── */
+/* ─── Shell ─── */
 #dashboard { display: none }
 
-.dashboard-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 28px 24px 48px;
-}
-
-/* Topbar */
-.topbar {
+/* Fixed nav */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  padding: 0 24px;
+  height: 52px;
+  background: rgba(11,11,15,0.85);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
-.topbar-left {
+.nav-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
-.topbar-left img { height: 22px; border-radius: 5px }
-.topbar-left h1 { font-size: 17px; font-weight: 600; color: #fff }
-.topbar-left .subtitle { color: var(--muted); font-size: 13px }
-.topbar-right { display: flex; align-items: center; gap: 10px }
-.status-dot {
-  width: 7px; height: 7px;
+.nav-brand img { height: 20px; border-radius: 4px; opacity: 0.9 }
+.nav-brand span { font-size: 14px; font-weight: 600; color: var(--text) }
+.nav-divider {
+  width: 1px; height: 16px;
+  background: var(--border);
+  margin: 0 10px;
+}
+.nav-page { font-size: 13px; color: var(--text-2) }
+.nav-actions { display: flex; align-items: center; gap: 8px }
+.live-dot {
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--success);
-  box-shadow: 0 0 6px var(--success);
-  animation: pulse 2.4s ease-in-out infinite;
+  animation: blink 2.5s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1 }
-  50% { opacity: 0.4 }
-}
-.btn-ghost {
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.btn-sm {
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 6px 14px;
-  border-radius: 7px;
-  font-family: var(--font);
-  font-size: 13px;
+  color: var(--text-2);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font: 12px/1 var(--font);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s, color 0.15s;
 }
-.btn-ghost:hover { border-color: rgba(255,255,255,0.15); color: var(--text) }
+.btn-sm:hover { border-color: rgba(255,255,255,0.18); color: var(--text) }
 
-/* KPI Cards */
+/* Page body */
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 24px 56px;
+}
+
+/* ─── Section label ─── */
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+
+/* ─── KPI grid ─── */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 16px;
 }
 .kpi-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  cursor: default;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  position: relative;
-  overflow: hidden;
+  padding: 20px 20px 16px;
+  transition: background 0.15s;
 }
-.kpi-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-  border-color: rgba(255,255,255,0.1);
+.kpi-card:hover { background: var(--card-hov) }
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-2);
+  margin-bottom: 10px;
+  font-weight: 450;
 }
-.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px }
-.kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500 }
-.kpi-badge {
-  font-size: 11px;
-  padding: 2px 7px;
-  border-radius: 20px;
-  font-weight: 500;
+.kpi-value {
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 5px;
 }
-.kpi-badge.up { background: var(--success-bg); color: var(--success) }
-.kpi-badge.down { background: var(--error-bg); color: var(--error) }
-.kpi-value { font-size: 30px; font-weight: 700; line-height: 1; margin-bottom: 4px }
-.kpi-sub { font-size: 12px; color: var(--muted) }
-.kpi-spark { margin-top: 16px; height: 44px }
-.kpi-card canvas { width: 100% !important; height: 44px !important }
+.kpi-meta { font-size: 12px; color: var(--text-2) }
+.kpi-spark { margin-top: 14px; height: 36px }
+.kpi-card canvas { width: 100% !important; height: 36px !important }
 
-/* Analytics Row */
-.analytics-row {
+/* ─── Chart row ─── */
+.chart-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-/* Activity Chart */
-.activity-wrap {
+/* ─── Panel (shared card style) ─── */
+.panel {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
+  border-radius: var(--r);
+  padding: 18px 20px;
 }
-.section-header {
+.panel-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   margin-bottom: 16px;
 }
-.section-title { font-size: 13px; font-weight: 600; color: var(--text) }
-.section-sub { font-size: 12px; color: var(--muted) }
-.chart-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-}
-.chart-box canvas { display: block }
+.panel-title { font-size: 13px; font-weight: 550; color: var(--text) }
+.panel-sub   { font-size: 12px; color: var(--text-3) }
+.panel-full  { grid-column: 1 / -1 }
 
-/* Filter bar */
-.filter-bar {
+/* activity chart taller */
+.panel-activity { margin-bottom: 16px }
+
+/* ─── Filter bar ─── */
+.filter-row {
   display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
   align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 .search-wrap {
   position: relative;
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
-.search-wrap svg {
+.search-icon {
   position: absolute;
-  left: 11px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--muted);
+  color: var(--text-3);
   pointer-events: none;
+  display: flex;
 }
 .search-wrap input {
   width: 100%;
   background: var(--card);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 9px 12px 9px 34px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-family: var(--font);
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-.search-wrap input:focus { border-color: rgba(255,255,255,0.18) }
-.search-wrap input::placeholder { color: var(--muted) }
-
-.chip-group { display: flex; gap: 6px; flex-wrap: wrap }
-.chip {
-  padding: 7px 14px;
+  padding: 8px 12px 8px 32px;
   border-radius: 7px;
-  font-size: 13px;
-  font-family: var(--font);
-  cursor: pointer;
-  border: 1px solid var(--border);
+  font: 13px/1 var(--font);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-wrap input:focus { border-color: rgba(255,255,255,0.2) }
+.search-wrap input::placeholder { color: var(--text-3) }
+
+/* Segmented filter */
+.seg {
+  display: inline-flex;
   background: var(--card);
-  color: var(--muted);
-  transition: all 0.15s ease;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+}
+.seg-btn {
+  padding: 7px 13px;
+  font: 12px/1 var(--font);
+  color: var(--text-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  transition: color 0.15s, background 0.15s;
   white-space: nowrap;
 }
-.chip:hover { border-color: rgba(255,255,255,0.15); color: var(--text) }
-.chip.active { background: #fff; color: #000; border-color: #fff; font-weight: 500 }
-.chip.active.success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3) }
-.chip.active.error { background: var(--error-bg); color: var(--error); border-color: rgba(239,68,68,0.3) }
-.chip.active.pending { background: var(--pending-bg); color: var(--muted); border-color: rgba(161,161,170,0.3) }
+.seg-btn:last-child { border-right: none }
+.seg-btn:hover { color: var(--text); background: rgba(255,255,255,0.04) }
+.seg-btn.active       { color: var(--text); background: rgba(255,255,255,0.08) }
+.seg-btn.active.s-ok  { color: var(--success); background: var(--success-bg) }
+.seg-btn.active.s-err { color: var(--error);   background: var(--error-bg) }
+.seg-btn.active.s-pnd { color: var(--pending);  background: var(--pending-bg) }
 
-/* Table */
+/* ─── Table ─── */
 .table-wrap {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--r);
   overflow: hidden;
 }
 table { width: 100%; border-collapse: collapse; white-space: nowrap }
+
 thead th {
-  color: var(--muted);
+  padding: 9px 14px;
   font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
   font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
   text-align: left;
-  padding: 11px 14px;
   border-bottom: 1px solid var(--border);
-  background: rgba(255,255,255,0.02);
+  background: var(--surface);
 }
-tbody tr {
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-tbody tr:nth-child(even) td { background: rgba(255,255,255,0.015) }
-tbody tr:hover td { background: rgba(255,255,255,0.04) !important }
+
+tbody tr { cursor: pointer }
+tbody tr:nth-child(even) { background: rgba(255,255,255,0.012) }
+tbody tr:hover td { background: rgba(255,255,255,0.035) }
+
 tbody td {
-  padding: 12px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-  vertical-align: middle;
+  padding: 11px 14px;
   font-size: 13px;
+  border-bottom: 1px solid var(--border-s);
+  vertical-align: middle;
+  transition: background 0.1s;
 }
 tbody tr:last-child td { border-bottom: none }
 
+.c-id    { color: var(--text-3); font-size: 12px; font-variant-numeric: tabular-nums; width: 40px }
+.c-ts    { color: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums }
+.c-ip    { color: var(--text-2); font-size: 12px; font-family: ui-monospace, "SF Mono", monospace }
+.c-loc   { color: var(--text) }
+.c-plat  { color: var(--text); font-weight: 500 }
+.c-fmt   { color: var(--text-2); font-size: 12px }
+.c-dev   { color: var(--text-2); font-size: 12px }
+.c-title { max-width: 200px; overflow: hidden; text-overflow: ellipsis; color: var(--text) }
+
+/* Status badges */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
+  gap: 4px;
+  padding: 2px 8px 2px 6px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.2px;
 }
-.badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor }
-.badge.success { background: var(--success-bg); color: var(--success) }
-.badge.error   { background: var(--error-bg);   color: var(--error) }
-.badge.pending { background: var(--pending-bg);  color: var(--muted) }
-
-.ellipsis {
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  vertical-align: middle;
+.badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
 }
+.badge.ok  { background: var(--success-bg); color: var(--success) }
+.badge.err { background: var(--error-bg);   color: var(--error) }
+.badge.pnd { background: var(--pending-bg); color: var(--pending) }
 
-.muted-cell { color: var(--muted) }
-
-/* Pager */
+/* ─── Pager ─── */
 .pager {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  color: var(--muted);
-  font-size: 13px;
+  padding: 11px 16px;
   border-top: 1px solid var(--border);
 }
-.pager-btns { display: flex; gap: 8px }
+.pager-info { font-size: 12px; color: var(--text-3) }
+.pager-btns { display: flex; gap: 6px }
 .pager-btns button {
-  background: var(--bg);
+  background: transparent;
   border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 14px;
-  border-radius: 7px;
-  font-family: var(--font);
-  font-size: 13px;
+  color: var(--text-2);
+  padding: 5px 12px;
+  border-radius: 6px;
+  font: 12px/1 var(--font);
   cursor: pointer;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s, color 0.15s;
 }
-.pager-btns button:hover:not(:disabled) { border-color: rgba(255,255,255,0.18) }
-.pager-btns button:disabled { opacity: 0.3; cursor: default }
+.pager-btns button:hover:not(:disabled) { border-color: rgba(255,255,255,0.2); color: var(--text) }
+.pager-btns button:disabled { opacity: 0.28; cursor: default }
 
-/* Detail Drawer */
-#drawer-overlay {
+/* ─── Drawer ─── */
+#overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 100;
-  backdrop-filter: blur(2px);
-  animation: fadeIn 0.2s ease;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
-#drawer-overlay.open { display: block }
-@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+#overlay.on { display: block; animation: fi 0.18s ease }
+@keyframes fi { from{opacity:0} to{opacity:1} }
 
 #drawer {
   position: fixed;
-  top: 0; right: 0;
-  width: 380px;
-  height: 100vh;
+  top: 0; right: 0; bottom: 0;
+  width: 360px;
   background: var(--card);
   border-left: 1px solid var(--border);
-  z-index: 101;
+  z-index: 201;
   overflow-y: auto;
   transform: translateX(100%);
-  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
-  padding: 24px;
+  transition: transform 0.22s cubic-bezier(0.32,0,0.15,1);
+  display: flex;
+  flex-direction: column;
 }
-#drawer.open { transform: translateX(0) }
+#drawer.on { transform: none }
 
-.drawer-header {
+.dr-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-}
-.drawer-header h2 { font-size: 15px; font-weight: 600 }
-.drawer-close {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  width: 30px; height: 30px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s ease;
-}
-.drawer-close:hover { border-color: rgba(255,255,255,0.2); color: var(--text) }
-
-.drawer-title {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.5;
-  margin-bottom: 20px;
-  color: var(--text);
-}
-
-.drawer-section { margin-bottom: 20px }
-.drawer-section-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--muted);
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-.drawer-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  z-index: 1;
 }
-.drawer-field:last-child { border-bottom: none }
-.drawer-field-key { font-size: 13px; color: var(--muted) }
-.drawer-field-val { font-size: 13px; color: var(--text); text-align: right; max-width: 60%; word-break: break-all }
+.dr-nav-title { font-size: 13px; font-weight: 550 }
+.dr-close {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.dr-close:hover { border-color: rgba(255,255,255,0.2); color: var(--text) }
 
-.drawer-error {
+.dr-body { padding: 20px; flex: 1 }
+
+.dr-status { margin-bottom: 12px }
+.dr-heading {
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.dr-error {
   background: var(--error-bg);
-  border: 1px solid rgba(239,68,68,0.2);
-  border-radius: 8px;
-  padding: 12px;
+  border: 1px solid rgba(239,68,68,0.18);
+  border-radius: 7px;
+  padding: 11px 13px;
   font-size: 12px;
   color: #f87171;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
+.dr-group { margin-bottom: 20px }
+.dr-group-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 2px;
+}
+.dr-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border-s);
+}
+.dr-row:last-child { border-bottom: none }
+.dr-key { font-size: 12px; color: var(--text-2); flex-shrink: 0 }
+.dr-val { font-size: 12px; color: var(--text); text-align: right; word-break: break-all }
 
+.dr-footer { padding: 16px 20px; border-top: 1px solid var(--border) }
 .btn-retry {
   width: 100%;
-  background: var(--bg);
+  background: transparent;
   border: 1px solid var(--border);
-  color: var(--text);
-  padding: 10px;
-  border-radius: 8px;
-  font-family: var(--font);
-  font-size: 13px;
+  color: var(--text-2);
+  padding: 9px;
+  border-radius: 7px;
+  font: 13px/1 var(--font);
   cursor: pointer;
-  transition: all 0.15s ease;
-  text-align: center;
+  transition: border-color 0.15s, color 0.15s;
 }
-.btn-retry:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04) }
+.btn-retry:hover { border-color: rgba(255,255,255,0.2); color: var(--text) }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .kpi-grid { grid-template-columns: repeat(2, 1fr) }
-  .analytics-row { grid-template-columns: 1fr }
-  #drawer { width: 100% }
+/* ─── Responsive ─── */
+@media (max-width: 880px) {
+  .kpi-grid    { grid-template-columns: repeat(2, 1fr) }
+  .chart-row   { grid-template-columns: 1fr }
 }
 @media (max-width: 600px) {
-  .dashboard-inner { padding: 16px 12px 32px }
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px }
-  .chip-group { gap: 5px }
-  .chip { padding: 6px 10px; font-size: 12px }
+  .page        { padding: 20px 14px 48px }
+  .kpi-grid    { gap: 1px }
+  .kpi-value   { font-size: 24px }
+  #drawer      { width: 100% }
+  .filter-row  { gap: 8px }
 }
 </style>
 </head>
 <body>
 
-<!-- Login -->
+<!-- ── Login ── -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="login-logo">
+    <div class="login-mark">
       <img src="/grabha-web/icons/icon-192.png" alt="">
       <span>Grabha</span>
     </div>
     <p>Admin access only</p>
-    <input type="text" id="un-input" placeholder="Username" autocomplete="username">
+    <input type="text"     id="un-input" placeholder="Username" autocomplete="username">
     <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
     <button id="login-btn">Sign in</button>
     <div id="login-error"></div>
   </div>
 </div>
 
-<!-- Dashboard -->
+<!-- ── Dashboard ── -->
 <div id="dashboard">
-  <div class="dashboard-inner">
 
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="topbar-left">
-        <img src="/grabha-web/icons/icon-192.png" alt="">
-        <div>
-          <h1>Grabha</h1>
-          <div class="subtitle">Activity Dashboard</div>
-        </div>
-      </div>
-      <div class="topbar-right">
-        <div class="status-dot" id="server-dot" title="Server status"></div>
-        <button class="btn-ghost" id="refresh-btn">Refresh</button>
-        <button class="btn-ghost" id="logout-btn">Sign out</button>
-      </div>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <img src="/grabha-web/icons/icon-192.png" alt="">
+      <span>Grabha</span>
+      <div class="nav-divider"></div>
+      <span class="nav-page">Activity</span>
     </div>
+    <div class="nav-actions">
+      <div class="live-dot" title="Server online"></div>
+      <button class="btn-sm" id="refresh-btn">Refresh</button>
+      <button class="btn-sm" id="logout-btn">Sign out</button>
+    </div>
+  </nav>
 
-    <!-- KPI Cards -->
+  <div class="page">
+
+    <!-- KPI row -->
     <div class="kpi-grid">
       <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-label">Total Downloads</div>
-          <div class="kpi-badge up" id="kpi-total-badge">—</div>
-        </div>
-        <div class="kpi-value" id="s-total" style="color:var(--text)">—</div>
-        <div class="kpi-sub" id="kpi-total-sub">All time</div>
+        <div class="kpi-label">Total</div>
+        <div class="kpi-value" id="s-total">—</div>
+        <div class="kpi-meta" id="kpi-meta-total">All time</div>
         <div class="kpi-spark"><canvas id="spark-total"></canvas></div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-label">Successful</div>
-          <div class="kpi-badge up" id="kpi-success-badge">—</div>
-        </div>
+        <div class="kpi-label">Successful</div>
         <div class="kpi-value" id="s-success" style="color:var(--success)">—</div>
-        <div class="kpi-sub" id="kpi-success-sub">Success rate</div>
+        <div class="kpi-meta" id="kpi-meta-success">—</div>
         <div class="kpi-spark"><canvas id="spark-success"></canvas></div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-label">Errors</div>
-          <div class="kpi-badge down" id="kpi-error-badge">—</div>
-        </div>
+        <div class="kpi-label">Errors</div>
         <div class="kpi-value" id="s-errors" style="color:var(--error)">—</div>
-        <div class="kpi-sub" id="kpi-error-sub">Error rate</div>
+        <div class="kpi-meta" id="kpi-meta-errors">—</div>
         <div class="kpi-spark"><canvas id="spark-errors"></canvas></div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-top">
-          <div class="kpi-label">Pending</div>
-          <div class="kpi-badge" id="kpi-pending-badge">—</div>
-        </div>
-        <div class="kpi-value" id="s-pending" style="color:var(--muted)">—</div>
-        <div class="kpi-sub">In queue</div>
+        <div class="kpi-label">Pending</div>
+        <div class="kpi-value" id="s-pending" style="color:var(--text-2)">—</div>
+        <div class="kpi-meta">In queue</div>
         <div class="kpi-spark"><canvas id="spark-pending"></canvas></div>
       </div>
     </div>
 
-    <!-- Activity Chart -->
-    <div class="activity-wrap">
-      <div class="section-header">
-        <div>
-          <div class="section-title">Activity over time</div>
-          <div class="section-sub">Downloads &amp; errors</div>
-        </div>
+    <!-- Activity chart -->
+    <div class="panel panel-activity">
+      <div class="panel-head">
+        <span class="panel-title">Activity</span>
+        <span class="panel-sub">Downloads &amp; errors over time</span>
       </div>
-      <canvas id="chart-activity" height="90"></canvas>
+      <canvas id="chart-activity" height="80"></canvas>
     </div>
 
-    <!-- Analytics Row -->
-    <div class="analytics-row">
-      <div class="chart-box">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Top Platforms</div>
-            <div class="section-sub">By download count</div>
-          </div>
+    <!-- Analytics row -->
+    <div class="chart-row">
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Platforms</span>
+          <span class="panel-sub">By count</span>
         </div>
-        <canvas id="chart-platforms" height="180"></canvas>
+        <canvas id="chart-platforms" height="160"></canvas>
       </div>
-      <div class="chart-box">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Top Countries</div>
-            <div class="section-sub">By download count</div>
-          </div>
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Countries</span>
+          <span class="panel-sub">By count</span>
         </div>
-        <canvas id="chart-countries" height="180"></canvas>
+        <canvas id="chart-countries" height="160"></canvas>
       </div>
     </div>
 
-    <!-- Filter Bar -->
-    <div class="filter-bar">
+    <!-- Filter bar -->
+    <div class="filter-row">
       <div class="search-wrap">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input id="search-input" placeholder="Search IP, country, city, title…">
+        <span class="search-icon">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </span>
+        <input id="search-input" placeholder="Search title, IP, country…">
       </div>
-      <div class="chip-group">
-        <button class="chip active" data-filter="">All</button>
-        <button class="chip success" data-filter="success">Success</button>
-        <button class="chip error" data-filter="error">Errors</button>
-        <button class="chip pending" data-filter="pending">Pending</button>
+      <div class="seg">
+        <button class="seg-btn active"  data-filter="">All</button>
+        <button class="seg-btn s-ok"   data-filter="success">Success</button>
+        <button class="seg-btn s-err"  data-filter="error">Errors</button>
+        <button class="seg-btn s-pnd"  data-filter="pending">Pending</button>
       </div>
     </div>
 
@@ -593,8 +610,8 @@ tbody tr:last-child td { border-bottom: none }
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Timestamp</th>
+            <th class="c-id">#</th>
+            <th>Time</th>
             <th>IP</th>
             <th>Location</th>
             <th>Platform</th>
@@ -607,7 +624,7 @@ tbody tr:last-child td { border-bottom: none }
         <tbody id="log-body"></tbody>
       </table>
       <div class="pager">
-        <span id="page-info" style="color:var(--muted)">—</span>
+        <span class="pager-info" id="page-info">—</span>
         <div class="pager-btns">
           <button id="prev-btn">← Prev</button>
           <button id="next-btn">Next →</button>
@@ -615,116 +632,106 @@ tbody tr:last-child td { border-bottom: none }
       </div>
     </div>
 
-  </div>
-</div>
+  </div><!-- /page -->
+</div><!-- /dashboard -->
 
-<!-- Drawer Overlay -->
-<div id="drawer-overlay"></div>
+<!-- Drawer -->
+<div id="overlay"></div>
 <div id="drawer">
-  <div class="drawer-header">
-    <h2>Download Details</h2>
-    <button class="drawer-close" id="drawer-close">✕</button>
+  <div class="dr-nav">
+    <span class="dr-nav-title">Download details</span>
+    <button class="dr-close" id="drawer-close">✕</button>
   </div>
-  <div id="drawer-content"></div>
+  <div class="dr-body" id="drawer-body"></div>
+  <div class="dr-footer">
+    <button class="btn-retry">↺&nbsp; Retry</button>
+  </div>
 </div>
 
 <script>
 // ── State ──
 let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
-let apiReady = false;
-let activeFilter = '';
-let searchTimer = null;
-
-// Charts
+let apiReady = false, activeFilter = '', searchTimer = null;
 let chartActivity = null, chartPlatforms = null, chartCountries = null;
-let sparkCharts = {};
+let sparks = {};
 
-const CHART_COLORS = ['#6366F1','#8B5CF6','#EC4899','#F59E0B','#10B981','#3B82F6'];
+const PALETTE = ['#6366F1','#8B5CF6','#EC4899','#F59E0B','#10B981','#3B82F6','#06B6D4'];
+const TOOLTIP = { backgroundColor:'#1C1C25', borderColor:'rgba(255,255,255,0.08)', borderWidth:1, titleColor:'#E8E8ED', bodyColor:'#8B8B99', padding:10, cornerRadius:6 };
 
-// ── Init ──
+// ── Bootstrap ──
 (async () => {
   try {
-    const r = await fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=' + Date.now(), { cache: 'no-store' });
-    const candidate = (await r.text()).trim();
-    if (candidate) {
-      const probe = await fetch(`${candidate}/health`, { cache: 'no-store' });
-      const data = await probe.json();
-      if (data.status === 'ok') { API_BASE = candidate; apiReady = true; }
+    const r = await fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=' + Date.now(), { cache:'no-store' });
+    const url = (await r.text()).trim();
+    if (url) {
+      const probe = await fetch(`${url}/health`, { cache:'no-store' });
+      if ((await probe.json()).status === 'ok') { API_BASE = url; apiReady = true; }
     }
   } catch {}
-  if (!apiReady) {
-    document.getElementById('login-error').textContent = 'Cannot reach server — tunnel may be restarting.';
-  }
+  if (!apiReady) el('login-error').textContent = 'Cannot reach server — tunnel may be restarting.';
   const saved = localStorage.getItem('grabha_admin_token');
-  if (saved && apiReady) { token = saved; showDashboard(); loadData(); }
+  if (saved && apiReady) { token = saved; showDash(); loadData(); }
 })();
 
+function el(id) { return document.getElementById(id) }
+
 // ── Login ──
-document.getElementById('login-btn').addEventListener('click', login);
-document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') login() });
+el('login-btn').addEventListener('click', login);
+el('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') login() });
 
 async function login() {
-  const err = document.getElementById('login-error');
+  const err = el('login-error');
   err.textContent = '';
-  if (!apiReady) { err.textContent = 'Connecting to server… please try again'; return; }
+  if (!apiReady) { err.textContent = 'Connecting to server…'; return; }
   try {
     const res = await fetch(`${API_BASE}/admin/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: document.getElementById('un-input').value,
-        password: document.getElementById('pw-input').value
-      })
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ username: el('un-input').value, password: el('pw-input').value })
     });
-    const data = await res.json();
-    if (!res.ok) { err.textContent = data.error || 'Login failed'; return; }
-    token = data.token;
+    const d = await res.json();
+    if (!res.ok) { err.textContent = d.error || 'Login failed'; return; }
+    token = d.token;
     localStorage.setItem('grabha_admin_token', token);
-    showDashboard();
-    loadData();
-  } catch (e) { err.textContent = 'Could not reach server: ' + e.message; }
+    showDash(); loadData();
+  } catch(e) { err.textContent = 'Could not reach server: ' + e.message }
 }
 
-document.getElementById('logout-btn').addEventListener('click', () => {
+el('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('grabha_admin_token');
   token = ''; currentPage = 1; activeFilter = '';
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('pw-input').value = '';
+  el('dashboard').style.display = 'none';
+  el('login-screen').style.display = 'flex';
+  el('pw-input').value = '';
 });
 
-function showDashboard() {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
+function showDash() {
+  el('login-screen').style.display = 'none';
+  el('dashboard').style.display = 'block';
 }
 
-// ── Refresh ──
-document.getElementById('refresh-btn').addEventListener('click', () => { currentPage = 1; loadData(); });
+// ── Controls ──
+el('refresh-btn').addEventListener('click', () => { currentPage = 1; loadData() });
 
-// ── Filter chips ──
-document.querySelectorAll('.chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    activeFilter = chip.dataset.filter;
-    currentPage = 1;
-    loadData();
+document.querySelectorAll('.seg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    currentPage = 1; loadData();
   });
 });
 
-// ── Search with debounce ──
-document.getElementById('search-input').addEventListener('input', () => {
+el('search-input').addEventListener('input', () => {
   clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => { currentPage = 1; loadData(); }, 320);
+  searchTimer = setTimeout(() => { currentPage = 1; loadData() }, 300);
 });
 
-// ── Pagination ──
-document.getElementById('prev-btn').addEventListener('click', () => { if (currentPage > 1) { currentPage--; loadData(); } });
-document.getElementById('next-btn').addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; loadData(); } });
+el('prev-btn').addEventListener('click', () => { if (currentPage > 1) { currentPage--; loadData() } });
+el('next-btn').addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; loadData() } });
 
-// ── Load data ──
+// ── Data ──
 async function loadData() {
-  const q = document.getElementById('search-input').value.trim();
+  const q = el('search-input').value.trim();
   const params = new URLSearchParams({ page: currentPage });
   if (q) params.set('q', q);
   if (activeFilter) params.set('status', activeFilter);
@@ -735,8 +742,8 @@ async function loadData() {
     });
     if (res.status === 401) {
       localStorage.removeItem('grabha_admin_token'); token = '';
-      document.getElementById('dashboard').style.display = 'none';
-      document.getElementById('login-screen').style.display = 'flex';
+      el('dashboard').style.display = 'none';
+      el('login-screen').style.display = 'flex';
       return;
     }
     const d = await res.json();
@@ -744,242 +751,215 @@ async function loadData() {
     renderCharts(d);
     renderRows(d.rows);
     totalPages = d.pages;
-    document.getElementById('page-info').textContent = `${d.total} records  ·  Page ${d.page} of ${d.pages}`;
-    document.getElementById('prev-btn').disabled = d.page <= 1;
-    document.getElementById('next-btn').disabled = d.page >= d.pages;
-  } catch (e) { console.error(e); }
+    el('page-info').textContent = `${d.total} records · page ${d.page} of ${d.pages}`;
+    el('prev-btn').disabled = d.page <= 1;
+    el('next-btn').disabled = d.page >= d.pages;
+  } catch(e) { console.error(e) }
 }
 
 // ── Stats ──
 function renderStats(s) {
-  const total = s.total ?? 0, success = s.success ?? 0, errors = s.errors ?? 0, pending = s.pending ?? 0;
-  document.getElementById('s-total').textContent   = total;
-  document.getElementById('s-success').textContent = success;
-  document.getElementById('s-errors').textContent  = errors;
-  document.getElementById('s-pending').textContent = pending;
+  const total = s.total ?? 0, succ = s.success ?? 0, err = s.errors ?? 0, pend = s.pending ?? 0;
+  el('s-total').textContent   = total;
+  el('s-success').textContent = succ;
+  el('s-errors').textContent  = err;
+  el('s-pending').textContent = pend;
 
-  const successRate = total ? Math.round(success / total * 100) : 0;
-  const errorRate   = total ? Math.round(errors  / total * 100) : 0;
-  document.getElementById('kpi-total-badge').textContent   = total + ' total';
-  document.getElementById('kpi-success-badge').textContent = successRate + '%';
-  document.getElementById('kpi-error-badge').textContent   = errorRate + '%';
-  document.getElementById('kpi-pending-badge').textContent = pending + ' queued';
-  document.getElementById('kpi-success-sub').textContent   = successRate + '% success rate';
-  document.getElementById('kpi-error-sub').textContent     = errorRate + '% error rate';
+  const sr = total ? Math.round(succ / total * 100) : 0;
+  const er = total ? Math.round(err  / total * 100) : 0;
+  el('kpi-meta-total').textContent   = 'All time';
+  el('kpi-meta-success').textContent = sr + '% success rate';
+  el('kpi-meta-errors').textContent  = er + '% error rate';
 
-  // Sparklines: generate mock trend data based on total
-  renderSparkline('spark-total',   genSparkData(total,   '#A1A1AA'), '#A1A1AA');
-  renderSparkline('spark-success', genSparkData(success, '#22C55E'), '#22C55E');
-  renderSparkline('spark-errors',  genSparkData(errors,  '#EF4444'), '#EF4444');
-  renderSparkline('spark-pending', genSparkData(pending, '#A1A1AA'), '#A1A1AA');
+  spark('spark-total',   genTrend(total,  12), '#8B8B99');
+  spark('spark-success', genTrend(succ,   12), '#22C55E');
+  spark('spark-errors',  genTrend(err,    12), '#EF4444');
+  spark('spark-pending', genTrend(pend,   12), '#8B8B99');
 }
 
-function genSparkData(max, color) {
-  // Generate 12 plausible data points trending toward max
-  const n = 12;
+function genTrend(peak, n) {
   return Array.from({ length: n }, (_, i) => {
-    const base = Math.max(0, Math.round(max * (i + 1) / n));
-    return base + Math.round((Math.random() - 0.5) * max * 0.15);
+    const base = Math.max(0, Math.round(peak * (i + 1) / n));
+    return base + Math.round((Math.random() - 0.5) * peak * 0.2);
   });
 }
 
-function renderSparkline(id, data, color) {
-  if (sparkCharts[id]) { sparkCharts[id].destroy(); delete sparkCharts[id]; }
-  const canvas = document.getElementById(id);
+function spark(id, data, color) {
+  if (sparks[id]) { sparks[id].destroy(); delete sparks[id] }
+  const canvas = el(id);
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const grad = ctx.createLinearGradient(0, 0, 0, 44);
-  grad.addColorStop(0, color + '33');
-  grad.addColorStop(1, color + '00');
-  sparkCharts[id] = new Chart(ctx, {
+  const g = ctx.createLinearGradient(0, 0, 0, 36);
+  g.addColorStop(0, color + '28'); g.addColorStop(1, color + '00');
+  sparks[id] = new Chart(ctx, {
     type: 'line',
-    data: {
-      labels: data.map(() => ''),
-      datasets: [{ data, borderColor: color, borderWidth: 1.5, fill: true, backgroundColor: grad, tension: 0.4, pointRadius: 0 }]
-    },
-    options: {
-      animation: false, responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: { x: { display: false }, y: { display: false, min: 0 } }
-    }
+    data: { labels: data.map(() => ''), datasets: [{ data, borderColor: color, borderWidth: 1.5, fill: true, backgroundColor: g, tension: 0.45, pointRadius: 0 }] },
+    options: { animation: false, responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { enabled: false } }, scales: { x: { display: false }, y: { display: false, min: 0 } } }
   });
 }
 
 // ── Charts ──
 function renderCharts(d) {
-  renderActivityChart(d.rows);
-  renderPlatformsChart(d.top_platforms);
-  renderCountriesChart(d.top_countries);
+  buildActivity(d.rows);
+  buildPlatforms(d.top_platforms);
+  buildCountries(d.top_countries);
 }
 
-function renderActivityChart(rows) {
-  // Group rows by date
-  const byDate = {};
+function buildActivity(rows) {
+  const byDay = {};
   rows.forEach(r => {
     const day = (r.timestamp || '').slice(0, 10);
     if (!day) return;
-    if (!byDate[day]) byDate[day] = { downloads: 0, errors: 0 };
-    byDate[day].downloads++;
-    if (r.status === 'error') byDate[day].errors++;
+    if (!byDay[day]) byDay[day] = { dl: 0, err: 0 };
+    byDay[day].dl++;
+    if (r.status === 'error') byDay[day].err++;
   });
-  const labels = Object.keys(byDate).sort();
-  const downloads = labels.map(l => byDate[l].downloads);
-  const errors    = labels.map(l => byDate[l].errors);
+  const labels = Object.keys(byDay).sort();
+  const dl  = labels.map(l => byDay[l].dl);
+  const err = labels.map(l => byDay[l].err);
 
   if (chartActivity) chartActivity.destroy();
-  const ctx = document.getElementById('chart-activity').getContext('2d');
-  const grad = ctx.createLinearGradient(0, 0, 0, 200);
-  grad.addColorStop(0, '#6366F133'); grad.addColorStop(1, '#6366F100');
+  const ctx = el('chart-activity').getContext('2d');
+  const g = ctx.createLinearGradient(0, 0, 0, 180);
+  g.addColorStop(0, '#6366F120'); g.addColorStop(1, '#6366F100');
 
   chartActivity = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels.length ? labels : ['No data'],
+      labels: labels.length ? labels : ['—'],
       datasets: [
-        { label: 'Downloads', data: downloads, borderColor: '#6366F1', backgroundColor: grad, fill: true, tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#6366F1' },
-        { label: 'Errors',    data: errors,    borderColor: '#EF4444', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 1.5, pointRadius: 3, pointBackgroundColor: '#EF4444' }
+        { label: 'Downloads', data: dl,  borderColor: '#6366F1', backgroundColor: g,             fill: true,  tension: 0.4, borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: '#6366F1', pointBorderWidth: 0 },
+        { label: 'Errors',    data: err, borderColor: '#EF4444', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: '#EF4444', pointBorderWidth: 0 }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: true,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: true, labels: { color: '#A1A1AA', boxWidth: 12, font: { size: 12 } } },
-        tooltip: { backgroundColor: '#15151B', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#EDEDED', bodyColor: '#A1A1AA' }
+        legend: { display: true, labels: { color: '#8B8B99', boxWidth: 10, usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 12 } } },
+        tooltip: TOOLTIP
       },
       scales: {
-        x: { ticks: { color: '#A1A1AA', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
-        y: { ticks: { color: '#A1A1AA', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
+        x: { ticks: { color: '#555562', font: { size: 11 }, maxRotation: 0 }, grid: { color: 'rgba(255,255,255,0.03)' } },
+        y: { ticks: { color: '#555562', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true }
       }
     }
   });
 }
 
-function renderPlatformsChart(data) {
-  if (!data || !data.length) return;
+function buildPlatforms(data) {
+  if (!data?.length) return;
   if (chartPlatforms) chartPlatforms.destroy();
-  const ctx = document.getElementById('chart-platforms').getContext('2d');
-  chartPlatforms = new Chart(ctx, {
+  chartPlatforms = new Chart(el('chart-platforms').getContext('2d'), {
     type: 'doughnut',
     data: {
       labels: data.map(d => d.platform || 'Unknown'),
-      datasets: [{ data: data.map(d => d.n), backgroundColor: CHART_COLORS, borderWidth: 0, hoverOffset: 4 }]
+      datasets: [{ data: data.map(d => d.n), backgroundColor: PALETTE, borderWidth: 0, hoverOffset: 5 }]
     },
     options: {
-      responsive: true, maintainAspectRatio: true, cutout: '65%',
+      responsive: true, maintainAspectRatio: true, cutout: '68%',
       plugins: {
-        legend: { position: 'right', labels: { color: '#A1A1AA', boxWidth: 10, padding: 14, font: { size: 12 } } },
-        tooltip: { backgroundColor: '#15151B', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#EDEDED', bodyColor: '#A1A1AA' }
+        legend: { position: 'right', labels: { color: '#8B8B99', boxWidth: 9, usePointStyle: true, pointStyle: 'circle', padding: 12, font: { size: 12 } } },
+        tooltip: TOOLTIP
       }
     }
   });
 }
 
-function renderCountriesChart(data) {
-  if (!data || !data.length) return;
+function buildCountries(data) {
+  if (!data?.length) return;
   if (chartCountries) chartCountries.destroy();
-  const ctx = document.getElementById('chart-countries').getContext('2d');
-  chartCountries = new Chart(ctx, {
+  chartCountries = new Chart(el('chart-countries').getContext('2d'), {
     type: 'bar',
     data: {
       labels: data.map(d => d.country || 'Unknown'),
-      datasets: [{ data: data.map(d => d.n), backgroundColor: CHART_COLORS, borderRadius: 5, borderSkipped: false }]
+      datasets: [{ data: data.map(d => d.n), backgroundColor: PALETTE, borderRadius: 4, borderSkipped: false }]
     },
     options: {
-      indexAxis: 'y',
-      responsive: true, maintainAspectRatio: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: { backgroundColor: '#15151B', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1, titleColor: '#EDEDED', bodyColor: '#A1A1AA' }
-      },
+      indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false }, tooltip: TOOLTIP },
       scales: {
-        x: { ticks: { color: '#A1A1AA', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true },
-        y: { ticks: { color: '#A1A1AA', font: { size: 12 } }, grid: { display: false } }
+        x: { ticks: { color: '#555562', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true },
+        y: { ticks: { color: '#8B8B99', font: { size: 12 } }, grid: { display: false } }
       }
     }
   });
 }
 
-// ── Table rows ──
+// ── Rows ──
 function renderRows(rows) {
   const esc = s => String(s ?? '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  document.getElementById('log-body').innerHTML = rows.map(r => {
-    const badgeCls = r.status === 'success' ? 'success' : r.status === 'error' ? 'error' : 'pending';
+  el('log-body').innerHTML = rows.map(r => {
+    const bc = r.status === 'success' ? 'ok' : r.status === 'error' ? 'err' : 'pnd';
     const loc = [r.city, r.country].filter(Boolean).join(', ') || '—';
-    const row = JSON.stringify(r).replace(/'/g, '&#39;');
-    return `<tr data-row='${esc(row)}'>
-      <td class="muted-cell">${r.id}</td>
-      <td class="muted-cell">${esc(r.timestamp ?? '').replace('T',' ').slice(0,16)}</td>
-      <td>${esc(r.ip_address)}</td>
-      <td>${esc(loc)}</td>
-      <td>${esc(r.platform)}</td>
-      <td class="muted-cell">${esc(r.format)}${r.quality ? ' · ' + esc(r.quality) : ''}</td>
-      <td class="muted-cell">${esc(r.device)}</td>
-      <td><span class="badge ${badgeCls}">${esc(r.status)}</span></td>
-      <td><span class="ellipsis" title="${esc(r.title)}">${esc(r.title) || '<span style="color:var(--muted)">—</span>'}</span></td>
+    const ts  = (r.timestamp ?? '').replace('T',' ').slice(0,16);
+    const row = JSON.stringify(r).replace(/'/g,"&#39;");
+    return `<tr data-row='${row}'>
+      <td class="c-id">${r.id}</td>
+      <td class="c-ts">${esc(ts)}</td>
+      <td class="c-ip">${esc(r.ip_address)}</td>
+      <td class="c-loc">${esc(loc)}</td>
+      <td class="c-plat">${esc(r.platform)}</td>
+      <td class="c-fmt">${esc(r.format)}${r.quality ? ' · '+esc(r.quality) : ''}</td>
+      <td class="c-dev">${esc(r.device)}</td>
+      <td><span class="badge ${bc}">${esc(r.status)}</span></td>
+      <td><span class="c-title" title="${esc(r.title)}">${esc(r.title) || '<span style="color:var(--text-3)">—</span>'}</span></td>
     </tr>`;
-  }).join('') || '<tr><td colspan="9" style="color:var(--muted);text-align:center;padding:32px">No records found</td></tr>';
+  }).join('') || `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-3)">No records found</td></tr>`;
 
-  // Row click → drawer
-  document.querySelectorAll('#log-body tr[data-row]').forEach(tr => {
-    tr.addEventListener('click', () => openDrawer(JSON.parse(tr.dataset.row)));
-  });
+  document.querySelectorAll('#log-body tr[data-row]').forEach(tr =>
+    tr.addEventListener('click', () => openDrawer(JSON.parse(tr.dataset.row)))
+  );
 }
 
 // ── Drawer ──
 function openDrawer(r) {
   const esc = s => String(s ?? '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const badgeCls = r.status === 'success' ? 'success' : r.status === 'error' ? 'error' : 'pending';
+  const bc = r.status === 'success' ? 'ok' : r.status === 'error' ? 'err' : 'pnd';
 
   let html = `
-    <div class="badge ${badgeCls}" style="margin-bottom:14px">${esc(r.status)}</div>
-    <div class="drawer-title">${esc(r.title) || '<span style="color:var(--muted)">No title</span>'}</div>
+    <div class="dr-status"><span class="badge ${bc}">${esc(r.status)}</span></div>
+    <div class="dr-heading">${esc(r.title) || '<span style="color:var(--text-3)">No title</span>'}</div>
   `;
+  if (r.error_msg) html += `<div class="dr-error">${esc(r.error_msg)}</div>`;
 
-  if (r.error_msg) {
-    html += `<div class="drawer-error">${esc(r.error_msg)}</div>`;
-  }
+  html += drGroup('Request', [
+    ['ID',        r.id],
+    ['Timestamp', r.timestamp],
+    ['IP',        r.ip_address],
+    ['Country',   r.country],
+    ['City',      r.city],
+    ['Device',    r.device],
+  ]);
+  html += drGroup('Download', [
+    ['Platform', r.platform],
+    ['Format',   r.format],
+    ['Quality',  r.quality],
+  ]);
 
-  html += `
-    <div class="drawer-section">
-      <div class="drawer-section-label">Request</div>
-      ${field('ID', r.id)}
-      ${field('Timestamp', r.timestamp)}
-      ${field('IP Address', r.ip_address)}
-      ${field('Country', r.country)}
-      ${field('City', r.city)}
-      ${field('Device', r.device)}
-    </div>
-    <div class="drawer-section">
-      <div class="drawer-section-label">Download</div>
-      ${field('Platform', r.platform)}
-      ${field('Format', r.format)}
-      ${field('Quality', r.quality)}
-    </div>
-    <button class="btn-retry">↺ Retry (UI only)</button>
-  `;
-
-  document.getElementById('drawer-content').innerHTML = html;
-  document.getElementById('drawer-overlay').classList.add('open');
-  document.getElementById('drawer').classList.add('open');
+  el('drawer-body').innerHTML = html;
+  el('overlay').classList.add('on');
+  el('drawer').classList.add('on');
 }
 
-function field(label, value) {
+function drGroup(label, pairs) {
   const esc = s => String(s ?? '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  return `<div class="drawer-field">
-    <span class="drawer-field-key">${label}</span>
-    <span class="drawer-field-val">${esc(value) || '<span style="color:var(--muted)">—</span>'}</span>
-  </div>`;
+  const rows = pairs.map(([k,v]) => `
+    <div class="dr-row">
+      <span class="dr-key">${k}</span>
+      <span class="dr-val">${esc(v) || '<span style="color:var(--text-3)">—</span>'}</span>
+    </div>`).join('');
+  return `<div class="dr-group"><div class="dr-group-label">${label}</div>${rows}</div>`;
 }
 
 function closeDrawer() {
-  document.getElementById('drawer-overlay').classList.remove('open');
-  document.getElementById('drawer').classList.remove('open');
+  el('overlay').classList.remove('on');
+  el('drawer').classList.remove('on');
 }
 
-document.getElementById('drawer-close').addEventListener('click', closeDrawer);
-document.getElementById('drawer-overlay').addEventListener('click', closeDrawer);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+el('drawer-close').addEventListener('click', closeDrawer);
+el('overlay').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer() });
 </script>
 </body>
 </html>
