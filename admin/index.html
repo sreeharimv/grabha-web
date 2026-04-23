@@ -207,6 +207,7 @@ body {
   gap: 12px;
   margin-bottom: 16px;
 }
+.chart-row-3 { grid-template-columns: 1fr 1fr 1fr }
 
 /* ─── Panel (shared card style) ─── */
 .panel {
@@ -553,8 +554,9 @@ table { table-layout: fixed }
 
 /* ─── Responsive ─── */
 @media (max-width: 880px) {
-  .kpi-grid    { grid-template-columns: repeat(2, 1fr) }
-  .chart-row   { grid-template-columns: 1fr }
+  .kpi-grid              { grid-template-columns: repeat(2, 1fr) }
+  .chart-row             { grid-template-columns: 1fr }
+  .chart-row.chart-row-3 { grid-template-columns: 1fr }
 }
 @media (max-width: 600px) {
   .nav         { padding: 0 14px }
@@ -659,7 +661,7 @@ table { table-layout: fixed }
     </div>
 
     <!-- Analytics row — compact bar lists -->
-    <div class="chart-row">
+    <div class="chart-row chart-row-3">
       <div class="panel">
         <div class="panel-head">
           <span class="panel-title">Platforms</span>
@@ -673,6 +675,13 @@ table { table-layout: fixed }
           <span class="panel-sub">Top 5</span>
         </div>
         <div id="countries-list"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Cities</span>
+          <span class="panel-sub">Top 5</span>
+        </div>
+        <div id="cities-list"></div>
       </div>
     </div>
 
@@ -898,6 +907,7 @@ function renderCharts(d) {
   buildActivity(d.rows);
   buildPlatforms(d.top_platforms);
   buildCountries(d.top_countries);
+  buildCities(d.top_cities);
 }
 
 function buildActivity(rows) {
@@ -975,6 +985,10 @@ function buildPlatforms(data) {
 
 function buildCountries(data) {
   buildStatBars('countries-list', data?.slice(0, 5), 'country', name => FLAG[name] || '🌐');
+}
+
+function buildCities(data) {
+  buildStatBars('cities-list', data?.slice(0, 5), 'city', () => '🏙');
 }
 
 // ── Rows ──
