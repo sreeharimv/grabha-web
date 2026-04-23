@@ -528,6 +528,29 @@ table { table-layout: fixed }
   flex-shrink: 0;
 }
 
+/* ─── Mobile card list (replaces table on small screens) ─── */
+.m-card-list { display: none }
+.m-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-s);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.m-card:last-child { border-bottom: none }
+.m-card:active { background: rgba(255,255,255,0.05) }
+.m-card-left  { flex: 1; min-width: 0 }
+.m-card-top   { display: flex; align-items: center; gap: 7px; margin-bottom: 4px }
+.m-card-plat  { font-size: 12px; font-weight: 600; color: var(--text) }
+.m-card-title {
+  font-size: 13px; color: var(--text-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.m-card-time  { font-size: 11px; color: var(--text-3); margin-top: 3px; font-variant-numeric: tabular-nums }
+.m-card-right { flex-shrink: 0 }
+
 /* ─── Responsive ─── */
 @media (max-width: 880px) {
   .kpi-grid    { grid-template-columns: repeat(2, 1fr) }
@@ -551,25 +574,13 @@ table { table-layout: fixed }
 
   #drawer      { width: 100% }
 
-  /* Hide low-priority columns on mobile */
-  .c-ip, .c-fmt, .c-dev, .c-loc { display: none }
-  /* Tighten remaining columns */
-  .c-id        { width: 32px }
-  .c-ts        { width: 80px; font-size: 11px }
-  .c-status    { width: 72px }
-  .c-plat      { width: 78px; font-size: 12px }
-  tbody td     { padding: 10px 10px; font-size: 12px }
-  thead th     { padding: 9px 10px }
+  /* Switch to card layout — hide the table */
+  .table-wrap table,
+  .table-wrap thead { display: none }
+  .m-card-list      { display: block }
 
   .table-wrap  { border-radius: 10px }
   .panel       { padding: 14px 14px }
-}
-
-@media (max-width: 380px) {
-  .kpi-grid    { grid-template-columns: 1fr 1fr }
-  .kpi-value   { font-size: 18px }
-  .c-ts        { display: none }
-  .c-id        { display: none }
 }
 </style>
 </head>
@@ -701,6 +712,7 @@ table { table-layout: fixed }
         </thead>
         <tbody id="log-body"></tbody>
       </table>
+      <div class="m-card-list" id="card-body"></div>
       <div class="pager">
         <span class="pager-info" id="page-info">—</span>
         <div class="pager-btns">
@@ -968,6 +980,8 @@ function buildCountries(data) {
 // ── Rows ──
 function renderRows(rows) {
   const esc = s => String(s ?? '').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  // Desktop table
   el('log-body').innerHTML = rows.map(r => {
     const bc = r.status === 'success' ? 'ok' : r.status === 'error' ? 'err' : 'pnd';
     const loc = [r.city, r.country].filter(Boolean).join(', ') || '—';
@@ -986,8 +1000,32 @@ function renderRows(rows) {
     </tr>`;
   }).join('') || `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-3)">No records found</td></tr>`;
 
+  // Mobile cards
+  el('card-body').innerHTML = rows.map(r => {
+    const bc   = r.status === 'success' ? 'ok' : r.status === 'error' ? 'err' : 'pnd';
+    const ts   = (r.timestamp ?? '').replace('T',' ').slice(0,16);
+    const row  = JSON.stringify(r).replace(/'/g,"&#39;");
+    const title = esc(r.title) || '<span style="color:var(--text-3)">No title</span>';
+    return `<div class="m-card" data-row='${row}'>
+      <div class="m-card-left">
+        <div class="m-card-top">
+          <span class="badge ${bc}">${esc(r.status)}</span>
+          <span class="m-card-plat">${esc(r.platform) || 'Unknown'}</span>
+        </div>
+        <div class="m-card-title">${title}</div>
+        <div class="m-card-time">${esc(ts)}</div>
+      </div>
+      <div class="m-card-right">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--text-3)"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>`;
+  }).join('') || `<div style="text-align:center;padding:40px;color:var(--text-3);font-size:13px">No records found</div>`;
+
   document.querySelectorAll('#log-body tr[data-row]').forEach(tr =>
     tr.addEventListener('click', () => openDrawer(JSON.parse(tr.dataset.row)))
+  );
+  document.querySelectorAll('#card-body .m-card[data-row]').forEach(card =>
+    card.addEventListener('click', () => openDrawer(JSON.parse(card.dataset.row)))
   );
 }
 
