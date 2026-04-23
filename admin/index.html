@@ -326,14 +326,25 @@ tbody td {
 }
 tbody tr:last-child td { border-bottom: none }
 
-.c-id    { color: var(--text-3); font-size: 12px; font-variant-numeric: tabular-nums; width: 40px }
-.c-ts    { color: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums }
-.c-ip    { color: var(--text-2); font-size: 12px; font-family: ui-monospace, "SF Mono", monospace }
-.c-loc   { color: var(--text) }
-.c-plat  { color: var(--text); font-weight: 500 }
-.c-fmt   { color: var(--text-2); font-size: 12px }
-.c-dev   { color: var(--text-2); font-size: 12px }
-.c-title { max-width: 200px; overflow: hidden; text-overflow: ellipsis; color: var(--text) }
+/* Column widths — narrow secondary cols, title gets remaining space */
+table { table-layout: fixed }
+.c-id    { width: 40px;  color: var(--text-3); font-size: 12px; font-variant-numeric: tabular-nums }
+.c-ts    { width: 118px; color: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums }
+.c-ip    { width: 106px; color: var(--text-2); font-size: 12px; font-family: ui-monospace, "SF Mono", monospace }
+.c-loc   { width: 110px; color: var(--text); font-size: 13px }
+.c-plat  { width: 96px;  color: var(--text); font-weight: 500 }
+.c-fmt   { width: 80px;  color: var(--text-2); font-size: 12px }
+.c-dev   { width: 72px;  color: var(--text-2); font-size: 12px }
+.c-status{ width: 82px }
+/* Title: fills remaining width, truncates with tooltip */
+.c-title {
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 0; /* forces ellipsis in table-layout:fixed */
+}
+.c-title span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
 
 /* Status badges */
 .badge {
@@ -476,20 +487,46 @@ tbody tr:last-child td { border-bottom: none }
 
 /* read-only drawer — no footer actions */
 
-/* ─── Countries progress list ─── */
-.clist-row {
+/* ─── Stat bar list (platforms + countries) ─── */
+.sbar-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--border-s);
 }
-.clist-row:last-child { border-bottom: none }
-.clist-flag { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0 }
-.clist-name { font-size: 13px; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
-.clist-bar-wrap { width: 90px; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; flex-shrink: 0 }
-.clist-bar { height: 100%; border-radius: 2px; background: #818CF8; transition: width 0.4s ease }
-.clist-count { font-size: 12px; color: var(--text-2); font-variant-numeric: tabular-nums; text-align: right; width: 28px; flex-shrink: 0 }
+.sbar-row:last-child { border-bottom: none }
+.sbar-icon { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; line-height: 1 }
+.sbar-label {
+  font-size: 12px;
+  color: var(--text-2);
+  width: 90px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sbar-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sbar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: #6366F1;
+  transition: width 0.35s ease;
+}
+.sbar-count {
+  font-size: 12px;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  width: 24px;
+  flex-shrink: 0;
+}
 
 /* ─── Responsive ─── */
 @media (max-width: 880px) {
@@ -576,22 +613,22 @@ tbody tr:last-child td { border-bottom: none }
         <span class="panel-title">Activity</span>
         <span class="panel-sub">Downloads &amp; errors over time</span>
       </div>
-      <canvas id="chart-activity" height="80"></canvas>
+      <canvas id="chart-activity" height="60"></canvas>
     </div>
 
-    <!-- Analytics row -->
+    <!-- Analytics row — compact bar lists -->
     <div class="chart-row">
       <div class="panel">
         <div class="panel-head">
           <span class="panel-title">Platforms</span>
-          <span class="panel-sub">By count</span>
+          <span class="panel-sub">By downloads</span>
         </div>
-        <canvas id="chart-platforms" height="160"></canvas>
+        <div id="platforms-list"></div>
       </div>
       <div class="panel">
         <div class="panel-head">
           <span class="panel-title">Countries</span>
-          <span class="panel-sub">Top by downloads</span>
+          <span class="panel-sub">Top 5</span>
         </div>
         <div id="countries-list"></div>
       </div>
@@ -621,14 +658,14 @@ tbody tr:last-child td { border-bottom: none }
         <thead>
           <tr>
             <th class="c-id">#</th>
-            <th>Time</th>
-            <th>IP</th>
-            <th>Location</th>
-            <th>Platform</th>
-            <th>Format</th>
-            <th>Device</th>
-            <th>Status</th>
-            <th>Title</th>
+            <th class="c-ts">Time</th>
+            <th class="c-status">Status</th>
+            <th class="c-plat">Platform</th>
+            <th class="c-loc">Location</th>
+            <th class="c-fmt">Format</th>
+            <th class="c-dev">Device</th>
+            <th class="c-ip">IP</th>
+            <th class="c-title">Title</th>
           </tr>
         </thead>
         <tbody id="log-body"></tbody>
@@ -659,11 +696,9 @@ tbody tr:last-child td { border-bottom: none }
 // ── State ──
 let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
 let apiReady = false, activeFilter = '', searchTimer = null;
-let chartActivity = null, chartPlatforms = null;
+let chartActivity = null;
 let sparks = {};
 
-// Muted palette — less saturated, easier on dark backgrounds
-const PALETTE = ['#818CF8','#A78BFA','#F472B6','#FBBF24','#34D399','#60A5FA','#22D3EE'];
 const TOOLTIP = {
   backgroundColor: '#1A1A23',
   borderColor: 'rgba(255,255,255,0.08)',
@@ -868,66 +903,35 @@ function buildActivity(rows) {
   });
 }
 
-// Center-label plugin for donut
-const donutCenterLabel = {
-  id: 'centerLabel',
-  afterDraw(chart) {
-    if (chart.config.type !== 'doughnut') return;
-    const { ctx, data, chartArea: { width, height, left, top } } = chart;
-    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
-    if (!total) return;
-    const maxIdx = data.datasets[0].data.indexOf(Math.max(...data.datasets[0].data));
-    const pct = Math.round(data.datasets[0].data[maxIdx] / total * 100);
-    const label = data.labels[maxIdx] || '';
-    const cx = left + width / 2, cy = top + height / 2;
-    ctx.save();
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#EDEDED';
-    ctx.font = '600 14px ui-sans-serif, system-ui, sans-serif';
-    ctx.fillText(pct + '%', cx, cy - 8);
-    ctx.fillStyle = '#A1A1AA';
-    ctx.font = '11px ui-sans-serif, system-ui, sans-serif';
-    ctx.fillText(label, cx, cy + 9);
-    ctx.restore();
-  }
-};
+const PLAT_ICON = { youtube:'▶', instagram:'📷', twitter:'🐦', tiktok:'♪', facebook:'f', vimeo:'V', twitch:'◈', reddit:'◉', soundcloud:'☁', default:'○' };
+const FLAG = { 'United States':'🇺🇸','India':'🇮🇳','United Kingdom':'🇬🇧','Germany':'🇩🇪','France':'🇫🇷','Canada':'🇨🇦','Australia':'🇦🇺','Brazil':'🇧🇷','Japan':'🇯🇵','China':'🇨🇳','Netherlands':'🇳🇱','Singapore':'🇸🇬','UAE':'🇦🇪' };
+
+function buildStatBars(containerId, items, labelKey, iconFn) {
+  const el_ = el(containerId);
+  if (!items?.length) { el_.innerHTML = '<p style="color:var(--text-3);font-size:12px;padding:6px 0">No data</p>'; return; }
+  const maxN = items[0].n || 1;
+  el_.innerHTML = items.slice(0, 6).map(d => {
+    const label = d[labelKey] || 'Unknown';
+    const pct   = Math.round(d.n / maxN * 100);
+    const icon  = iconFn(label);
+    return `<div class="sbar-row">
+      <span class="sbar-icon">${icon}</span>
+      <span class="sbar-label" title="${label}">${label}</span>
+      <div class="sbar-track"><div class="sbar-fill" style="width:${pct}%"></div></div>
+      <span class="sbar-count">${d.n}</span>
+    </div>`;
+  }).join('');
+}
 
 function buildPlatforms(data) {
-  if (!data?.length) return;
-  if (chartPlatforms) chartPlatforms.destroy();
-  chartPlatforms = new Chart(el('chart-platforms').getContext('2d'), {
-    type: 'doughnut',
-    data: {
-      labels: data.map(d => d.platform || 'Unknown'),
-      datasets: [{ data: data.map(d => d.n), backgroundColor: PALETTE, borderWidth: 2, borderColor: '#15151B', hoverOffset: 4 }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: true, cutout: '70%',
-      plugins: {
-        legend: { position: 'right', labels: { color: '#A1A1AA', boxWidth: 8, usePointStyle: true, pointStyle: 'circle', padding: 14, font: { size: 12 } } },
-        tooltip: TOOLTIP
-      }
-    },
-    plugins: [donutCenterLabel]
+  buildStatBars('platforms-list', data, 'platform', name => {
+    const key = (name || '').toLowerCase();
+    return PLAT_ICON[key] || PLAT_ICON.default;
   });
 }
 
 function buildCountries(data) {
-  if (!data?.length) { el('countries-list').innerHTML = '<p style="color:var(--text-3);font-size:13px;padding:8px 0">No data</p>'; return; }
-  const top5 = data.slice(0, 5);
-  const maxN = top5[0].n || 1;
-  const FLAG = { 'United States':'🇺🇸','India':'🇮🇳','United Kingdom':'🇬🇧','Germany':'🇩🇪','France':'🇫🇷','Canada':'🇨🇦','Australia':'🇦🇺','Brazil':'🇧🇷','Japan':'🇯🇵','China':'🇨🇳','Netherlands':'🇳🇱','Singapore':'🇸🇬','UAE':'🇦🇪' };
-  el('countries-list').innerHTML = top5.map(d => {
-    const name = d.country || 'Unknown';
-    const pct = Math.round(d.n / maxN * 100);
-    const flag = FLAG[name] || '🌐';
-    return `<div class="clist-row">
-      <span class="clist-flag">${flag}</span>
-      <span class="clist-name" title="${name}">${name}</span>
-      <div class="clist-bar-wrap"><div class="clist-bar" style="width:${pct}%"></div></div>
-      <span class="clist-count">${d.n}</span>
-    </div>`;
-  }).join('');
+  buildStatBars('countries-list', data?.slice(0, 5), 'country', name => FLAG[name] || '🌐');
 }
 
 // ── Rows ──
@@ -941,13 +945,13 @@ function renderRows(rows) {
     return `<tr data-row='${row}'>
       <td class="c-id">${r.id}</td>
       <td class="c-ts">${esc(ts)}</td>
-      <td class="c-ip">${esc(r.ip_address)}</td>
-      <td class="c-loc">${esc(loc)}</td>
+      <td class="c-status"><span class="badge ${bc}">${esc(r.status)}</span></td>
       <td class="c-plat">${esc(r.platform)}</td>
+      <td class="c-loc">${esc(loc)}</td>
       <td class="c-fmt">${esc(r.format)}${r.quality ? ' · '+esc(r.quality) : ''}</td>
       <td class="c-dev">${esc(r.device)}</td>
-      <td><span class="badge ${bc}">${esc(r.status)}</span></td>
-      <td><span class="c-title" title="${esc(r.title)}">${esc(r.title) || '<span style="color:var(--text-3)">—</span>'}</span></td>
+      <td class="c-ip">${esc(r.ip_address)}</td>
+      <td class="c-title"><span title="${esc(r.title)}">${esc(r.title) || '<span style="color:var(--text-3)">—</span>'}</span></td>
     </tr>`;
   }).join('') || `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-3)">No records found</td></tr>`;
 
