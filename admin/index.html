@@ -11,13 +11,14 @@
 :root {
   --bg:      #0B0B0F;
   --surface: #111116;
-  --card:    #16161D;
-  --card-hov:#1C1C25;
-  --border:  rgba(255,255,255,0.07);
-  --border-s:rgba(255,255,255,0.04);
-  --text:    #E8E8ED;
-  --text-2:  #8B8B99;
-  --text-3:  #555562;
+  --card:    #15151B;
+  --card-hov:#1B1B24;
+  --border:  rgba(255,255,255,0.06);
+  --border-s:rgba(255,255,255,0.035);
+  --text:    #EDEDED;
+  --text-2:  #A1A1AA;
+  --text-3:  #52525B;
+  --accent:  #E6C068;
   --success: #22C55E;
   --error:   #EF4444;
   --pending: #A1A1AA;
@@ -25,7 +26,8 @@
   --error-bg:   rgba(239,68,68,0.10);
   --pending-bg: rgba(161,161,170,0.10);
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --r: 10px;
+  --r: 12px;
+  --shadow: 0 8px 24px rgba(0,0,0,0.35);
 }
 
 html { font-size: 14px }
@@ -171,6 +173,7 @@ body {
   border-radius: var(--r);
   overflow: hidden;
   margin-bottom: 16px;
+  box-shadow: var(--shadow);
 }
 .kpi-card {
   background: var(--card);
@@ -179,21 +182,23 @@ body {
 }
 .kpi-card:hover { background: var(--card-hov) }
 .kpi-label {
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
   color: var(--text-2);
-  margin-bottom: 10px;
-  font-weight: 450;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 .kpi-value {
-  font-size: 28px;
-  font-weight: 650;
-  letter-spacing: -0.5px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
   line-height: 1;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
-.kpi-meta { font-size: 12px; color: var(--text-2) }
-.kpi-spark { margin-top: 14px; height: 36px }
-.kpi-card canvas { width: 100% !important; height: 36px !important }
+.kpi-meta { font-size: 12px; color: var(--text-3) }
+.kpi-spark { margin-top: 12px; height: 32px; opacity: 0.6 }
+.kpi-card canvas { width: 100% !important; height: 32px !important }
 
 /* ─── Chart row ─── */
 .chart-row {
@@ -209,14 +214,15 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--r);
   padding: 18px 20px;
+  box-shadow: var(--shadow);
 }
 .panel-head {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 16px;
 }
-.panel-title { font-size: 13px; font-weight: 550; color: var(--text) }
+.panel-title { font-size: 13px; font-weight: 600; color: var(--text) }
 .panel-sub   { font-size: 12px; color: var(--text-3) }
 .panel-full  { grid-column: 1 / -1 }
 
@@ -291,11 +297,12 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--r);
   overflow: hidden;
+  box-shadow: var(--shadow);
 }
 table { width: 100%; border-collapse: collapse; white-space: nowrap }
 
 thead th {
-  padding: 9px 14px;
+  padding: 10px 14px;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -307,15 +314,15 @@ thead th {
 }
 
 tbody tr { cursor: pointer }
-tbody tr:nth-child(even) { background: rgba(255,255,255,0.012) }
-tbody tr:hover td { background: rgba(255,255,255,0.035) }
+tbody tr:nth-child(even) td { background: rgba(255,255,255,0.014) }
+tbody tr:hover td { background: rgba(255,255,255,0.06) !important; transition: background 0.12s ease }
 
 tbody td {
-  padding: 11px 14px;
+  padding: 12px 14px;
+  height: 44px;
   font-size: 13px;
   border-bottom: 1px solid var(--border-s);
   vertical-align: middle;
-  transition: background 0.1s;
 }
 tbody tr:last-child td { border-bottom: none }
 
@@ -467,19 +474,22 @@ tbody tr:last-child td { border-bottom: none }
 .dr-key { font-size: 12px; color: var(--text-2); flex-shrink: 0 }
 .dr-val { font-size: 12px; color: var(--text); text-align: right; word-break: break-all }
 
-.dr-footer { padding: 16px 20px; border-top: 1px solid var(--border) }
-.btn-retry {
-  width: 100%;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-2);
-  padding: 9px;
-  border-radius: 7px;
-  font: 13px/1 var(--font);
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+/* read-only drawer — no footer actions */
+
+/* ─── Countries progress list ─── */
+.clist-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border-s);
 }
-.btn-retry:hover { border-color: rgba(255,255,255,0.2); color: var(--text) }
+.clist-row:last-child { border-bottom: none }
+.clist-flag { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0 }
+.clist-name { font-size: 13px; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.clist-bar-wrap { width: 90px; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; flex-shrink: 0 }
+.clist-bar { height: 100%; border-radius: 2px; background: #818CF8; transition: width 0.4s ease }
+.clist-count { font-size: 12px; color: var(--text-2); font-variant-numeric: tabular-nums; text-align: right; width: 28px; flex-shrink: 0 }
 
 /* ─── Responsive ─── */
 @media (max-width: 880px) {
@@ -581,9 +591,9 @@ tbody tr:last-child td { border-bottom: none }
       <div class="panel">
         <div class="panel-head">
           <span class="panel-title">Countries</span>
-          <span class="panel-sub">By count</span>
+          <span class="panel-sub">Top by downloads</span>
         </div>
-        <canvas id="chart-countries" height="160"></canvas>
+        <div id="countries-list"></div>
       </div>
     </div>
 
@@ -643,20 +653,27 @@ tbody tr:last-child td { border-bottom: none }
     <button class="dr-close" id="drawer-close">✕</button>
   </div>
   <div class="dr-body" id="drawer-body"></div>
-  <div class="dr-footer">
-    <button class="btn-retry">↺&nbsp; Retry</button>
-  </div>
 </div>
 
 <script>
 // ── State ──
 let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
 let apiReady = false, activeFilter = '', searchTimer = null;
-let chartActivity = null, chartPlatforms = null, chartCountries = null;
+let chartActivity = null, chartPlatforms = null;
 let sparks = {};
 
-const PALETTE = ['#6366F1','#8B5CF6','#EC4899','#F59E0B','#10B981','#3B82F6','#06B6D4'];
-const TOOLTIP = { backgroundColor:'#1C1C25', borderColor:'rgba(255,255,255,0.08)', borderWidth:1, titleColor:'#E8E8ED', bodyColor:'#8B8B99', padding:10, cornerRadius:6 };
+// Muted palette — less saturated, easier on dark backgrounds
+const PALETTE = ['#818CF8','#A78BFA','#F472B6','#FBBF24','#34D399','#60A5FA','#22D3EE'];
+const TOOLTIP = {
+  backgroundColor: '#1A1A23',
+  borderColor: 'rgba(255,255,255,0.08)',
+  borderWidth: 1,
+  titleColor: '#EDEDED',
+  bodyColor: '#A1A1AA',
+  padding: 10,
+  cornerRadius: 6,
+  displayColors: false,
+};
 
 // ── Bootstrap ──
 (async () => {
@@ -820,32 +837,60 @@ function buildActivity(rows) {
 
   if (chartActivity) chartActivity.destroy();
   const ctx = el('chart-activity').getContext('2d');
-  const g = ctx.createLinearGradient(0, 0, 0, 180);
-  g.addColorStop(0, '#6366F120'); g.addColorStop(1, '#6366F100');
+  const g = ctx.createLinearGradient(0, 0, 0, 200);
+  g.addColorStop(0, '#818CF830'); g.addColorStop(1, '#818CF800');
 
   chartActivity = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels.length ? labels : ['—'],
       datasets: [
-        { label: 'Downloads', data: dl,  borderColor: '#6366F1', backgroundColor: g,             fill: true,  tension: 0.4, borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: '#6366F1', pointBorderWidth: 0 },
-        { label: 'Errors',    data: err, borderColor: '#EF4444', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 1.5, pointRadius: 2, pointBackgroundColor: '#EF4444', pointBorderWidth: 0 }
+        { label: 'Downloads', data: dl,  borderColor: '#818CF8', backgroundColor: g,             fill: true,  tension: 0.4, borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: '#818CF8', pointBorderWidth: 0 },
+        { label: 'Errors',    data: err, borderColor: '#EF4444', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 2,   pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: '#EF4444', pointBorderWidth: 0 }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: true,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: true, labels: { color: '#8B8B99', boxWidth: 10, usePointStyle: true, pointStyle: 'circle', padding: 16, font: { size: 12 } } },
+        legend: {
+          display: true,
+          align: 'end',
+          labels: { color: '#A1A1AA', boxWidth: 8, usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 12 } }
+        },
         tooltip: TOOLTIP
       },
       scales: {
-        x: { ticks: { color: '#555562', font: { size: 11 }, maxRotation: 0 }, grid: { color: 'rgba(255,255,255,0.03)' } },
-        y: { ticks: { color: '#555562', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true }
+        x: { ticks: { color: '#52525B', font: { size: 11 }, maxRotation: 0 }, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+        y: { ticks: { color: '#52525B', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true, border: { display: false } }
       }
     }
   });
 }
+
+// Center-label plugin for donut
+const donutCenterLabel = {
+  id: 'centerLabel',
+  afterDraw(chart) {
+    if (chart.config.type !== 'doughnut') return;
+    const { ctx, data, chartArea: { width, height, left, top } } = chart;
+    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+    if (!total) return;
+    const maxIdx = data.datasets[0].data.indexOf(Math.max(...data.datasets[0].data));
+    const pct = Math.round(data.datasets[0].data[maxIdx] / total * 100);
+    const label = data.labels[maxIdx] || '';
+    const cx = left + width / 2, cy = top + height / 2;
+    ctx.save();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#EDEDED';
+    ctx.font = '600 14px ui-sans-serif, system-ui, sans-serif';
+    ctx.fillText(pct + '%', cx, cy - 8);
+    ctx.fillStyle = '#A1A1AA';
+    ctx.font = '11px ui-sans-serif, system-ui, sans-serif';
+    ctx.fillText(label, cx, cy + 9);
+    ctx.restore();
+  }
+};
 
 function buildPlatforms(data) {
   if (!data?.length) return;
@@ -854,36 +899,35 @@ function buildPlatforms(data) {
     type: 'doughnut',
     data: {
       labels: data.map(d => d.platform || 'Unknown'),
-      datasets: [{ data: data.map(d => d.n), backgroundColor: PALETTE, borderWidth: 0, hoverOffset: 5 }]
+      datasets: [{ data: data.map(d => d.n), backgroundColor: PALETTE, borderWidth: 2, borderColor: '#15151B', hoverOffset: 4 }]
     },
     options: {
-      responsive: true, maintainAspectRatio: true, cutout: '68%',
+      responsive: true, maintainAspectRatio: true, cutout: '70%',
       plugins: {
-        legend: { position: 'right', labels: { color: '#8B8B99', boxWidth: 9, usePointStyle: true, pointStyle: 'circle', padding: 12, font: { size: 12 } } },
+        legend: { position: 'right', labels: { color: '#A1A1AA', boxWidth: 8, usePointStyle: true, pointStyle: 'circle', padding: 14, font: { size: 12 } } },
         tooltip: TOOLTIP
       }
-    }
+    },
+    plugins: [donutCenterLabel]
   });
 }
 
 function buildCountries(data) {
-  if (!data?.length) return;
-  if (chartCountries) chartCountries.destroy();
-  chartCountries = new Chart(el('chart-countries').getContext('2d'), {
-    type: 'bar',
-    data: {
-      labels: data.map(d => d.country || 'Unknown'),
-      datasets: [{ data: data.map(d => d.n), backgroundColor: PALETTE, borderRadius: 4, borderSkipped: false }]
-    },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: true,
-      plugins: { legend: { display: false }, tooltip: TOOLTIP },
-      scales: {
-        x: { ticks: { color: '#555562', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.03)' }, beginAtZero: true },
-        y: { ticks: { color: '#8B8B99', font: { size: 12 } }, grid: { display: false } }
-      }
-    }
-  });
+  if (!data?.length) { el('countries-list').innerHTML = '<p style="color:var(--text-3);font-size:13px;padding:8px 0">No data</p>'; return; }
+  const top5 = data.slice(0, 5);
+  const maxN = top5[0].n || 1;
+  const FLAG = { 'United States':'🇺🇸','India':'🇮🇳','United Kingdom':'🇬🇧','Germany':'🇩🇪','France':'🇫🇷','Canada':'🇨🇦','Australia':'🇦🇺','Brazil':'🇧🇷','Japan':'🇯🇵','China':'🇨🇳','Netherlands':'🇳🇱','Singapore':'🇸🇬','UAE':'🇦🇪' };
+  el('countries-list').innerHTML = top5.map(d => {
+    const name = d.country || 'Unknown';
+    const pct = Math.round(d.n / maxN * 100);
+    const flag = FLAG[name] || '🌐';
+    return `<div class="clist-row">
+      <span class="clist-flag">${flag}</span>
+      <span class="clist-name" title="${name}">${name}</span>
+      <div class="clist-bar-wrap"><div class="clist-bar" style="width:${pct}%"></div></div>
+      <span class="clist-count">${d.n}</span>
+    </div>`;
+  }).join('');
 }
 
 // ── Rows ──
