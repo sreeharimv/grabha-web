@@ -1599,8 +1599,10 @@
 
   // ── Reset everything back to initial state ──
   function resetAll() {
+    clearInterval(pollTimer);
     inspectDone = false;
     currentUrl  = '';
+    currentJobId = null;
     urlInput.value = '';
     downloadPanel.classList.remove('visible');
     statusCard.classList.remove('visible');
@@ -1613,6 +1615,14 @@
     pickerState.from = {h:0, m:0, s:0};
     pickerState.to   = {h:0, m:0, s:0};
     inspectBtn.innerHTML = '&#8594;&nbsp;&nbsp;GO';
+    inspectBtn.disabled = false;
+    dlBtn.classList.remove('visible');
+    iosHint.classList.remove('visible');
+    cancelBtn.classList.remove('visible');
+    clearLink.classList.remove('visible');
+    downloadBtn.style.display = '';
+    downloadBtn.disabled = true;
+    downloadBtn.textContent = '↓  download';
   }
 
   // ── Button 1: Inspect / Clear ──
