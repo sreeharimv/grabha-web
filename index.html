@@ -1689,6 +1689,7 @@
       setPhase('ready — choose format and download', 'idle');
       inspectDone = true;
       downloadPanel.classList.add('visible');
+      if (turnstileToken) downloadBtn.disabled = false;
       inspectBtn.innerHTML = '&#10005;&nbsp;&nbsp;CLEAR';
     } catch(e) {
       setPhase('failed to fetch info: ' + e.message, 'err');
