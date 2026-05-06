@@ -1284,12 +1284,17 @@
 
     function inp(unit, ph, maxVal) {
       const el = document.createElement('input');
-      el.type = 'number'; el.className = 'dg-hms-text';
-      el.min = 0; el.max = maxVal; el.placeholder = ph;
+      el.type = 'text'; el.className = 'dg-hms-text';
       el.setAttribute('inputmode', 'numeric');
+      el.setAttribute('pattern', '[0-9]*');
+      el.placeholder = ph;
       el.value = unit === 'h' ? pickerState[which][unit] : String(pickerState[which][unit]).padStart(2,'0');
+      el.addEventListener('focus', () => el.select());
       el.addEventListener('input', () => {
         pickerState[which][unit] = clamp(parseInt(el.value) || 0, 0, maxVal);
+      });
+      el.addEventListener('blur', () => {
+        el.value = unit === 'h' ? pickerState[which][unit] : String(pickerState[which][unit]).padStart(2,'0');
       });
       return el;
     }
