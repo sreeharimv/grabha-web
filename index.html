@@ -1287,6 +1287,7 @@
       el.type = 'text'; el.className = 'dg-hms-text';
       el.setAttribute('inputmode', 'numeric');
       el.setAttribute('pattern', '[0-9]*');
+      el.setAttribute('maxlength', '2');
       el.placeholder = ph;
       el.value = unit === 'h' ? pickerState[which][unit] : String(pickerState[which][unit]).padStart(2,'0');
       el.addEventListener('focus', () => el.select());
@@ -1551,8 +1552,8 @@
 
     // Reset clip
     toggleClip(false);
-    pickerState.from = {h:0, m:0, s:0};
-    pickerState.to   = {h:0, m:0, s:0};
+    setPickerFromSecs('from', 0);
+    setPickerFromSecs('to', 0);
   }
 
   function setProgress(pctStr, speed, eta) {
@@ -1617,8 +1618,8 @@
     clipEnabled = false;
     clipPill.classList.remove('on');
     clipTimes.classList.remove('visible');
-    pickerState.from = {h:0, m:0, s:0};
-    pickerState.to   = {h:0, m:0, s:0};
+    setPickerFromSecs('from', 0);
+    setPickerFromSecs('to', 0);
     inspectBtn.innerHTML = '&#8594;&nbsp;&nbsp;GO';
     inspectBtn.disabled = false;
     dlBtn.classList.remove('visible');
