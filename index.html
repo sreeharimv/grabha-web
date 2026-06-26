@@ -1129,22 +1129,7 @@
   }
 
   // ── CONFIG ──
-  let API_BASE = '';
-  (async () => {
-    const ghUrl = `https://sreeharimv.github.io/grabha-web/tunnel-url.txt?t=${Date.now()}`;
-    let candidate = '';
-    try {
-      const r = await fetch(ghUrl, { cache: 'no-store' });
-      candidate = (await r.text()).trim();
-    } catch (e) { return; }
-    if (!candidate) return;
-    try {
-      const probe = await fetch(`${candidate}/health`, { cache: 'no-store' });
-      const data = await probe.json();
-      if (data.status === 'ok') API_BASE = candidate;
-    } catch (e) {}
-  })();
-
+  const API_BASE = 'https://grabha.in';
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
   let selectedFormat  = 'mp4';
@@ -1639,12 +1624,6 @@
       statusCard.classList.add('visible');
       cardBodyStatus.style.display = 'block';
       setPhase('missing URL', 'err');
-      return;
-    }
-    if (!API_BASE) {
-      statusCard.classList.add('visible');
-      cardBodyStatus.style.display = 'block';
-      setPhase('backend unreachable — tunnel may be restarting, please try again in a moment', 'err');
       return;
     }
 
