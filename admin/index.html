@@ -746,8 +746,8 @@ table { table-layout: fixed }
 
 <script>
 // ── State ──
-let API_BASE = '', token = '', currentPage = 1, totalPages = 1;
-let apiReady = false, activeFilter = '', searchTimer = null;
+let API_BASE = 'https://grabha.in', token = '', currentPage = 1, totalPages = 1;
+let apiReady = true, activeFilter = '', searchTimer = null;
 let chartActivity = null;
 let sparks = {};
 
@@ -763,19 +763,8 @@ const TOOLTIP = {
 };
 
 // ── Bootstrap ──
-(async () => {
-  try {
-    const r = await fetch('https://raw.githubusercontent.com/sreeharimv/grabha-web/main/tunnel-url.txt?t=' + Date.now(), { cache:'no-store' });
-    const url = (await r.text()).trim();
-    if (url) {
-      const probe = await fetch(`${url}/health`, { cache:'no-store' });
-      if ((await probe.json()).status === 'ok') { API_BASE = url; apiReady = true; }
-    }
-  } catch {}
-  if (!apiReady) el('login-error').textContent = 'Cannot reach server — tunnel may be restarting.';
-  const saved = localStorage.getItem('grabha_admin_token');
-  if (saved && apiReady) { token = saved; showDash(); loadData(); }
-})();
+const saved = localStorage.getItem('grabha_admin_token');
+if (saved) { token = saved; showDash(); loadData(); }
 
 function el(id) { return document.getElementById(id) }
 
@@ -786,7 +775,6 @@ el('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') login()
 async function login() {
   const err = el('login-error');
   err.textContent = '';
-  if (!apiReady) { err.textContent = 'Connecting to server…'; return; }
   try {
     const res = await fetch(`${API_BASE}/admin/login`, {
       method:'POST', headers:{'Content-Type':'application/json'},
