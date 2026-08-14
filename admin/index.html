@@ -332,7 +332,7 @@ table { table-layout: fixed }
 .c-id    { width: 40px;  color: var(--text-3); font-size: 12px; font-variant-numeric: tabular-nums }
 .c-ts    { width: 118px; color: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums }
 .c-ip    { width: 106px; color: var(--text-2); font-size: 12px; font-family: ui-monospace, "SF Mono", monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.c-loc   { width: 110px; color: var(--text); font-size: 13px }
+.c-loc   { width: 110px; color: var(--text); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .c-plat  { width: 96px;  color: var(--text); font-weight: 500 }
 .c-fmt   { width: 80px;  color: var(--text-2); font-size: 12px }
 .c-dev   { width: 72px;  color: var(--text-2); font-size: 12px }
@@ -994,7 +994,7 @@ function renderRows(rows) {
       <td class="c-ts">${esc(ts)}</td>
       <td class="c-status"><span class="badge ${bc}">${esc(r.status)}</span></td>
       <td class="c-plat">${esc(r.platform)}</td>
-      <td class="c-loc">${esc(loc)}</td>
+      <td class="c-loc" title="${esc(loc)}">${esc(loc)}</td>
       <td class="c-fmt">${esc(r.format)}${r.quality ? ' · '+esc(r.quality) : ''}</td>
       <td class="c-dev">${esc(r.device)}</td>
       <td class="c-ip" title="${esc(r.ip_address)}">${esc(r.ip_address)}</td>
